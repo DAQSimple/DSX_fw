@@ -1,4 +1,4 @@
-16:45:03 **** Incremental Build of configuration Debug for project dsx-fw ****
+16:58:41 **** Incremental Build of configuration Debug for project dsx-fw ****
 make -j16 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32G474xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I"C:/Users/jpaca/Desktop/Programming/DSX_fw/dsx-fw/DSX_Library/Blink/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 arm-none-eabi-gcc -o "dsx-fw.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\jpaca\Desktop\Programming\DSX_fw\dsx-fw\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="dsx-fw.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
@@ -15,7 +15,7 @@ Finished building: dsx-fw.bin
  
 Finished building: dsx-fw.list
  
-16:45:09 **** Incremental Build of configuration Debug for project dsx-fw ****
+16:58:45 **** Incremental Build of configuration Debug for project dsx-fw ****
 make -j16 all 
 arm-none-eabi-size   dsx-fw.elf 
    text	   data	    bss	    dec	    hex	filename

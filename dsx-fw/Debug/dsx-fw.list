@@ -385,13 +385,13 @@ int main(void)
  8000524:	f000 f8b8 	bl	8000698 <MX_GPIO_Init>
   MX_LPUART1_UART_Init();
  8000528:	f000 f86c 	bl	8000604 <MX_LPUART1_UART_Init>
-  /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
 
-	blinkLED(1000);
- 800052c:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
+    /* USER CODE BEGIN 3 */
+	  blinkLED(500);
+ 800052c:	f44f 70fa 	mov.w	r0, #500	; 0x1f4
  8000530:	f000 f9fd 	bl	800092e <blinkLED>
  8000534:	e7fa      	b.n	800052c <main+0x14>
 
