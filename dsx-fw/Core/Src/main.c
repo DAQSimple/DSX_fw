@@ -100,7 +100,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  blinkLED(500);
+	  blinkLED(2000);
   }
   /* USER CODE END 3 */
 }

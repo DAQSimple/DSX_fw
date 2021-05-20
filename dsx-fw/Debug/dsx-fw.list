@@ -390,8 +390,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  blinkLED(500);
- 800052c:	f44f 70fa 	mov.w	r0, #500	; 0x1f4
+	  blinkLED(2000);
+ 800052c:	f44f 60fa 	mov.w	r0, #2000	; 0x7d0
  8000530:	f000 f9fd 	bl	800092e <blinkLED>
  8000534:	e7fa      	b.n	800052c <main+0x14>
 
