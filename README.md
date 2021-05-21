@@ -78,7 +78,7 @@ Install the STM32Cube IDE
    ```
 2. cd into the working directory
    ```sh
-   cd dsx-fw
+   cd DSX_fw
    ```
 
 
