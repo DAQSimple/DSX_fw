@@ -58,6 +58,8 @@ static void MX_LPUART1_UART_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+// github aye
+
 /* USER CODE END 0 */
 
 /**
