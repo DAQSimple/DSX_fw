@@ -284,3 +284,7 @@ __pycache__/
 
 # .metadata
 .metadata*
+
+#settings and debug
+/dsx-fw/Debug
+/dsx-fw/.settings/
