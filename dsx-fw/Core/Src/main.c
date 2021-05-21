@@ -58,6 +58,8 @@ static void MX_LPUART1_UART_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+// github aye
+
 /* USER CODE END 0 */
 
 /**
@@ -100,7 +102,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  blinkLED(2000);
+	  blinkLED(1000);
   }
   /* USER CODE END 3 */
 }
