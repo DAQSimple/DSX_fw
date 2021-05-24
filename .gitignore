@@ -288,7 +288,3 @@ __pycache__/
 #settings and debug
 /dsx-fw/Debug
 /dsx-fw/.settings/
-
-# launch
-*.launch
-
