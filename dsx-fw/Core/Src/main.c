@@ -62,7 +62,6 @@ static void MX_LPUART1_UART_Init(void);
 /* USER CODE BEGIN 0 */
 
 // github aye
-	uint8_t buff[12];
 
 /* USER CODE END 0 */
 
@@ -73,6 +72,10 @@ static void MX_LPUART1_UART_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+
+	// Initialize DSX data structure
+	DSX_data_t dsx_data;
+	DSX_data_init(&dsx_data);
 
   /* USER CODE END 1 */
 
