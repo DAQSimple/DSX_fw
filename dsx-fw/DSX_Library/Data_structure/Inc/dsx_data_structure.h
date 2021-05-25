@@ -5,8 +5,8 @@
  *      Author: jpaca
  */
 
-#ifndef DATA_STRUCTURE_INC_DSX_DATA_STRUCTURE_H_
-#define DATA_STRUCTURE_INC_DSX_DATA_STRUCTURE_H_
+#ifndef DSX_DATA_STRUCTURE_H
+#define DSX_DATA_STRUCTURE_H
 
 #include <stdint.h>
 
