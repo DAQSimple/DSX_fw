@@ -74,7 +74,7 @@ int main(void)
   /* USER CODE BEGIN 1 */
 
 	// Initialize DSX data structure
-	DSX_data_t dsx_data;
+	volatile DSX_data_t dsx_data;
 	DSX_data_init(&dsx_data);
 
   /* USER CODE END 1 */

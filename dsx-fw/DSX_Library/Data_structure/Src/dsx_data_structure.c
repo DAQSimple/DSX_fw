@@ -9,7 +9,7 @@
 
 
 /* Function to initialize a DSX structure */
-void DSX_data_init(DSX_data_t *dsx_ptr)
+void DSX_data_init(volatile DSX_data_t *dsx_ptr)
 {
 	dsx_ptr->ID 	= 0;
 	dsx_ptr->loc 	= 0;
