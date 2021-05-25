@@ -98,6 +98,9 @@ int main(void)
   MX_LPUART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
+  // Receive Serial and store into buffer
+  Serial_Receive_DMA();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -108,9 +111,6 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-
-	  // Receive Serial and store into buffer
-	  Serial_Receive_DMA();
 
 	  // update dsx data based on received buffer
 	  // parse_buffer_to_dsx_data(&dsx_data);
