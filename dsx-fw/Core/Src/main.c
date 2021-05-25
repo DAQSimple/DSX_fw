@@ -282,12 +282,6 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-// Callback for LPUART1
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-	HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-}
-
 /* USER CODE END 4 */
 
 /**

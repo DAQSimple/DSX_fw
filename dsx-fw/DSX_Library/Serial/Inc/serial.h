@@ -19,7 +19,7 @@ extern UART_HandleTypeDef hlpuart1;
 void Serial_Receive_DMA(void);
 
 // Function to parse buffer and store into dsx data
-void parse_buffer_to_dsx_data(DSX_data_t *data);
+//void parse_buffer_to_dsx_data(DSX_data_t *data);
 
 
 #endif /* SERIAL_INC_SERIAL_H_ */

@@ -18,11 +18,19 @@ void Serial_Receive_DMA(void)
 }
 
 // Function to parse buffer and store into dsx data
-void parse_buffer_to_dsx_data(DSX_data_t *data)
+//void parse_buffer_to_dsx_data(DSX_data_t *data)
+//{
+//	data->ID = buffer[0]*10 + buffer[1];
+//	data->loc = buffer[2]*10 + buffer[3];
+//	data->sign = buffer[4];
+//	data->val = buffer[5]*1000 + buffer[6]*100 + buffer[7]*10 + buffer[8];
+//	data->ret = buffer[9];
+//}
+
+// Callback for LPUART1
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-	data->ID = buffer[0]*10 + buffer[1];
-	data->loc = buffer[2]*10 + buffer[3];
-	data->sign = buffer[4];
-	data->val = buffer[5]*1000 + buffer[6]*100 + buffer[7]*10 + buffer[8];
-	data->ret = buffer[9];
+	// Do we need to do anything when the UART callback is called?
+	HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+
 }
