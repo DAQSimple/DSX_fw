@@ -22,6 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "serial.h"
 
 /* USER CODE END Includes */
 
@@ -100,13 +101,22 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  uint8_t buffer[12];
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  HAL_UART_Receive_DMA(&hlpuart1, buffer, sizeof(buffer));
+
+
+	  // Receive Serial
+	  Serial_Receive_DMA();
+
+	  // Parse and validate buffer
+
+	  // if buffer is valid, update dsx data
+
+	  // execute commands based on dsx data
+
 
   }
   /* USER CODE END 3 */
