@@ -100,10 +100,11 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  uint8_t buffer[12];
   while (1)
   {
     /* USER CODE END WHILE */
-
+	  HAL_UART_Receive_DMA(&hlpuart1, buffer, sizeof(buffer));
     /* USER CODE BEGIN 3 */
 
   }
@@ -268,6 +269,8 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+// Callback for LPUART1
 
 /* USER CODE END 4 */
 
