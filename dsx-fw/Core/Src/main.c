@@ -104,8 +104,9 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  HAL_UART_Receive_DMA(&hlpuart1, buffer, sizeof(buffer));
+
     /* USER CODE BEGIN 3 */
+	  HAL_UART_Receive_DMA(&hlpuart1, buffer, sizeof(buffer));
 
   }
   /* USER CODE END 3 */
@@ -271,6 +272,10 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 // Callback for LPUART1
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+}
 
 /* USER CODE END 4 */
 
