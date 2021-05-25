@@ -31,6 +31,4 @@ void Serial_Receive_DMA(void)
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
 	// Do we need to do anything when the UART callback is called?
-	HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-
 }
