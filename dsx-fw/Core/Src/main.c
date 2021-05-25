@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "serial.h"
+#include <stdbool.h>
 
 /* USER CODE END Includes */
 
@@ -108,14 +109,14 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
 
-	  // Receive Serial
+	  // Receive Serial and store into buffer
 	  Serial_Receive_DMA();
 
-	  // Parse and validate buffer
+	  // update dsx data based on received buffer
 
-	  // if buffer is valid, update dsx data
+	  // validate dsx data
 
-	  // execute commands based on dsx data
+	  // if dsx data valid, execute commands
 
 
   }
