@@ -113,9 +113,9 @@ int main(void)
 	  Serial_Receive_DMA();
 
 	  // update dsx data based on received buffer
-//	  parse_buffer_to_dsx_data(&dsx_data);
+	  // parse_buffer_to_dsx_data(&dsx_data);
 
-	  // if dsx data valid, execute commands
+	  // execute commands
 
 
   }
