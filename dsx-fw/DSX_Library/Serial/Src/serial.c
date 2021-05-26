@@ -22,16 +22,10 @@ void buffer_ascii_2_int(void)
 {
 	for (int i=0 ; i<BUFFER_SIZE-1 ; i++){
 
-		//if buffer element is a digit (See ASCII Table)
-		if(buffer[i] >= 49 && buffer[i] <= 54)
+		//if buffer element is a digit (0-9) (See ASCII Table)
+		if(buffer[i] >= 48 && buffer[i] <= 54)
 		{
 			buffer[i] = buffer[i] - '0';
-		}
-		//reset buffer element to 0 since its probably a character or special character
-		//which we can't process
-		else
-		{
-			buffer[i] = 0;
 		}
 	}
 }
