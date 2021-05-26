@@ -22,7 +22,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "serial.h"
 #include "dsx_data_structure.h"
+#include <stdbool.h>
 
 /* USER CODE END Includes */
 
@@ -101,6 +103,9 @@ int main(void)
   MX_LPUART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
+  // Receive Serial and store into buffer
+  Serial_Receive_DMA();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -112,7 +117,11 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-//	  blinkLED(1000);
+	  // update dsx data based on received buffer
+	   parse_buffer_to_dsx_data(&dsx_data);
+
+	  // execute commands
+
   }
   /* USER CODE END 3 */
 }
@@ -275,11 +284,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-
-}
 
 /* USER CODE END 4 */
 
