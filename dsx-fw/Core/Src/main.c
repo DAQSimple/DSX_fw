@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "serial.h"
+#include "dsx_data_structure.h"
 #include <stdbool.h>
 
 /* USER CODE END Includes */
@@ -285,11 +286,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-
-}
 
 /* USER CODE END 4 */
 
