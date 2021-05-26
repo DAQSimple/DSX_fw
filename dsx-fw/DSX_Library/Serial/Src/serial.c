@@ -30,7 +30,7 @@ void Serial_Transmit_DMA(volatile DSX_data_t *data)
 	tx_buffer[6] = (data->val / 100) % 10;
 	tx_buffer[7] = (data->val / 10) % 10;
 	tx_buffer[8] = data->val % 10;
-	tx_buffer[9] = data->val / 10000;
+	tx_buffer[9] = data->ret;
 	tx_buffer[10] = '\n';
 
 	HAL_UART_Transmit_DMA(&hlpuart1, tx_buffer, sizeof(tx_buffer));
