@@ -5,8 +5,8 @@
  *      Author: jpaca
  */
 
-#ifndef SERIAL_INC_SERIAL_H_
-#define SERIAL_INC_SERIAL_H_
+#ifndef SERIAL_H
+#define SERIAL_H
 
 #include "main.h"
 #include "stdint.h"
@@ -26,4 +26,4 @@ void Serial_Transmit_DMA(volatile DSX_data_t *data);
 void parse_buffer_to_dsx_data(volatile DSX_data_t *data);
 
 
-#endif /* SERIAL_INC_SERIAL_H_ */
+#endif /* SERIAL_H */
