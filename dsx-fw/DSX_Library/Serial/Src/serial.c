@@ -53,7 +53,7 @@ void parse_buffer_to_dsx_data(volatile DSX_data_t *data)
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
 	// convert ascii elements in buffer to integer
-	for (int i=0 ; i<BUFFER_SIZE-1 ; i++)
+	for (int i=0 ; i<BUFFER_SIZE-1 ; i++)	// dont consider EOL
 	{
 		//if buffer element is a digit (0-9) (See ASCII Table)
 		if(rx_buffer[i] >= 48 && rx_buffer[i] <= 57)
