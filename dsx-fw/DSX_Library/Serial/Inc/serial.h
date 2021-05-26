@@ -10,6 +10,7 @@
 
 #include "main.h"
 #include "stdint.h"
+#include "dsx_data_structure.h"
 
 
 // HLPUART handle
@@ -18,8 +19,11 @@ extern UART_HandleTypeDef hlpuart1;
 // Function to receive serial data via DMA
 void Serial_Receive_DMA(void);
 
+// Function to convert ascii elements in buffer to integer
+void buffer_ascii_2_int(void);
+
 // Function to parse buffer and store into dsx data
-//void parse_buffer_to_dsx_data(DSX_data_t *data);
+void parse_buffer_to_dsx_data(volatile DSX_data_t *data);
 
 
 #endif /* SERIAL_INC_SERIAL_H_ */

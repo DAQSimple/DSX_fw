@@ -117,12 +117,10 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-
 	  // update dsx data based on received buffer
-	  // parse_buffer_to_dsx_data(&dsx_data);
+	   parse_buffer_to_dsx_data(&dsx_data);
 
 	  // execute commands
-
 
   }
   /* USER CODE END 3 */
