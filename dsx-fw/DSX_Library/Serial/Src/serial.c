@@ -33,6 +33,16 @@ void Serial_Transmit_DMA(volatile DSX_data_t *data)
 	tx_buffer[9] = data->ret;
 	tx_buffer[10] = '\n';
 
+	// convert dsx data back to ascii into the tx_buffer
+	for (int i=0 ; i<BUFFER_SIZE-1 ; i++)	// dont consider EOL
+	{
+		//if buffer element is a digit (0-9)
+		if(tx_buffer[i] >= 0 && tx_buffer[i] <= 9)
+		{
+			tx_buffer[i] = tx_buffer[i] + '0';
+		}
+	}
+
 	HAL_UART_Transmit_DMA(&hlpuart1, tx_buffer, sizeof(tx_buffer));
 }
 
