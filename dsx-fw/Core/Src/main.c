@@ -24,6 +24,7 @@
 /* USER CODE BEGIN Includes */
 #include "serial.h"
 #include "dsx_data_structure.h"
+#include "command.h"
 #include <stdbool.h>
 
 /* USER CODE END Includes */
@@ -121,6 +122,7 @@ int main(void)
 	   parse_buffer_to_dsx_data(&dsx_data);
 
 	  // execute commands
+	   execute_command(&dsx_data);
 
   }
   /* USER CODE END 3 */
