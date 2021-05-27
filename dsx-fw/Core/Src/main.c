@@ -65,6 +65,7 @@ static void MX_LPUART1_UART_Init(void);
 /* USER CODE BEGIN 0 */
 
 // github aye
+extern bool serial_available;
 
 /* USER CODE END 0 */
 
@@ -118,11 +119,14 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
+	if(serial_available)
+	{
 	  // update dsx data based on received buffer
 	   parse_buffer_to_dsx_data(&dsx_data);
 
 	  // execute commands
 	   execute_command(&dsx_data);
+	}
 
   }
   /* USER CODE END 3 */

@@ -9,10 +9,14 @@
 
 
 // Validate Digital Write Command
-bool validate_digital_write(volatile DSX_data_t *dsx_data){};
+bool validate_digital_write(volatile DSX_data_t *dsx_data){
+	return true;
+}
 
 // Validate Digital Read Command
-bool validate_digital_read(volatile DSX_data_t *dsx_data){};
+bool validate_digital_read(volatile DSX_data_t *dsx_data){
+	return true;
+}
 
 // Validate Get Pin Mode Command
 bool validate_get_pin_mode(volatile DSX_data_t *dsx_data){};
