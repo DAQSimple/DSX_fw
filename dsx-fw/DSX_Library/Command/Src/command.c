@@ -7,12 +7,18 @@
 
 #include "command.h"
 
+extern bool serial_available;
 
 // Digital Write Command
-void cmd_digital_write(volatile DSX_data_t *dsx_data){};
+void cmd_digital_write(volatile DSX_data_t *dsx_data){
+	HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+}
 
 // Digital Read Command
-void cmd_digital_read(volatile DSX_data_t *dsx_data){};
+void cmd_digital_read(volatile DSX_data_t *dsx_data){
+	dsx_data->val = HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin);
+	Serial_Transmit_DMA(dsx_data);
+}
 
 // Get Pin Mode Command
 void cmd_get_pin_mode(volatile DSX_data_t *dsx_data){};
@@ -105,6 +111,15 @@ void execute_command(volatile DSX_data_t *dsx_data)
 	else if(dsx_data->ID == CMD_WAVEFORM_WRITE){
 		cmd_generate_waveform(dsx_data);
 	}
+
+	// reset dsx data
+	dsx_data->ID 	= 0;
+	dsx_data->loc 	= 0;
+	dsx_data->sign 	= 0;
+	dsx_data->val 	= 0;
+	dsx_data->ret 	= 0;
+
+	serial_available = false;
 }
 
 
