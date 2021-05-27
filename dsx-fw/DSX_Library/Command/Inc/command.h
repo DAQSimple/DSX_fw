@@ -8,6 +8,10 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
+#include "main.h"
+#include "dsx_data_structure.h"
+#include "validate.h"
+
 
 #define CMD_READY_TO_EXECUTE 		1
 #define CMD_NOT_READY_TO_EXECUTE	0
@@ -31,34 +35,52 @@
 
 
 // Digital Write Command
+void cmd_digital_write(volatile DSX_data_t *dsx_data);
 
 // Digital Read Command
+void cmd_digital_read(volatile DSX_data_t *dsx_data);
 
 // Get Pin Mode Command
+void cmd_get_pin_mode(volatile DSX_data_t *dsx_data);
 
 // Analog Read Command
+void cmd_analog_read(volatile DSX_data_t *dsx_data);
 
 // PWM Write Command
+void cmd_pwm_write(volatile DSX_data_t *dsx_data);
 
 // Set PWM Frequency Command
+void cmd_set_pwm_freq(volatile DSX_data_t *dsx_data);
 
 // Servo Write Command
+void cmd_servo_write(volatile DSX_data_t *dsx_data);
 
 // Read Encoder Speed and Direction Command
+void cmd_encoder_read(volatile DSX_data_t *dsx_data);
 
 // Get Serial Info Command
+void cmd_get_serial_info(volatile DSX_data_t *dsx_data);
 
 // Get System Status Command
+void cmd_get_system_status(volatile DSX_data_t *dsx_data);
 
 // DAC Write Command
+void cmd_dac_write(volatile DSX_data_t *dsx_data);
 
 // Set PWM Level Command
+void cmd_set_pwm_level(volatile DSX_data_t *dsx_data);
 
 // Write SPI Command
+void cmd_spi_write(volatile DSX_data_t *dsx_data);
 
 // Write I2C Command
+void cmd_i2c_write(volatile DSX_data_t *dsx_data);
 
 // Generate Waveform Command
+void cmd_generate_waveform(volatile DSX_data_t *dsx_data);
+
+// *** Main Execute Command ***
+void execute_command(volatile DSX_data_t *dsx_data);
 
 
 #endif /* COMMAND_H */
