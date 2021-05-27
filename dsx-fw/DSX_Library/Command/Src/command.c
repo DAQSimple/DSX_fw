@@ -11,7 +11,7 @@ extern bool serial_available;
 
 // Digital Write Command
 void cmd_digital_write(volatile DSX_data_t *dsx_data){
-	HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, dsx_data->val);
 }
 
 // Digital Read Command
