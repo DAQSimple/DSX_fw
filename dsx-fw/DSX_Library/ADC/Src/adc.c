@@ -18,7 +18,7 @@ uint32_t volatile adc_buf[NUM_ADC_CHANNELS];
 //void Start_ADC(uint32_t *buf){
 
 void Start_ADC(void){
-	HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_buf, NUM_ADC_CHANNELS);
+	HAL_ADC_Start_DMA(&hadc2, (uint32_t *)adc_buf, NUM_ADC_CHANNELS);
 }
 
 //Callback to occur when ADC has read 2 of 4 channels
