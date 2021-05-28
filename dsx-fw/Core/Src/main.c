@@ -129,7 +129,6 @@ int main(void)
   {
 	  HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
 	  test_value = read_ADC_channel(1);
-//	  test_buffer = read_ADC_all();
 	  HAL_Delay(200);
     /* USER CODE END WHILE */
 
