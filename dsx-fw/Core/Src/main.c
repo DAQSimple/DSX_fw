@@ -25,6 +25,7 @@
 #include "serial.h"
 #include "dsx_data_structure.h"
 #include <stdbool.h>
+#include "adc.h"
 
 /* USER CODE END Includes */
 
@@ -35,6 +36,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -51,6 +54,10 @@ DMA_HandleTypeDef hdma_lpuart1_rx;
 DMA_HandleTypeDef hdma_lpuart1_tx;
 
 /* USER CODE BEGIN PV */
+
+//uint32_t adc_buf[NUM_ADC_CHANNELS];
+uint32_t test_value;
+//  uint32_t main_buf[4];
 
 /* USER CODE END PV */
 
@@ -111,6 +118,8 @@ int main(void)
   // Receive Serial and store into buffer
   Serial_Receive_DMA();
 
+  Start_ADC();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -118,6 +127,10 @@ int main(void)
 
   while (1)
   {
+	  HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+	  test_value = read_ADC_channel(1);
+//	  test_buffer = read_ADC_all();
+	  HAL_Delay(200);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -341,9 +354,6 @@ static void MX_DMA_Init(void)
   /* DMA1_Channel3_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel3_IRQn);
-  /* DMAMUX_OVR_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMAMUX_OVR_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMAMUX_OVR_IRQn);
 
 }
 
