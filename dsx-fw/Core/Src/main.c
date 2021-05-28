@@ -23,7 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "dsx_data_structure.h"
-
+#include "adc.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -33,6 +33,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -49,6 +51,10 @@ DMA_HandleTypeDef hdma_lpuart1_rx;
 DMA_HandleTypeDef hdma_lpuart1_tx;
 
 /* USER CODE BEGIN PV */
+
+//uint32_t adc_buf[NUM_ADC_CHANNELS];
+uint32_t test_value;
+//  uint32_t main_buf[4];
 
 /* USER CODE END PV */
 
@@ -106,6 +112,15 @@ int main(void)
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
 
+//  	  Start_ADC();
+//  	  uint16_t test_value;
+//  	  uint16_t test_buffer;
+
+//  	  Start_ADC((uint32_t *)adc_buf);
+  //HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_buf, NUM_ADC_CHANNELS);
+  	  Start_ADC();
+
+//  HAL_ADC_Start_DMA(&hadc1, (uint32_t *)main_buf, 4);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -113,6 +128,10 @@ int main(void)
 
   while (1)
   {
+	  HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+	  test_value = read_ADC_channel(1);
+//	  test_buffer = read_ADC_all();
+	  HAL_Delay(200);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -332,9 +351,6 @@ static void MX_DMA_Init(void)
   /* DMA1_Channel3_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel3_IRQn);
-  /* DMAMUX_OVR_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMAMUX_OVR_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMAMUX_OVR_IRQn);
 
 }
 
