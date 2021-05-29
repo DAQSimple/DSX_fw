@@ -25,6 +25,7 @@
 #include "serial.h"
 #include "dsx_data_structure.h"
 #include <stdbool.h>
+#include "DAC.h"
 
 /* USER CODE END Includes */
 
@@ -83,7 +84,8 @@ int main(void)
 	// Initialize DSX data structure
 	volatile DSX_data_t dsx_data;
 	DSX_data_init(&dsx_data);
-
+	float val = 0;
+	uint32_t var = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -126,7 +128,11 @@ int main(void)
 
 	  // update dsx data based on received buffer
 	   parse_buffer_to_dsx_data(&dsx_data);
-
+	   var = val*(4095)/3.3;
+	   DAC_write(var, DAC_CHANNEL_1);
+	   val += 0.5;
+	   HAL_Delay(500);
+	   if (val>3.3) val=0.0;
 	  // execute commands
 
   }
