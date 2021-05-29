@@ -115,7 +115,7 @@ int main(void)
   Serial_Receive_DMA();
 
   /* USER CODE END 2 */
-  HAL_DAC_Start(&hdac1, DAC1_CHANNEL_1);
+  DAC_init(&hdac1, DAC_CHANNEL_1);
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -129,9 +129,9 @@ int main(void)
 	  // update dsx data based on received buffer
 	   parse_buffer_to_dsx_data(&dsx_data);
 	   var = val*(4095)/3.3;
-	   DAC_write(var, DAC_CHANNEL_1);
+	   DAC_write(&hdac1, var, DAC_CHANNEL_1);
 	   val += 0.1;
-	   HAL_Delay(500);
+	   HAL_Delay(10);
 	   if (val>3.3) val=0.0;
 	  // execute commands
 
