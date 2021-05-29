@@ -130,7 +130,7 @@ int main(void)
 	   parse_buffer_to_dsx_data(&dsx_data);
 	   var = val*(4095)/3.3;
 	   DAC_write(var, DAC_CHANNEL_1);
-	   val += 0.5;
+	   val += 0.1;
 	   HAL_Delay(500);
 	   if (val>3.3) val=0.0;
 	  // execute commands
