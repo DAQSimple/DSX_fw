@@ -12,8 +12,9 @@
 
 #define NUM_ADC_CHANNELS 4U
 
+// Import adc handle from main.c for use in adc.c
 extern ADC_HandleTypeDef hadc2;
-//
+
 //extern uint32_t volatile adc_buf[NUM_ADC_CHANNELS];
 
 // Function to start infinite ADC conversion loop
