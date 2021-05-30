@@ -86,6 +86,8 @@ int main(void)
 	DSX_data_init(&dsx_data);
 	float val = 0;
 	uint32_t var = 0;
+	uint32_t var2 = 0;
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -113,9 +115,10 @@ int main(void)
 
   // Receive Serial and store into buffer
   Serial_Receive_DMA();
+  DAC_init(&hdac1, DAC_CHANNEL_1);
+  DAC_init(&hdac1, DAC_CHANNEL_2);
 
   /* USER CODE END 2 */
-  DAC_init(&hdac1, DAC_CHANNEL_1);
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -128,10 +131,14 @@ int main(void)
 
 	  // update dsx data based on received buffer
 	   parse_buffer_to_dsx_data(&dsx_data);
+
 	   var = val*(4095)/3.3;
+	   var2 = var;
 	   DAC_write(&hdac1, var, DAC_CHANNEL_1);
+	   HAL_Delay(5);
+	   DAC_write(&hdac1, var2, DAC_CHANNEL_2);
+	   HAL_Delay(5);
 	   val += 0.1;
-	   HAL_Delay(10);
 	   if (val>3.3) val=0.0;
 	  // execute commands
 
@@ -218,7 +225,7 @@ static void MX_DAC1_Init(void)
   }
   /** DAC channel OUT1 config
   */
-  sConfig.DAC_HighFrequency = DAC_HIGH_FREQUENCY_INTERFACE_MODE_AUTOMATIC;
+  sConfig.DAC_HighFrequency = DAC_HIGH_FREQUENCY_INTERFACE_MODE_ABOVE_160MHZ;
   sConfig.DAC_DMADoubleDataMode = DISABLE;
   sConfig.DAC_SignedFormat = DISABLE;
   sConfig.DAC_SampleAndHold = DAC_SAMPLEANDHOLD_DISABLE;
@@ -228,6 +235,13 @@ static void MX_DAC1_Init(void)
   sConfig.DAC_ConnectOnChipPeripheral = DAC_CHIPCONNECT_EXTERNAL;
   sConfig.DAC_UserTrimming = DAC_TRIMMING_FACTORY;
   if (HAL_DAC_ConfigChannel(&hdac1, &sConfig, DAC_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** DAC channel OUT2 config
+  */
+  sConfig.DAC_ConnectOnChipPeripheral = DAC_CHIPCONNECT_EXTERNAL;
+  if (HAL_DAC_ConfigChannel(&hdac1, &sConfig, DAC_CHANNEL_2) != HAL_OK)
   {
     Error_Handler();
   }
@@ -319,21 +333,11 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
-
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : LD2_Pin */
-  GPIO_InitStruct.Pin = LD2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
