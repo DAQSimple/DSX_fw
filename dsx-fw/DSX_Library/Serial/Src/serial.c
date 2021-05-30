@@ -22,7 +22,7 @@ void Serial_Receive_DMA(void)
 }
 
 // Function to transmit serial data via DMA
-void Serial_Transmit_DMA(volatile DSX_data_t *data)
+void Serial_Transmit(volatile DSX_data_t *data)
 {
 	tx_buffer[0] = data->ID / 10;
 	tx_buffer[1] = data->ID % 10;
@@ -46,7 +46,7 @@ void Serial_Transmit_DMA(volatile DSX_data_t *data)
 		}
 	}
 
-	HAL_UART_Transmit(&hlpuart1, tx_buffer, sizeof(tx_buffer),100);
+	HAL_UART_Transmit_IT(&hlpuart1, tx_buffer, sizeof(tx_buffer));
 }
 
 // Function to parse buffer and store into dsx data

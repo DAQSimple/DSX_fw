@@ -17,7 +17,7 @@ void cmd_digital_write(volatile DSX_data_t *dsx_data){
 // Digital Read Command
 void cmd_digital_read(volatile DSX_data_t *dsx_data){
 	dsx_data->val = HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin);
-	Serial_Transmit_DMA(dsx_data);
+	Serial_Transmit(dsx_data);
 }
 
 // Get Pin Mode Command
