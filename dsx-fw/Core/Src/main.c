@@ -135,9 +135,9 @@ int main(void)
 	   var = val*(4095)/3.3;
 	   var2 = var;
 	   DAC_write(&hdac1, var, DAC_CHANNEL_1);
-	   HAL_Delay(5);
+	   HAL_Delay(1);
 	   DAC_write(&hdac1, var2, DAC_CHANNEL_2);
-	   HAL_Delay(5);
+	   HAL_Delay(1);
 	   val += 0.1;
 	   if (val>3.3) val=0.0;
 	  // execute commands
