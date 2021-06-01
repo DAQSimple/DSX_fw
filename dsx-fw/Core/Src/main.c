@@ -56,10 +56,6 @@ DMA_HandleTypeDef hdma_lpuart1_tx;
 
 /* USER CODE BEGIN PV */
 
-//uint32_t adc_buf[NUM_ADC_CHANNELS];
-uint32_t test_value;
-//  uint32_t main_buf[4];
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -75,7 +71,6 @@ static void MX_ADC2_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-// github aye
 
 /* USER CODE END 0 */
 
@@ -90,7 +85,6 @@ int main(void)
 	// Initialize DSX data structure
 	volatile DSX_data_t dsx_data;
 	DSX_data_init(&dsx_data);
-
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -128,15 +122,6 @@ int main(void)
 
   while (1)
   {
-	  test_value = read_ADC_channel(0); // pull first ADC channel reading (0-3 : 4 channels)
-
-	  if (test_value > 200){
-		  blinkLED(test_value/8);
-	  }
-	  else{
-		  blinkLED(50);
-	  }
-
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

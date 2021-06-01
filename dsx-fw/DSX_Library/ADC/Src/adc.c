@@ -7,22 +7,15 @@
 
 #include "adc.h"
 
-
-// -------------------- Variables --------------------
 // Define buffer to store ADC readings
-// 32-bit integer is required for proper readings
 uint32_t volatile adc_buf[NUM_ADC_CHANNELS];
-
-
-// -------------------- Functions --------------------
-
 // Make ADC start continuously reading values and storing in adc_buf
 void Start_ADC(void){
 	HAL_ADC_Start_DMA(&hadc2, (uint32_t *)adc_buf, NUM_ADC_CHANNELS);
 }
 
  /*Pull a single channel reading from the ADC buffer
-
+  *
   * Channel		Function Input
   * 	1			0
   * 	2			1
@@ -43,12 +36,3 @@ void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef *hadc){
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc){
 	UNUSED(hadc); // nothing for now
 }
-
-
-// Can just use adc_buf directly for this
-//// Pull all four channel readings from the ADC buffer
-//uint16_t read_ADC_all(void){
-//
-//	return(adc_buf); // return specified ADC channel reading
-//
-//}

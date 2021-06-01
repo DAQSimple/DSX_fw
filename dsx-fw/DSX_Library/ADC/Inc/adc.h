@@ -15,7 +15,8 @@
 // Import adc handle from main.c for use in adc.c
 extern ADC_HandleTypeDef hadc2;
 
-//extern uint32_t volatile adc_buf[NUM_ADC_CHANNELS];
+// ADC buffer
+extern uint32_t volatile adc_buf[NUM_ADC_CHANNELS];
 
 // Function to start infinite ADC conversion loop
 void Start_ADC(void);
@@ -24,10 +25,7 @@ void Start_ADC(void);
 // Function to read a single ADC channel
 uint16_t read_ADC_channel(uint8_t channel);
 
-// Function to read all ADC channels
-//uint16_t read_ADC_all(void);
-
-// Unused callback functions
+// Callbacks
 void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef *hadc);
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc);
 
