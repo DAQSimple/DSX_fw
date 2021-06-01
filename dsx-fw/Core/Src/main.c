@@ -25,7 +25,6 @@
 #include "serial.h"
 #include "dsx_data_structure.h"
 #include <stdbool.h>
-#include "DAC.h"
 
 /* USER CODE END Includes */
 
@@ -67,9 +66,6 @@ static void MX_DAC1_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-// github aye
-
-
 
 /* USER CODE END 0 */
 
@@ -84,10 +80,6 @@ int main(void)
 	// Initialize DSX data structure
 	volatile DSX_data_t dsx_data;
 	DSX_data_init(&dsx_data);
-	float val = 0;
-	uint32_t var = 0;
-	uint32_t var2 = 0;
-
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -115,9 +107,6 @@ int main(void)
 
   // Receive Serial and store into buffer
   Serial_Receive_DMA();
-  DAC_init(&hdac1, DAC_CHANNEL_1);
-  DAC_init(&hdac1, DAC_CHANNEL_2);
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -131,15 +120,6 @@ int main(void)
 
 	  // update dsx data based on received buffer
 	   parse_buffer_to_dsx_data(&dsx_data);
-
-	   var = val*(4095)/3.3;
-	   var2 = var;
-	   DAC_write(&hdac1, var, DAC_CHANNEL_1);
-	   HAL_Delay(1);
-	   DAC_write(&hdac1, var2, DAC_CHANNEL_2);
-	   HAL_Delay(1);
-	   val += 0.1;
-	   if (val>3.3) val=0.0;
 	  // execute commands
 
   }
