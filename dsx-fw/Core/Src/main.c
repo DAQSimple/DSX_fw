@@ -25,7 +25,6 @@
 #include "serial.h"
 #include "dsx_data_structure.h"
 #include <stdbool.h>
-
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
