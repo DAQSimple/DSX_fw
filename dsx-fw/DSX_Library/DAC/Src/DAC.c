@@ -7,9 +7,10 @@
 
 #include "DAC.h"
 
-//Function to initialize DAC Channel
-void DAC_init(uint32_t CHANNEL){
-	HAL_DAC_Start(&hdac1, CHANNEL);
+//Function to initialize DAC1 Channel1 and 2
+void DAC_init(void){
+	HAL_DAC_Start(&hdac1, DAC1_CHANNEL_1);
+	HAL_DAC_Start(&hdac1, DAC1_CHANNEL_2);
 }
 
 //Function to write to DAC Channel

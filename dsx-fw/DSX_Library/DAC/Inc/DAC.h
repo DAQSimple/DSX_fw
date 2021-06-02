@@ -14,8 +14,8 @@
 //DAC1 handle
 extern DAC_HandleTypeDef hdac1;
 
-//Function to initialize DAC Channel
-void DAC_init(uint32_t CHANNEL);
+//Function to initialize DAC1 Channel1 and 2
+void DAC_init(void);
 
 //Function to write to DAC Channel
 void DAC_write(uint32_t val, uint32_t CHANNEL);

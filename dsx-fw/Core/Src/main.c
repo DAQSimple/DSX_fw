@@ -86,9 +86,9 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 
-	// Initialize DSX data structure
-	volatile DSX_data_t dsx_data;
-	DSX_data_init(&dsx_data);
+  // Initialize DSX data structure
+  volatile DSX_data_t dsx_data;
+  DSX_data_init(&dsx_data);
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -118,7 +118,11 @@ int main(void)
   // Receive Serial and store into buffer
   Serial_Receive_DMA();
 
+  // Start ADC
   Start_ADC();
+
+  // Start DAC
+  DAC_init();
 
   /* USER CODE END 2 */
 
@@ -135,7 +139,7 @@ int main(void)
 	   parse_buffer_to_dsx_data(&dsx_data);
 
 	  // execute commands
-	   DAC_write(2048, DAC1_CHANNEL_1);
+
   }
   /* USER CODE END 3 */
 }
