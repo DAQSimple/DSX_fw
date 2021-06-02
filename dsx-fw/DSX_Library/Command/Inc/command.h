@@ -10,6 +10,8 @@
 
 #include "main.h"
 #include "channel.h"
+#include "adc.h"
+#include "DAC.h"
 #include "dsx_data_structure.h"
 #include "validate.h"
 #include "serial.h"

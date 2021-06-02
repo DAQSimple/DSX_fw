@@ -11,12 +11,14 @@ extern bool serial_available;
 
 // Digital Write Command
 void cmd_digital_write(volatile DSX_data_t *dsx_data){
-	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, dsx_data->val);
+	channel_t channel = convert_loc_to_channel(dsx_data->loc);
+	HAL_GPIO_WritePin(channel.port, channel.pin, dsx_data->val);
 }
 
 // Digital Read Command
 void cmd_digital_read(volatile DSX_data_t *dsx_data){
-	dsx_data->val = HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin);
+	channel_t channel = convert_loc_to_channel(dsx_data->loc);
+	dsx_data->val = HAL_GPIO_ReadPin(channel.port, channel.pin);
 	Serial_Transmit(dsx_data);
 }
 
@@ -24,7 +26,17 @@ void cmd_digital_read(volatile DSX_data_t *dsx_data){
 void cmd_get_pin_mode(volatile DSX_data_t *dsx_data){};
 
 // Analog Read Command
-void cmd_analog_read(volatile DSX_data_t *dsx_data){};
+void cmd_analog_read(volatile DSX_data_t *dsx_data){
+	if(dsx_data->loc==20)
+		dsx_data->val = read_ADC_channel(0);
+	else if(dsx_data->loc==14)
+		dsx_data->val = read_ADC_channel(1);
+	else if(dsx_data->loc==15)
+		dsx_data->val = read_ADC_channel(2);
+	else if(dsx_data->loc==16)
+		dsx_data->val = read_ADC_channel(3);
+	Serial_Transmit(dsx_data);
+}
 
 // PWM Write Command
 void cmd_pwm_write(volatile DSX_data_t *dsx_data){};
@@ -45,7 +57,12 @@ void cmd_get_serial_info(volatile DSX_data_t *dsx_data){};
 void cmd_get_system_status(volatile DSX_data_t *dsx_data){};
 
 // DAC Write Command
-void cmd_dac_write(volatile DSX_data_t *dsx_data){};
+void cmd_dac_write(volatile DSX_data_t *dsx_data){
+	if(dsx_data->loc==17)
+		DAC_write(dsx_data->val, DAC1_CHANNEL_1);
+	else if(dsx_data->loc==18)
+		DAC_write(dsx_data->val, DAC1_CHANNEL_2);
+}
 
 // Set PWM Level Command
 void cmd_set_pwm_level(volatile DSX_data_t *dsx_data){};
