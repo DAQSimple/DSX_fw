@@ -29,6 +29,7 @@
 #include "adc.h"
 #include "blink.h"
 #include "DAC.h"
+#include <stdint.h>
 
 /* USER CODE END Includes */
 
