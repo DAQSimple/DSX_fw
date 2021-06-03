@@ -1,3 +1,10 @@
+/*
+ * Author of driver: Harjaap
+ * Date: 6/2/2021
+ * DAQSimple
+ *
+ */
+
 
 #ifndef _PWM_H_
 #define _PWM_H_
@@ -5,20 +12,17 @@
 /* Macros that store the min and max values for the
  * frequency and duty cycle
  */
-#define PWM_Max 1700000
-#define PWM_Min 34
-#define dutyCycle_Max 100
-#define dutyCycle_Min 0
+#define PWM_Max 		1700000U
+#define PWM_Min 		34U
+#define dutyCycle_Max 	100U
+#define dutyCycle_Min 	0
+#define CLOCK_SPEED		170000000UL
 
 #include "main.h"
 
-// Timer handles
-extern TIM_HandleTypeDef htim16;
-extern TIM_HandleTypeDef htim17;
-
 // Functions to set the duty cycle and frequency for the two channels
-void updateDutyCycle (uint8_t dutyCycle);
-void updatePWMFrequency (uint32_t pwm_freq);
+void updateDutyCycle (TIM_HandleTypeDef htim, uint8_t dutyCycle);
+void updatePWMFrequency (TIM_HandleTypeDef htim, uint32_t pwm_freq);
 
 // Function to start the timers for the PWM signals
 void initPWM(void);
