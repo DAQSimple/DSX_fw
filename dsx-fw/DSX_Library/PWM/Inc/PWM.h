@@ -17,8 +17,8 @@ extern TIM_HandleTypeDef htim16;
 extern TIM_HandleTypeDef htim17;
 
 // Functions to set the duty cycle and frequency for the two channels
-void init_PWM_1 (uint8_t dutyCycle, uint32_t freq);
-void init_PWM_2 (uint8_t dutyCycle, uint32_t freq);
+void updateDutyCycle (uint8_t dutyCycle);
+void updatePWMFrequency (uint32_t pwm_freq);
 
 /* Function to generate a PWM signal a timer with its corresponding
  * timer handle and channel number

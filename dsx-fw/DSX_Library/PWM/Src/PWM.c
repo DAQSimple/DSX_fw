@@ -1,13 +1,9 @@
 #include "PWM.h"
 #include "main.h"
 
-void MX_TIM16_Init(uint8_t dutyCycle, uint32_t freq);
-void MX_TIM17_Init(uint8_t dutyCycle, uint32_t freq);
 
-/* Function for PA6 that checks for the correct duty cycle and frequency values
- * then sets them in the MX_TIM16_Init function in the main
- */
-void init_PWM_1 (uint8_t dutyCycle, uint32_t pwm_freq)
+// Function for that updates the PWM duty cycle
+void updateDutyCycle (uint8_t dutyCycle)
 {
 	if (dutyCycle > dutyCycle_Max){
 		dutyCycle = dutyCycle_Max;
@@ -15,34 +11,31 @@ void init_PWM_1 (uint8_t dutyCycle, uint32_t pwm_freq)
 	else if (dutyCycle < dutyCycle_Min){
 		dutyCycle = dutyCycle_Min;
 	}
-	if (pwm_freq > PWM_Max){
-		pwm_freq = PWM_Max;
-	}
-	else if (pwm_freq < PWM_Min){
-		pwm_freq = PWM_Min;
-	}
-	MX_TIM16_Init(dutyCycle, pwm_freq);
+
+	// Sets the duty cycle cycle from 0 to Period
+	htim16.Instance->CCR1 = dutyCycle;
+	htim17.Instance->CCR1 = dutyCycle;
 
 }
 
-/* Function for PA7 that checks for the correct duty cycle and frequency values
- * then sets them in the MX_TIM17_Init function in the main
- */
-void init_PWM_2 (uint8_t dutyCycle, uint32_t pwm_freq)
+// Function for that updates the PWM frequency
+void updatePWMFrequency (uint32_t pwm_freq)
 {
-	if (dutyCycle > dutyCycle_Max){
-		dutyCycle = dutyCycle_Max;
-	}
-	else if (dutyCycle < dutyCycle_Min){
-		dutyCycle = dutyCycle_Min;
-	}
+	// Clock speed for STM32G474RE is 170 MHz
+	int clockSpeed = 170000000;
+
 	if (pwm_freq > PWM_Max){
 		pwm_freq = PWM_Max;
 	}
 	else if (pwm_freq < PWM_Min){
 		pwm_freq = PWM_Min;
 	}
-	MX_TIM17_Init(dutyCycle, pwm_freq);
+
+	/* Equation for setting the pre-scaler value based off the input frequency.
+	 * The frequency can be a combination of the following factors: 2^5, 5^5, 17
+	 */
+	htim16.Instance->PSC = (clockSpeed/(htim16.Init.Period + 1)*pwm_freq) - 1;
+	htim17.Instance->PSC = (clockSpeed/(htim17.Init.Period + 1)*pwm_freq) - 1;
 
 }
 

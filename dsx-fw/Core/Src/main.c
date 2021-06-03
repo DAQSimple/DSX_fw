@@ -60,10 +60,9 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_LPUART1_UART_Init(void);
-
+static void MX_TIM16_Init(void);
+static void MX_TIM17_Init(void);
 /* USER CODE BEGIN PFP */
-void MX_TIM16_Init(uint8_t dutyCycle, uint32_t pwm_freq);
-void MX_TIM17_Init(uint8_t dutyCycle, uint32_t pwm_freq);
 
 /* USER CODE END PFP */
 
@@ -108,11 +107,9 @@ int main(void)
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_LPUART1_UART_Init();
-//  MX_TIM16_Init();
-//  MX_TIM17_Init();
+  MX_TIM16_Init();
+  MX_TIM17_Init();
   /* USER CODE BEGIN 2 */
-  init_PWM_1 (45, 85);
-  init_PWM_2 (15, 34);
 
   gen_PWM (&htim16, TIM_CHANNEL_1);
   gen_PWM (&htim17, TIM_CHANNEL_1);
@@ -249,7 +246,7 @@ static void MX_LPUART1_UART_Init(void)
   * @param None
   * @retval None
   */
-void MX_TIM16_Init(uint8_t dutyCycle, uint32_t pwm_freq)
+static void MX_TIM16_Init(void)
 {
 
   /* USER CODE BEGIN TIM16_Init 0 */
@@ -260,24 +257,12 @@ void MX_TIM16_Init(uint8_t dutyCycle, uint32_t pwm_freq)
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
 
   /* USER CODE BEGIN TIM16_Init 1 */
-  // Clock speed for STM32G474RE is 170 MHz
-  int clockSpeed = 170000000;
-
-  /* Equation for setting the pre-scaler value based off the input frequency.
-   * The frequency can be a combination of the following factors: 2^5, 5^5, 17
-   */
-  htim16.Init.Prescaler = (clockSpeed/(htim16.Init.Period + 1)*pwm_freq) - 1;
-
-  // Period is set to 100-1 as the counter starts from 0
-  htim16.Init.Period = 100-1;
-  // Pulse sets the duty cycle cycle from 0 to Period + 1
-  sConfigOC.Pulse = dutyCycle;
 
   /* USER CODE END TIM16_Init 1 */
   htim16.Instance = TIM16;
-//  htim16.Init.Prescaler = 170-1;
+  htim16.Init.Prescaler = 0;
   htim16.Init.CounterMode = TIM_COUNTERMODE_UP;
-//  htim16.Init.Period = 99;
+  htim16.Init.Period = 99;
   htim16.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim16.Init.RepetitionCounter = 0;
   htim16.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -290,7 +275,7 @@ void MX_TIM16_Init(uint8_t dutyCycle, uint32_t pwm_freq)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-//  sConfigOC.Pulse = 0;
+  sConfigOC.Pulse = 0;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
@@ -324,7 +309,7 @@ void MX_TIM16_Init(uint8_t dutyCycle, uint32_t pwm_freq)
   * @param None
   * @retval None
   */
-void MX_TIM17_Init(uint8_t dutyCycle, uint32_t pwm_freq)
+static void MX_TIM17_Init(void)
 {
 
   /* USER CODE BEGIN TIM17_Init 0 */
@@ -335,24 +320,12 @@ void MX_TIM17_Init(uint8_t dutyCycle, uint32_t pwm_freq)
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
 
   /* USER CODE BEGIN TIM17_Init 1 */
-  // Clock speed for STM32G474RE is 170 MHz
-  int clockSpeed = 170000000;
-
-  /* Equation for setting the pre-scaler value based off the input frequency.
-   * The frequency can be a combination of the following factors: 2^5, 5^5, 17
-   */
-  htim17.Init.Prescaler = (clockSpeed/(htim16.Init.Period + 1)*pwm_freq) - 1;
-
-  // Period is set to 100-1 as the counter starts from 0
-  htim17.Init.Period = 100-1;
-  // Pulse sets the duty cycle cycle from 0 to Period + 1
-  sConfigOC.Pulse = dutyCycle;
 
   /* USER CODE END TIM17_Init 1 */
   htim17.Instance = TIM17;
-//  htim17.Init.Prescaler = 0;
+  htim17.Init.Prescaler = 0;
   htim17.Init.CounterMode = TIM_COUNTERMODE_UP;
-//  htim17.Init.Period = 65535;
+  htim17.Init.Period = 99;
   htim17.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim17.Init.RepetitionCounter = 0;
   htim17.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -365,7 +338,7 @@ void MX_TIM17_Init(uint8_t dutyCycle, uint32_t pwm_freq)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-//  sConfigOC.Pulse = 0;
+  sConfigOC.Pulse = 0;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
