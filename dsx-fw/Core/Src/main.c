@@ -126,12 +126,6 @@ int main(void)
   // Initialize PWM driver
   initPWM();
 
-  // *************** UNCOMMENT TO TEST PWM ******************
-//  updatePWMFrequency(htim16,0);
-//  updateDutyCycle(htim16, 45);
-//  updatePWMFrequency(htim17,170000000);
-//  updateDutyCycle(htim17, 87);
-
   // Receive Serial and store into buffer
   Serial_Receive_DMA();
 
