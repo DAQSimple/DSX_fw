@@ -111,8 +111,10 @@ int main(void)
   MX_TIM17_Init();
   /* USER CODE BEGIN 2 */
 
-  gen_PWM (&htim16, TIM_CHANNEL_1);
-  gen_PWM (&htim17, TIM_CHANNEL_1);
+  initPWM();
+
+  updatePWMFrequency(32);
+  updateDutyCycle(10);
   // Receive Serial and store into buffer
   Serial_Receive_DMA();
 

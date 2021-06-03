@@ -40,7 +40,8 @@ void updatePWMFrequency (uint32_t pwm_freq)
 }
 
 // Function that can generate a PWM using either TIM16 or TIM17
-void gen_PWM (TIM_HandleTypeDef *htimNum, uint32_t Channel)
+void initPWM(void)
 {
-	HAL_TIM_PWM_Start(htimNum, Channel);
+	HAL_TIM_PWM_Start(&htim16, TIM_CHANNEL_1);
+	HAL_TIM_PWM_Start(&htim17, TIM_CHANNEL_1);
 }

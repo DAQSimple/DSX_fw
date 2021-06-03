@@ -20,9 +20,7 @@ extern TIM_HandleTypeDef htim17;
 void updateDutyCycle (uint8_t dutyCycle);
 void updatePWMFrequency (uint32_t pwm_freq);
 
-/* Function to generate a PWM signal a timer with its corresponding
- * timer handle and channel number
- */
-void gen_PWM (TIM_HandleTypeDef* htimNum, uint32_t Channel);
+// Function to start the timers for the PWM signals
+void initPWM(void);
 
 #endif
