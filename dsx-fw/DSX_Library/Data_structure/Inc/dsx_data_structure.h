@@ -15,7 +15,7 @@ typedef struct DSX_data_t{
 	uint32_t ID   	:7;
 	uint32_t loc  	:6;
 	uint32_t sign 	:1;
-	uint32_t val  	:12;
+	uint32_t val  	:14;
 	uint32_t ret  	:4;
 }DSX_data_t;
 

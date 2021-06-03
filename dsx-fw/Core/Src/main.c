@@ -26,6 +26,9 @@
 #include "dsx_data_structure.h"
 #include "PWM.h"
 #include <stdbool.h>
+#include "adc.h"
+#include "blink.h"
+#include "DAC.h"
 
 /* USER CODE END Includes */
 
@@ -36,6 +39,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -76,7 +81,6 @@ static void MX_TIM17_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-// github aye
 
 /* USER CODE END 0 */
 
@@ -88,10 +92,9 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 
-	// Initialize DSX data structure
-	volatile DSX_data_t dsx_data;
-	DSX_data_init(&dsx_data);
-
+  // Initialize DSX data structure
+  volatile DSX_data_t dsx_data;
+  DSX_data_init(&dsx_data);
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -131,6 +134,12 @@ int main(void)
 
   // Receive Serial and store into buffer
   Serial_Receive_DMA();
+
+  // Start ADC
+  Start_ADC();
+
+  // Start DAC
+  DAC_init();
 
   /* USER CODE END 2 */
 
