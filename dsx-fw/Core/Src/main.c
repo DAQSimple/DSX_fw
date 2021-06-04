@@ -28,6 +28,7 @@
 #include <stdbool.h>
 #include "adc.h"
 #include "blink.h"
+#include "safety.h"
 #include "DAC.h"
 
 /* USER CODE END Includes */
@@ -62,7 +63,7 @@ TIM_HandleTypeDef htim16;
 TIM_HandleTypeDef htim17;
 
 /* USER CODE BEGIN PV */
-
+extern uint8_t state;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -145,16 +146,16 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-//	  uint16_t duty =0;
-//	  for (int i =100; duty < i; duty ++ ){
-//		  htim16.Instance->CCR1 = duty;
-//		  HAL_Delay(10);
-//	  }
-
+    while(state==STATE_NORMAL){
 	  // update dsx data based on received buffer
 	   parse_buffer_to_dsx_data(&dsx_data);
 
 	  // execute commands
+    }
+
+    // state is not STATE_NORMAL anymore
+    // Should only get here if a fault is detected
+    Error_Handler();
 
   }
   /* USER CODE END 3 */
