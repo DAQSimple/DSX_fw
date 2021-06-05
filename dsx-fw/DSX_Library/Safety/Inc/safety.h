@@ -34,7 +34,7 @@
 
 // Functions for updating the 3 debug LEDs
 void update_debug_leds(uint8_t state);
-void write_debug_leds(uint8_t led1, uint8_t led2, uint8_t led3);
+void write_debug_leds(uint8_t led1_state, uint8_t led2_state, uint8_t led3_state);
 
 // Fault event handlers
 void Fault_OC_Handler(void);

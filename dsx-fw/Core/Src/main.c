@@ -96,6 +96,7 @@ int main(void)
   // Initialize DSX data structure
   volatile DSX_data_t dsx_data;
   DSX_data_init(&dsx_data);
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -598,6 +599,13 @@ void Error_Handler(void)
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
+
+  // Turn on front panel fault red led
+
+  // fault handler
+
+  // update debug leds
+
   while (1)
   {
   }

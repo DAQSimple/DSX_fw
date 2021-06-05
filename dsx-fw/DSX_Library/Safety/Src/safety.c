@@ -8,8 +8,7 @@
 #include "safety.h"
 
 // global state variable to store fault states or normal state
-// Assume normal state initially
-uint8_t state = STATE_NORMAL;
+uint8_t state;
 
 // Function to update the 3 debug LEDs
 void update_debug_leds(uint8_t state)
@@ -38,7 +37,7 @@ void update_debug_leds(uint8_t state)
 }
 
 // Function to write to the 3 debug LEDs
-void write_debug_leds(uint8_t led1, uint8_t led2, uint8_t led3)
+void write_debug_leds(uint8_t led1_state, uint8_t led2_state, uint8_t led3_state)
 {
 
 }
