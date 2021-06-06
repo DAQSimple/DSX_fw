@@ -145,6 +145,20 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
 
   /* USER CODE END ADC1_MspInit 1 */
   }
+  else if(hadc->Instance==ADC5)
+  {
+  /* USER CODE BEGIN ADC5_MspInit 0 */
+
+  /* USER CODE END ADC5_MspInit 0 */
+    /* Peripheral clock enable */
+    __HAL_RCC_ADC345_CLK_ENABLE();
+    /* ADC5 interrupt Init */
+    HAL_NVIC_SetPriority(ADC5_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(ADC5_IRQn);
+  /* USER CODE BEGIN ADC5_MspInit 1 */
+
+  /* USER CODE END ADC5_MspInit 1 */
+  }
 
 }
 
@@ -179,6 +193,20 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
   /* USER CODE BEGIN ADC1_MspDeInit 1 */
 
   /* USER CODE END ADC1_MspDeInit 1 */
+  }
+  else if(hadc->Instance==ADC5)
+  {
+  /* USER CODE BEGIN ADC5_MspDeInit 0 */
+
+  /* USER CODE END ADC5_MspDeInit 0 */
+    /* Peripheral clock disable */
+    __HAL_RCC_ADC345_CLK_DISABLE();
+
+    /* ADC5 interrupt DeInit */
+    HAL_NVIC_DisableIRQ(ADC5_IRQn);
+  /* USER CODE BEGIN ADC5_MspDeInit 1 */
+
+  /* USER CODE END ADC5_MspDeInit 1 */
   }
 
 }

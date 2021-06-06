@@ -29,6 +29,7 @@
 #include "adc.h"
 #include "blink.h"
 #include "DAC.h"
+#include "board_defines.h"
 
 /* USER CODE END Includes */
 
@@ -50,6 +51,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
+ADC_HandleTypeDef hadc5;
 DMA_HandleTypeDef hdma_adc1;
 
 DAC_HandleTypeDef hdac1;
@@ -82,6 +84,7 @@ static void MX_ADC1_Init(void);
 static void MX_SPI3_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_TIM4_Init(void);
+static void MX_ADC5_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -132,6 +135,7 @@ int main(void)
   MX_SPI3_Init();
   MX_I2C1_Init();
   MX_TIM4_Init();
+  MX_ADC5_Init();
   /* USER CODE BEGIN 2 */
 
   // Initialize PWM driver
@@ -217,10 +221,11 @@ void SystemClock_Config(void)
   /** Initializes the peripherals clocks
   */
   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_LPUART1|RCC_PERIPHCLK_I2C1
-                              |RCC_PERIPHCLK_ADC12;
+                              |RCC_PERIPHCLK_ADC12|RCC_PERIPHCLK_ADC345;
   PeriphClkInit.Lpuart1ClockSelection = RCC_LPUART1CLKSOURCE_SYSCLK;
   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_PCLK1;
   PeriphClkInit.Adc12ClockSelection = RCC_ADC12CLKSOURCE_SYSCLK;
+  PeriphClkInit.Adc345ClockSelection = RCC_ADC345CLKSOURCE_SYSCLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
@@ -317,6 +322,77 @@ static void MX_ADC1_Init(void)
   /* USER CODE BEGIN ADC1_Init 2 */
 
   /* USER CODE END ADC1_Init 2 */
+
+}
+
+/**
+  * @brief ADC5 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ADC5_Init(void)
+{
+
+  /* USER CODE BEGIN ADC5_Init 0 */
+
+  /* USER CODE END ADC5_Init 0 */
+
+  ADC_AnalogWDGConfTypeDef AnalogWDGConfig = {0};
+  ADC_ChannelConfTypeDef sConfig = {0};
+
+  /* USER CODE BEGIN ADC5_Init 1 */
+
+  /* USER CODE END ADC5_Init 1 */
+  /** Common config
+  */
+  hadc5.Instance = ADC5;
+  hadc5.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc5.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc5.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc5.Init.GainCompensation = 0;
+  hadc5.Init.ScanConvMode = ADC_SCAN_DISABLE;
+  hadc5.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+  hadc5.Init.LowPowerAutoWait = DISABLE;
+  hadc5.Init.ContinuousConvMode = DISABLE;
+  hadc5.Init.NbrOfConversion = 1;
+  hadc5.Init.DiscontinuousConvMode = DISABLE;
+  hadc5.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc5.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+  hadc5.Init.DMAContinuousRequests = DISABLE;
+  hadc5.Init.Overrun = ADC_OVR_DATA_PRESERVED;
+  hadc5.Init.OversamplingMode = DISABLE;
+  if (HAL_ADC_Init(&hadc5) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure Analog WatchDog 1
+  */
+  AnalogWDGConfig.WatchdogNumber = ADC_ANALOGWATCHDOG_1;
+  AnalogWDGConfig.WatchdogMode = ADC_ANALOGWATCHDOG_SINGLE_REG;
+  AnalogWDGConfig.Channel = ADC_CHANNEL_TEMPSENSOR_ADC5;
+  AnalogWDGConfig.ITMode = ENABLE;
+  AnalogWDGConfig.HighThreshold = 4095;
+  AnalogWDGConfig.LowThreshold = 2000;
+  AnalogWDGConfig.FilteringConfig = ADC_AWD_FILTERING_8SAMPLES;
+  if (HAL_ADC_AnalogWDGConfig(&hadc5, &AnalogWDGConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure Regular Channel
+  */
+  sConfig.Channel = ADC_CHANNEL_TEMPSENSOR_ADC5;
+  sConfig.Rank = ADC_REGULAR_RANK_1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_2CYCLES_5;
+  sConfig.SingleDiff = ADC_SINGLE_ENDED;
+  sConfig.OffsetNumber = ADC_OFFSET_NONE;
+  sConfig.Offset = 0;
+  if (HAL_ADC_ConfigChannel(&hadc5, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN ADC5_Init 2 */
+
+  /* USER CODE END ADC5_Init 2 */
 
 }
 
@@ -719,16 +795,20 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(DO1_GPIO_Port, DO1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, ERROR_LD1_Pin|ERROR_LD2_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : DI1_Pin */
-  GPIO_InitStruct.Pin = DI1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  HAL_GPIO_Init(DI1_GPIO_Port, &GPIO_InitStruct);
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, USER_LD1_Pin|USER_LD2_Pin|USER_LD3_Pin|DO1_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : DI2_Pin DI1C5_Pin */
-  GPIO_InitStruct.Pin = DI2_Pin|DI1C5_Pin;
+  /*Configure GPIO pins : ERROR_LD1_Pin ERROR_LD2_Pin */
+  GPIO_InitStruct.Pin = ERROR_LD1_Pin|ERROR_LD2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : DI2_Pin DI1_Pin */
+  GPIO_InitStruct.Pin = DI2_Pin|DI1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
@@ -739,22 +819,18 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : USER_LD1_Pin USER_LD2_Pin USER_LD3_Pin DO1_Pin */
+  GPIO_InitStruct.Pin = USER_LD1_Pin|USER_LD2_Pin|USER_LD3_Pin|DO1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
   /*Configure GPIO pins : DI8_Pin DO2_Pin DI3_Pin */
   GPIO_InitStruct.Pin = DI8_Pin|DO2_Pin|DI3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : DO1_Pin */
-  GPIO_InitStruct.Pin = DO1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(DO1_GPIO_Port, &GPIO_InitStruct);
-
-  /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
 }
 

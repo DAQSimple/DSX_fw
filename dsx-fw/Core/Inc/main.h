@@ -60,9 +60,10 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define DI1_Pin GPIO_PIN_13
-#define DI1_GPIO_Port GPIOC
-#define DI1_EXTI_IRQn EXTI15_10_IRQn
+#define ERROR_LD1_Pin GPIO_PIN_2
+#define ERROR_LD1_GPIO_Port GPIOC
+#define ERROR_LD2_Pin GPIO_PIN_3
+#define ERROR_LD2_GPIO_Port GPIOC
 #define LPUART1_TX_Pin GPIO_PIN_2
 #define LPUART1_TX_GPIO_Port GPIOA
 #define LPUART1_RX_Pin GPIO_PIN_3
@@ -73,10 +74,16 @@ void Error_Handler(void);
 #define PWM_2_GPIO_Port GPIOA
 #define DI2_Pin GPIO_PIN_4
 #define DI2_GPIO_Port GPIOC
-#define DI1C5_Pin GPIO_PIN_5
-#define DI1C5_GPIO_Port GPIOC
+#define DI1_Pin GPIO_PIN_5
+#define DI1_GPIO_Port GPIOC
 #define DI7_Pin GPIO_PIN_10
 #define DI7_GPIO_Port GPIOB
+#define USER_LD1_Pin GPIO_PIN_13
+#define USER_LD1_GPIO_Port GPIOB
+#define USER_LD2_Pin GPIO_PIN_14
+#define USER_LD2_GPIO_Port GPIOB
+#define USER_LD3_Pin GPIO_PIN_15
+#define USER_LD3_GPIO_Port GPIOB
 #define DI8_Pin GPIO_PIN_8
 #define DI8_GPIO_Port GPIOA
 #define DO2_Pin GPIO_PIN_9
