@@ -9,7 +9,10 @@
 #define ENCODER_H_
 
 #include <stdint.h>
+#include "main.h"
 
-void TIM1_Init(uint16_t CPR);
+extern TIM_HandleTypeDef htim1;
+
+void Encoder_Init(uint16_t CPR);
 
 #endif /* ENCODER_H_ */

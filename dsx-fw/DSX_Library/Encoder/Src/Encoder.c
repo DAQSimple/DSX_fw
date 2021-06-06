@@ -2,11 +2,11 @@
  * Encoder.c
  *
  *  Created on: Jun. 5, 2021
- *      Author: Sangha
+ *      Author: Manraj Sangha
  */
 #include "Encoder.h"
 
-void TIM1_Init(uint16_t CPR){
+void Encoder_Init(uint16_t CPR){
   TIM_Encoder_InitTypeDef sConfig = {0};
   TIM_MasterConfigTypeDef sMasterConfig = {0};
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};

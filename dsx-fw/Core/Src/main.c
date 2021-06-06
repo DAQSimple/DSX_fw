@@ -58,6 +58,7 @@ UART_HandleTypeDef hlpuart1;
 DMA_HandleTypeDef hdma_lpuart1_rx;
 DMA_HandleTypeDef hdma_lpuart1_tx;
 
+TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim16;
 TIM_HandleTypeDef htim17;
 
