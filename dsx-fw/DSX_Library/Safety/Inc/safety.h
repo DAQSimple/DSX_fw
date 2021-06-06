@@ -1,9 +1,9 @@
 /*
- * safety.h
- *
- *  Created on: Jun 3, 2021
- *      Author: jpaca
- */
+* safety.h
+*
+*  Created on: Jun 3, 2021
+*      Author: jpaca
+*/
 
 #ifndef SAFETY_H
 #define SAFETY_H
@@ -13,11 +13,11 @@
 
 
 // State definitions - See state
-#define STATE_NORMAL			(0)
-#define STATE_FAULT_OVER_CURR	(1U)
-#define STATE_FAULT_USB			(2U)
-#define STATE_FAULT_OVER_TEMP	(3U)
-#define	STATE_FAULT_REV_POL		(4U)
+#define STATE_NORMAL            (0)
+#define STATE_FAULT_OVER_CURR   (1U)
+#define STATE_FAULT_USB         (2U)
+#define STATE_FAULT_OVER_TEMP   (3U)
+#define	STATE_FAULT_REV_POL     (4U)
 #define STATE_FAULT_UART        (5U)
 #define STATE_FAULT_WATCHDOG    (6U)
 
