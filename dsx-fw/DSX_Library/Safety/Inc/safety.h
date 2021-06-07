@@ -36,11 +36,8 @@
 void update_debug_leds(uint8_t state);
 void write_debug_leds(uint8_t led1_state, uint8_t led2_state, uint8_t led3_state);
 
-// Fault event handlers
-void Fault_OC_Handler(void);
-void Fault_USB_Handler(void);
-void Fault_OVER_TEMP_Handler(void);
-void Fault_REV_POL_Handler(void);
+// Function to init current sense timer and state
+void safety_init(void);
 
 
 #endif /* SAFETY_H */
