@@ -7,5 +7,5 @@
 #include "Encoder.h"
 
 void Encoder_Set_CPR(uint16_t CPR){
-	  htim4.Init.Period = 65535;
+	  TIM4->ARR = CPR;		//Change the TIM4_ARR register to specified CPR
 }

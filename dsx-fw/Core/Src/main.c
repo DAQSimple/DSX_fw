@@ -30,6 +30,7 @@
 #include "blink.h"
 #include "DAC.h"
 #include "Encoder.h"
+#include<stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -139,9 +140,11 @@ int main(void)
   DAC_init();
 
   //Set the CPR of the encoder
-  Encoder_Set_CPR(100);
+  Encoder_Set_CPR(20000);
 
-  uint8_t temp[10] = "hello\n\r";
+  int data = 0;
+  char buffer[16];
+  HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_ALL);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -160,7 +163,8 @@ int main(void)
 
 	  // update dsx data based on received buffer
 	   parse_buffer_to_dsx_data(&dsx_data);
-	   HAL_UART_Transmit(&hlpuart1, temp, sizeof(temp), HAL_MAX_DELAY);
+	   data = __HAL_TIM_GET_COUNTER(&htim4);
+	   HAL_UART_Transmit(&hlpuart1, (uint8_t*)buffer, sprintf(buffer, "%d\n\r", data), 500);
 	   HAL_Delay(1000);
 	  // execute commands
 
