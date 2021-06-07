@@ -11,8 +11,8 @@
 #include <stdint.h>
 #include "main.h"
 
-extern TIM_HandleTypeDef htim1;
+extern TIM_HandleTypeDef htim4;
 
-void Encoder_Init(uint16_t CPR);
+void Encoder_Set_CPR(uint16_t CPR);
 
 #endif /* ENCODER_H_ */
