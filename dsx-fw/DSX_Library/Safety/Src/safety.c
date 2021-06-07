@@ -13,7 +13,14 @@ extern TIM_HandleTypeDef htim4;
 uint8_t state;
 
 // Array of arrays for controlling dual multiplexers
-uint8_t Multiplex_Control_Arr[8][3] = {
+uint8_t Multiplex_Control_Arr_1x4_2CH[4][2] = {
+		{0,  0},	/* Select multiplexer channel 0 */
+		{0,  1},	/* Select multiplexer channel 1 */
+		{1,  0},	/* Select multiplexer channel 2 */
+		{1,  1},	/* Select multiplexer channel 3 */
+};
+
+uint8_t Multiplex_Control_Arr_1x8_3CH[8][3] = {
 		{0,  0,  0},	/* Select multiplexer channel 0 */
 		{0,  0,  1},	/* Select multiplexer channel 1 */
 		{0,  1,  0},	/* Select multiplexer channel 2 */
@@ -22,6 +29,25 @@ uint8_t Multiplex_Control_Arr[8][3] = {
 		{1,  0,  1},	/* Select multiplexer channel 5 */
 		{1,  1,  0},	/* Select multiplexer channel 6 */
 		{1,  1,  1}		/* Select multiplexer channel 7 */
+};
+
+uint8_t Multiplex_Control_Arr_1x16_4CH[16][4] = {
+		{0,  0,  0,  0},	/* Select multiplexer channel 0  */
+		{0,  0,  0,  1},	/* Select multiplexer channel 1  */
+		{0,  0,  1,  0},	/* Select multiplexer channel 2  */
+		{0,  0,  1,  1},	/* Select multiplexer channel 3  */
+		{0,  1,  0,  0},	/* Select multiplexer channel 4  */
+		{0,  1,  0,  1},	/* Select multiplexer channel 5  */
+		{0,  1,  1,  0},	/* Select multiplexer channel 6  */
+		{0,  1,  1,  1},	/* Select multiplexer channel 7  */
+		{1,  0,  0,  0},	/* Select multiplexer channel 8  */
+		{1,  0,  0,  1},	/* Select multiplexer channel 9  */
+		{1,  0,  1,  0},	/* Select multiplexer channel 10 */
+		{1,  0,  1,  1},	/* Select multiplexer channel 11 */
+		{1,  1,  0,  0},	/* Select multiplexer channel 12 */
+		{1,  1,  0,  1},	/* Select multiplexer channel 13 */
+		{1,  1,  1,  0},	/* Select multiplexer channel 14 */
+		{1,  1,  1,  1},	/* Select multiplexer channel 15 */
 };
 
 // Function to init current sense timer and state
@@ -69,9 +95,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	static uint8_t i = 0;		// For cycling through the Multiplex Control Array
 	if(htim->Instance == TIM4) 	// if the source is timer 4
 	{
-		HAL_GPIO_WritePin(MUX1_GPIO_Port, MUX1_Pin, Multiplex_Control_Arr[i][0]);	// Goes to Multiplexer Control pin A
-		HAL_GPIO_WritePin(MUX2_GPIO_Port, MUX2_Pin, Multiplex_Control_Arr[i][1]);	// Goes to Multiplexer Control pin B
-		HAL_GPIO_WritePin(MUX3_GPIO_Port, MUX3_Pin, Multiplex_Control_Arr[i][2]);	// Goes to Multiplexer Control pin C
+		HAL_GPIO_WritePin(MUX1_GPIO_Port, MUX1_Pin, Multiplex_Control_Arr_1x8_3CH[i][0]);	// Goes to Multiplexer Control pin A
+		HAL_GPIO_WritePin(MUX2_GPIO_Port, MUX2_Pin, Multiplex_Control_Arr_1x8_3CH[i][1]);	// Goes to Multiplexer Control pin B
+		HAL_GPIO_WritePin(MUX3_GPIO_Port, MUX3_Pin, Multiplex_Control_Arr_1x8_3CH[i][2]);	// Goes to Multiplexer Control pin C
 		if(i==7) i=0;
 		else 	 i++;
 	}
