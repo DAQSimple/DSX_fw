@@ -77,6 +77,35 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	}
 }
 
-// Over Current ISR
+// Fault event handlers
+void Fault_Handler(uint8_t state)
+{
+	switch(state)
+	{
+	case STATE_FAULT_OVER_CURR:
+		/* Disable all multiplexer outputs */
+		/* Play Buzzer Over Current Pattern */
+		break;
 
-// Over Temperature ISR
+	case STATE_FAULT_OVER_TEMP:
+		break;
+
+	case STATE_FAULT_REV_POL:
+		break;
+
+	case STATE_FAULT_USB:
+		break;
+
+	case STATE_FAULT_UART:
+		break;
+
+	case STATE_FAULT_WATCHDOG:
+		break;
+	}
+}
+
+// Over Current ISR : set state = STATE_FAULT_OVER_CURR
+// Need to have an ADC pin configured for reading the current sense circuit
+
+// Over Temperature ISR : set state = STATE_FAULT_OVER_TEMP
+// Need to config the board temp sensor and set interrupt event at some threshhold

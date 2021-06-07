@@ -662,6 +662,9 @@ void Error_Handler(void)
 
   // Turn on front panel fault red led
 
+  // Fault handlers activate based on fault
+  Fault_Handler(state);
+
   // update debug leds
   update_debug_leds(state);
 

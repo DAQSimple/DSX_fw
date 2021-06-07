@@ -21,6 +21,11 @@
 #define STATE_FAULT_UART        (5U)
 #define STATE_FAULT_WATCHDOG    (6U)
 
+// Thresholds - NEED TO TEST VALUES BEFORE IMPLEMENTING
+// #define MAX_TEMP_ALLOWED         (3000U)
+// #define MAX_POSITIVE_CURRENT     (3800U)
+// #define MAX_NEGATIVE_CURRENT     (500U)
+
 // Debug LEDs
 // These were defined in the Safety Driver Flowchart
 #define DEBUG_LED_NO_POWER      0,  0,  0
@@ -35,6 +40,9 @@
 // Functions for updating the 3 debug LEDs
 void update_debug_leds(uint8_t state);
 void write_debug_leds(uint8_t led1_state, uint8_t led2_state, uint8_t led3_state);
+
+// Fault event handlers
+void Fault_Handler(void);
 
 // Function to init current sense timer and state
 void safety_init(void);
