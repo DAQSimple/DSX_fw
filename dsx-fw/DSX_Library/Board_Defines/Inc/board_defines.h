@@ -36,22 +36,4 @@
 #define AO1 17U		// PA4
 #define AO2 18U		// PA5
 
-/* INDICATORS */
-// lookup table values yet to be determined
-#define DEBUG_LD1 1U // PB13
-#define DEBUG_LD2 1U // PB14
-#define DEBUG_LD3 1U // PB14
-
-#define USER_LD1 1U	// PC2
-#define USER_LD2 1U	// PC2
-
-/* I2C */
-#define I2C_SCL_PIN 'PB8'
-#define I2C_SDA_PIN 'PB9'
-
-/* SPI */
-#define SPI_SCK_PIN  'PC10'
-#define SPI_MISO_PIN 'PC11'
-#define SPI_MOSI_PIN 'PC12'
-
 #endif /* BOARD_DEFINES_H */
