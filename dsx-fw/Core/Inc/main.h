@@ -68,10 +68,10 @@ void Error_Handler(void);
 #define LPUART1_TX_GPIO_Port GPIOA
 #define LPUART1_RX_Pin GPIO_PIN_3
 #define LPUART1_RX_GPIO_Port GPIOA
-#define PWM_1_Pin GPIO_PIN_6
-#define PWM_1_GPIO_Port GPIOA
-#define PWM_2_Pin GPIO_PIN_7
-#define PWM_2_GPIO_Port GPIOA
+#define PWM1_Pin GPIO_PIN_6
+#define PWM1_GPIO_Port GPIOA
+#define PWM2_Pin GPIO_PIN_7
+#define PWM2_GPIO_Port GPIOA
 #define DI2_Pin GPIO_PIN_4
 #define DI2_GPIO_Port GPIOC
 #define DI1_Pin GPIO_PIN_5

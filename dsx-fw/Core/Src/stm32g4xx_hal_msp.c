@@ -665,12 +665,12 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* htim)
     /**TIM16 GPIO Configuration
     PA6     ------> TIM16_CH1
     */
-    GPIO_InitStruct.Pin = PWM_1_Pin;
+    GPIO_InitStruct.Pin = PWM1_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF1_TIM16;
-    HAL_GPIO_Init(PWM_1_GPIO_Port, &GPIO_InitStruct);
+    HAL_GPIO_Init(PWM1_GPIO_Port, &GPIO_InitStruct);
 
   /* USER CODE BEGIN TIM16_MspPostInit 1 */
 
@@ -686,12 +686,12 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* htim)
     /**TIM17 GPIO Configuration
     PA7     ------> TIM17_CH1
     */
-    GPIO_InitStruct.Pin = PWM_2_Pin;
+    GPIO_InitStruct.Pin = PWM2_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF1_TIM17;
-    HAL_GPIO_Init(PWM_2_GPIO_Port, &GPIO_InitStruct);
+    HAL_GPIO_Init(PWM2_GPIO_Port, &GPIO_InitStruct);
 
   /* USER CODE BEGIN TIM17_MspPostInit 1 */
 
