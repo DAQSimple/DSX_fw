@@ -58,6 +58,7 @@ void safety_init(void)
 {
 	HAL_TIM_Base_Start_IT(&htim4);	// Start timer 4
 	state = STATE_NORMAL;			// Assume initial state is NORMAL, so no faults
+	update_debug_leds(DEBUG_LED_NORMAL_OP);
 }
 
 // Function to update the 3 debug LEDs
