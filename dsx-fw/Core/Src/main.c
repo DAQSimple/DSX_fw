@@ -616,10 +616,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, DO1_Pin|DO2_Pin|MUX1_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, MUX3_Pin|MUX2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, DO1_Pin|DO2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : DI1_Pin */
   GPIO_InitStruct.Pin = DI1_Pin;
@@ -627,19 +624,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(DI1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : DO1_Pin DO2_Pin MUX1_Pin */
-  GPIO_InitStruct.Pin = DO1_Pin|DO2_Pin|MUX1_Pin;
+  /*Configure GPIO pins : DO1_Pin DO2_Pin */
+  GPIO_InitStruct.Pin = DO1_Pin|DO2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : MUX3_Pin MUX2_Pin */
-  GPIO_InitStruct.Pin = MUX3_Pin|MUX2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);

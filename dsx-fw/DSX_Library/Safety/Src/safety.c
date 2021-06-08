@@ -7,20 +7,23 @@
 
 #include "safety.h"
 
-extern TIM_HandleTypeDef htim4;
-
 // global state variable to store fault states or normal state
 uint8_t state;
 
 // Array of arrays for controlling dual multiplexers
-uint8_t Multiplex_Control_Arr_1x4_2CH[4][2] = {
+uint8_t Multiplex_Control_Arr_2CH_1Sel[2] = {
+		0,	/* Select multiplexer channel 0 */
+		1,	/* Select multiplexer channel 1 */
+};
+
+uint8_t Multiplex_Control_Arr_4CH_2Sel[4][2] = {
 		{0,  0},	/* Select multiplexer channel 0 */
 		{0,  1},	/* Select multiplexer channel 1 */
 		{1,  0},	/* Select multiplexer channel 2 */
 		{1,  1},	/* Select multiplexer channel 3 */
 };
 
-uint8_t Multiplex_Control_Arr_1x8_3CH[8][3] = {
+uint8_t Multiplex_Control_Arr_8CH_3Sel[8][3] = {
 		{0,  0,  0},	/* Select multiplexer channel 0 */
 		{0,  0,  1},	/* Select multiplexer channel 1 */
 		{0,  1,  0},	/* Select multiplexer channel 2 */
@@ -31,7 +34,7 @@ uint8_t Multiplex_Control_Arr_1x8_3CH[8][3] = {
 		{1,  1,  1}		/* Select multiplexer channel 7 */
 };
 
-uint8_t Multiplex_Control_Arr_1x16_4CH[16][4] = {
+uint8_t Multiplex_Control_Arr_16CH_4Sel[16][4] = {
 		{0,  0,  0,  0},	/* Select multiplexer channel 0  */
 		{0,  0,  0,  1},	/* Select multiplexer channel 1  */
 		{0,  0,  1,  0},	/* Select multiplexer channel 2  */
@@ -88,19 +91,28 @@ void write_debug_leds(uint8_t led1_state, uint8_t led2_state, uint8_t led3_state
 
 }
 
-// Multiplex_100Hz_Control ISR
-// Uses Timer4, PSC=10000-1, Period=170-1. Result is an update freq=100Hz.
+
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	static uint8_t i = 0;		// For cycling through the Multiplex Control Array
-	if(htim->Instance == TIM4) 	// if the source is timer 4
+	static uint8_t mux_channel = 0;	// For cycling through the Multiplex Control Array
+
+	// Multiplex_100Hz_Control ISR
+	// Uses Timer4, PSC=10000-1, Period=170-1. Result is an update freq=100Hz.
+	if(htim->Instance == TIM4) 		// if the interrupt source is timer 4
 	{
-		HAL_GPIO_WritePin(MUX1_GPIO_Port, MUX1_Pin, Multiplex_Control_Arr_1x8_3CH[i][0]);	// Goes to Multiplexer Control pin A
-		HAL_GPIO_WritePin(MUX2_GPIO_Port, MUX2_Pin, Multiplex_Control_Arr_1x8_3CH[i][1]);	// Goes to Multiplexer Control pin B
-		HAL_GPIO_WritePin(MUX3_GPIO_Port, MUX3_Pin, Multiplex_Control_Arr_1x8_3CH[i][2]);	// Goes to Multiplexer Control pin C
-		if(i==7) i=0;
-		else 	 i++;
+//		HAL_GPIO_WritePin(MUX1_GPIO_Port, MUX1_Pin, Multiplex_Control_Arr_16CH_4Sel[mux_channel][0]);	// Goes to Multiplexer Control pin S0
+//		HAL_GPIO_WritePin(MUX2_GPIO_Port, MUX2_Pin, Multiplex_Control_Arr_16CH_4Sel[mux_channel][1]);	// Goes to Multiplexer Control pin S1
+//		HAL_GPIO_WritePin(MUX3_GPIO_Port, MUX3_Pin, Multiplex_Control_Arr_16CH_4Sel[mux_channel][2]);	// Goes to Multiplexer Control pin S2
+//		HAL_GPIO_WritePin(MUX4_GPIO_Port, MUX4_Pin, Multiplex_Control_Arr_16CH_4Sel[mux_channel][3]);	// Goes to Multiplexer Control pin S3
+
+//		HAL_GPIO_WritePin(MUX1_GPIO_Port, MUX1_Pin, Multiplex_Control_Arr_2CH_1Sel[mux_channel % 2]);	// Goes to Multiplexer Control pin S0
+
+		// Go to the next channel, wrap at the end channel
+		mux_channel = (mux_channel == MUX_CHANNEL_END) ? MUX_CHANNEL_0 : mux_channel+1;
 	}
+
+	// Multiplex_400Hz_Control ISR
+
 }
 
 // Fault event handlers

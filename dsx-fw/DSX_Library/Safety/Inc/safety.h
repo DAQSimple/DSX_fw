@@ -12,6 +12,9 @@
 #include <stdint.h>
 
 
+// For initializing timer 4
+extern TIM_HandleTypeDef htim4;
+
 // State definitions - See state
 #define STATE_NORMAL            (0)
 #define STATE_FAULT_OVER_CURR   (1U)
@@ -37,12 +40,31 @@
 #define DEBUG_LED_UART          1,  1,  0
 #define DEBUG_LED_WATCHDOG      1,  1,  1
 
+// Multiplexer channel for cycling through, for readability
+#define MUX_CHANNEL_0		(0)
+#define MUX_CHANNEL_1		(1U)
+#define MUX_CHANNEL_2		(2U)
+#define MUX_CHANNEL_3		(3U)
+#define MUX_CHANNEL_4		(4U)
+#define MUX_CHANNEL_5		(5U)
+#define MUX_CHANNEL_6		(6U)
+#define MUX_CHANNEL_7		(7U)
+#define MUX_CHANNEL_8		(8U)
+#define MUX_CHANNEL_9		(9U)
+#define MUX_CHANNEL_10		(10U)
+#define MUX_CHANNEL_11		(11U)
+#define MUX_CHANNEL_12		(12U)
+#define MUX_CHANNEL_13		(13U)
+#define MUX_CHANNEL_14		(14U)
+#define MUX_CHANNEL_15		(15U)
+#define MUX_CHANNEL_END		MUX_CHANNEL_7
+
 // Functions for updating the 3 debug LEDs
 void update_debug_leds(uint8_t state);
 void write_debug_leds(uint8_t led1_state, uint8_t led2_state, uint8_t led3_state);
 
 // Fault event handlers
-void Fault_Handler(void);
+void Fault_Handler(uint8_t state);
 
 // Function to init current sense timer and state
 void safety_init(void);
