@@ -88,6 +88,8 @@ void HAL_MspInit(void)
   /* USER CODE END MspInit 1 */
 }
 
+static uint32_t HAL_RCC_ADC345_CLK_ENABLED=0;
+
 /**
 * @brief ADC MSP Initialization
 * This function configures the hardware resources used in this example
@@ -145,13 +147,50 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
 
   /* USER CODE END ADC1_MspInit 1 */
   }
+  else if(hadc->Instance==ADC3)
+  {
+  /* USER CODE BEGIN ADC3_MspInit 0 */
+
+  /* USER CODE END ADC3_MspInit 0 */
+    /* Peripheral clock enable */
+    HAL_RCC_ADC345_CLK_ENABLED++;
+    if(HAL_RCC_ADC345_CLK_ENABLED==1){
+      __HAL_RCC_ADC345_CLK_ENABLE();
+    }
+
+    __HAL_RCC_GPIOB_CLK_ENABLE();
+    /**ADC3 GPIO Configuration
+    PB0     ------> ADC3_IN12
+    */
+    GPIO_InitStruct.Pin = GPIO_PIN_0;
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /* USER CODE BEGIN ADC3_MspInit 1 */
+
+  /* USER CODE END ADC3_MspInit 1 */
+  }
   else if(hadc->Instance==ADC5)
   {
   /* USER CODE BEGIN ADC5_MspInit 0 */
 
   /* USER CODE END ADC5_MspInit 0 */
     /* Peripheral clock enable */
-    __HAL_RCC_ADC345_CLK_ENABLE();
+    HAL_RCC_ADC345_CLK_ENABLED++;
+    if(HAL_RCC_ADC345_CLK_ENABLED==1){
+      __HAL_RCC_ADC345_CLK_ENABLE();
+    }
+
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+    /**ADC5 GPIO Configuration
+    PA9     ------> ADC5_IN2
+    */
+    GPIO_InitStruct.Pin = CURRENT_ADC_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(CURRENT_ADC_GPIO_Port, &GPIO_InitStruct);
+
     /* ADC5 interrupt Init */
     HAL_NVIC_SetPriority(ADC5_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(ADC5_IRQn);
@@ -194,13 +233,41 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
 
   /* USER CODE END ADC1_MspDeInit 1 */
   }
+  else if(hadc->Instance==ADC3)
+  {
+  /* USER CODE BEGIN ADC3_MspDeInit 0 */
+
+  /* USER CODE END ADC3_MspDeInit 0 */
+    /* Peripheral clock disable */
+    HAL_RCC_ADC345_CLK_ENABLED--;
+    if(HAL_RCC_ADC345_CLK_ENABLED==0){
+      __HAL_RCC_ADC345_CLK_DISABLE();
+    }
+
+    /**ADC3 GPIO Configuration
+    PB0     ------> ADC3_IN12
+    */
+    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_0);
+
+  /* USER CODE BEGIN ADC3_MspDeInit 1 */
+
+  /* USER CODE END ADC3_MspDeInit 1 */
+  }
   else if(hadc->Instance==ADC5)
   {
   /* USER CODE BEGIN ADC5_MspDeInit 0 */
 
   /* USER CODE END ADC5_MspDeInit 0 */
     /* Peripheral clock disable */
-    __HAL_RCC_ADC345_CLK_DISABLE();
+    HAL_RCC_ADC345_CLK_ENABLED--;
+    if(HAL_RCC_ADC345_CLK_ENABLED==0){
+      __HAL_RCC_ADC345_CLK_DISABLE();
+    }
+
+    /**ADC5 GPIO Configuration
+    PA9     ------> ADC5_IN2
+    */
+    HAL_GPIO_DeInit(CURRENT_ADC_GPIO_Port, CURRENT_ADC_Pin);
 
     /* ADC5 interrupt DeInit */
     HAL_NVIC_DisableIRQ(ADC5_IRQn);

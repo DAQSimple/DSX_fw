@@ -12,7 +12,7 @@
 
 /* DIGITAL OUTPUTS */
 #define DO1 9U		// on PB6
-#define DO2 10U		// on PA9
+#define DO2 10U		// on PC7
 #define PWM1 11U	// on PA6
 #define PWM2 12U	// on PA7
 
@@ -20,7 +20,7 @@
 #define DI1 1U		// PC5
 #define DI2 2U		// PC4
 #define DI3 3U		// PA10
-#define DI4 4U		// oPB3
+#define DI4 4U		// PB3
 #define DI5 5U		// PB5
 #define DI6 6U		// PB4
 #define DI7 7U		// PB10
@@ -38,12 +38,12 @@
 
 /* INDICATORS */
 // lookup table values yet to be determined
-#define USER_LD1 1U // PB13
-#define USER_LD2 1U // PB14
-#define USER_LD3 1U // PB14
+#define DEBUG_LD1 1U // PB13
+#define DEBUG_LD2 1U // PB14
+#define DEBUG_LD3 1U // PB14
 
-#define ERROR_LD1 1U// PC2
-#define ERROR_LD1 1U// PC2
+#define USER_LD1 1U	// PC2
+#define USER_LD2 1U	// PC2
 
 /* I2C */
 #define I2C_SCL_PIN 'PB8'
