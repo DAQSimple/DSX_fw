@@ -62,6 +62,7 @@ DMA_HandleTypeDef hdma_lpuart1_tx;
 TIM_HandleTypeDef htim4;
 TIM_HandleTypeDef htim16;
 TIM_HandleTypeDef htim17;
+DMA_HandleTypeDef hdma_tim4_up;
 
 /* USER CODE BEGIN PV */
 
@@ -140,11 +141,14 @@ int main(void)
   DAC_init();
 
   //Set the CPR of the encoder
-  Encoder_Set_CPR(20000);
+  Encoder_Set_CPR(100);
 
-  int data = 0;
-  char buffer[16];
-  HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_ALL);
+  uint16_t data1 = 0;
+  uint8_t buffer1[100];
+  uint16_t data2 = 0;
+  uint8_t buffer2[100];
+  //HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_ALL);
+  HAL_TIM_Encoder_Start_DMA(&htim4, TIM_CHANNEL_ALL, (uint32_t*)&data1, (uint32_t*)&data2, 16);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -163,8 +167,10 @@ int main(void)
 
 	  // update dsx data based on received buffer
 	   parse_buffer_to_dsx_data(&dsx_data);
-	   data = __HAL_TIM_GET_COUNTER(&htim4);
-	   HAL_UART_Transmit(&hlpuart1, (uint8_t*)buffer, sprintf(buffer, "%d\n\r", data), 500);
+	   //data = __HAL_TIM_GET_COUNTER(&htim4);
+	   HAL_UART_Transmit(&hlpuart1, buffer1, sprintf(buffer1, "data1: %d\n\r", data1), 1000);
+	   HAL_Delay(1000);
+	   HAL_UART_Transmit(&hlpuart1, buffer2, sprintf(buffer2, "data2: %d\n\r", data2), 1000);
 	   HAL_Delay(1000);
 	  // execute commands
 
@@ -605,6 +611,9 @@ static void MX_DMA_Init(void)
   /* DMA1_Channel3_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel3_IRQn);
+  /* DMA1_Channel4_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel4_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel4_IRQn);
 
 }
 
