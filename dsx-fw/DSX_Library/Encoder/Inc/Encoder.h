@@ -15,4 +15,6 @@ extern TIM_HandleTypeDef htim4;
 
 void Encoder_Set_CPR(uint16_t CPR);
 
+uint16_t Encoder_read();
+
 #endif /* ENCODER_H_ */
