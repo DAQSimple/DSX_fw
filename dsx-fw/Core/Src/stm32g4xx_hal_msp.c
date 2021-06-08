@@ -186,10 +186,10 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
     /**ADC5 GPIO Configuration
     PA9     ------> ADC5_IN2
     */
-    GPIO_InitStruct.Pin = CURRENT_ADC_Pin;
+    GPIO_InitStruct.Pin = ADC_CURRENT_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(CURRENT_ADC_GPIO_Port, &GPIO_InitStruct);
+    HAL_GPIO_Init(ADC_CURRENT_GPIO_Port, &GPIO_InitStruct);
 
     /* ADC5 interrupt Init */
     HAL_NVIC_SetPriority(ADC5_IRQn, 0, 0);
@@ -267,7 +267,7 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
     /**ADC5 GPIO Configuration
     PA9     ------> ADC5_IN2
     */
-    HAL_GPIO_DeInit(CURRENT_ADC_GPIO_Port, CURRENT_ADC_Pin);
+    HAL_GPIO_DeInit(ADC_CURRENT_GPIO_Port, ADC_CURRENT_Pin);
 
     /* ADC5 interrupt DeInit */
     HAL_NVIC_DisableIRQ(ADC5_IRQn);

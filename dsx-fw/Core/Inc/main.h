@@ -100,8 +100,8 @@ void Error_Handler(void);
 #define MUX3_S0_GPIO_Port GPIOC
 #define DI8_Pin GPIO_PIN_8
 #define DI8_GPIO_Port GPIOA
-#define CURRENT_ADC_Pin GPIO_PIN_9
-#define CURRENT_ADC_GPIO_Port GPIOA
+#define ADC_CURRENT_Pin GPIO_PIN_9
+#define ADC_CURRENT_GPIO_Port GPIOA
 #define DI3_Pin GPIO_PIN_10
 #define DI3_GPIO_Port GPIOA
 #define ENC_A_Pin GPIO_PIN_11
