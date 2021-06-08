@@ -24,10 +24,10 @@ extern TIM_HandleTypeDef htim4;
 #define STATE_FAULT_UART        (5U)
 #define STATE_FAULT_WATCHDOG    (6U)
 
-// Thresholds - NEED TO TEST VALUES BEFORE IMPLEMENTING
-// #define MAX_TEMP_ALLOWED         (3000U)
-// #define MAX_POSITIVE_CURRENT     (3800U)
-// #define MAX_NEGATIVE_CURRENT     (500U)
+// Thresholds - NOT SURE ABOUT THESE YET, NEED TO TEST VALUES BEFORE IMPLEMENTING
+ #define MAX_TEMP_ALLOWED         (3000U)
+ #define MAX_POSITIVE_CURRENT     (3800U)
+ #define MAX_NEGATIVE_CURRENT     (500U)
 
 // Debug LEDs
 // These were defined in the Safety Driver Flowchart
@@ -57,14 +57,14 @@ extern TIM_HandleTypeDef htim4;
 #define MUX_CHANNEL_13		(13U)
 #define MUX_CHANNEL_14		(14U)
 #define MUX_CHANNEL_15		(15U)
-#define MUX_CHANNEL_END		MUX_CHANNEL_7
+#define MUX_CHANNEL_END		MUX_CHANNEL_15
 
 // Functions for updating the 3 debug LEDs
 void update_debug_leds(uint8_t state);
 void write_debug_leds(uint8_t led1_state, uint8_t led2_state, uint8_t led3_state);
 
 // Fault event handlers
-void Fault_Handler(uint8_t state);
+void DSX_Fault_Handler(uint8_t state);
 
 // Function to init current sense timer and state
 void safety_init(void);
