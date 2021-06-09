@@ -127,27 +127,25 @@ void DSX_Fault_Handler(uint8_t state)
 	{
 	case STATE_FAULT_OVER_CURR:
 		/* Disable all multiplexer outputs */
-		/* Play Buzzer Over Current Pattern */
+		/* Play Buzzer */
 		break;
 
 	case STATE_FAULT_OVER_TEMP:
-		/* Play Buzzer Over Current Pattern */
+		/* Play Buzzer */
 		break;
 
 	case STATE_FAULT_REV_POL:
-		/* Play Buzzer Over Current Pattern */
+		/* Play Buzzer */
 		break;
 
 	case STATE_FAULT_USB:
-		/* Play Buzzer Over Current Pattern */
+		/* Play Buzzer */
 		break;
 
 	case STATE_FAULT_UART:
-		/* Play Buzzer Over Current Pattern */
 		break;
 
 	case STATE_FAULT_WATCHDOG:
-		/* Play Buzzer Over Current Pattern */
 		break;
 	}
 }
