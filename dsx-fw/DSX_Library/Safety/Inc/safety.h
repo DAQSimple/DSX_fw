@@ -12,8 +12,9 @@
 #include <stdint.h>
 
 
-// For initializing timer 4
-extern TIM_HandleTypeDef htim4;
+// For initializing timer 2 and 5
+extern TIM_HandleTypeDef htim2;
+extern TIM_HandleTypeDef htim5;
 
 // State definitions - See state
 #define STATE_NORMAL            (0)

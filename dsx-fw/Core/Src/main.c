@@ -29,6 +29,7 @@
 #include "adc.h"
 #include "blink.h"
 #include "DAC.h"
+#include "safety.h"
 #include "board_defines.h"
 
 /* USER CODE END Includes */
@@ -65,7 +66,9 @@ DMA_HandleTypeDef hdma_lpuart1_tx;
 
 SPI_HandleTypeDef hspi3;
 
+TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim4;
+TIM_HandleTypeDef htim5;
 TIM_HandleTypeDef htim16;
 TIM_HandleTypeDef htim17;
 
@@ -87,6 +90,8 @@ static void MX_I2C1_Init(void);
 static void MX_TIM4_Init(void);
 static void MX_ADC5_Init(void);
 static void MX_ADC3_Init(void);
+static void MX_TIM2_Init(void);
+static void MX_TIM5_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -139,6 +144,8 @@ int main(void)
   MX_TIM4_Init();
   MX_ADC5_Init();
   MX_ADC3_Init();
+  MX_TIM2_Init();
+  MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
 
   // Initialize PWM driver
@@ -152,6 +159,9 @@ int main(void)
 
   // Start DAC
   DAC_init();
+
+  // init safety driver
+  safety_init();
 
   /* USER CODE END 2 */
 
@@ -650,6 +660,51 @@ static void MX_SPI3_Init(void)
 }
 
 /**
+  * @brief TIM2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM2_Init(void)
+{
+
+  /* USER CODE BEGIN TIM2_Init 0 */
+
+  /* USER CODE END TIM2_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM2_Init 1 */
+
+  /* USER CODE END TIM2_Init 1 */
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 170-1;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 9999;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM2_Init 2 */
+
+  /* USER CODE END TIM2_Init 2 */
+
+}
+
+/**
   * @brief TIM4 Initialization Function
   * @param None
   * @retval None
@@ -695,6 +750,51 @@ static void MX_TIM4_Init(void)
   /* USER CODE BEGIN TIM4_Init 2 */
 
   /* USER CODE END TIM4_Init 2 */
+
+}
+
+/**
+  * @brief TIM5 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM5_Init(void)
+{
+
+  /* USER CODE BEGIN TIM5_Init 0 */
+
+  /* USER CODE END TIM5_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM5_Init 1 */
+
+  /* USER CODE END TIM5_Init 1 */
+  htim5.Instance = TIM5;
+  htim5.Init.Prescaler = 170-1;
+  htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim5.Init.Period = 2499;
+  htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim5.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim5) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim5, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim5, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM5_Init 2 */
+
+  /* USER CODE END TIM5_Init 2 */
 
 }
 
@@ -863,20 +963,20 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, USER_LD1_Pin|USER_LD2_Pin|MUX1_S3_Pin|DO2_Pin
-                          |MUX2_S0_Pin|MUX3_S0_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, USER_LD1_Pin|USER_LD2_Pin|MUXA_S3_Pin|DO2_Pin
+                          |MUXB_S0_Pin|MUXC_S0_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, MUX1_S0_Pin|MUX1_S1_Pin|MUX1_S2_Pin|DEBUG_LD1_Pin
+  HAL_GPIO_WritePin(GPIOB, MUXA_S0_Pin|MUXA_S1_Pin|MUXA_S2_Pin|DEBUG_LD1_Pin
                           |DEBUG_LD2_Pin|DEBUG_LD3_Pin|DO1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(MUX_En_GPIO_Port, MUX_En_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : USER_LD1_Pin USER_LD2_Pin MUX1_S3_Pin DO2_Pin
-                           MUX2_S0_Pin MUX3_S0_Pin */
-  GPIO_InitStruct.Pin = USER_LD1_Pin|USER_LD2_Pin|MUX1_S3_Pin|DO2_Pin
-                          |MUX2_S0_Pin|MUX3_S0_Pin;
+  /*Configure GPIO pins : USER_LD1_Pin USER_LD2_Pin MUXA_S3_Pin DO2_Pin
+                           MUXB_S0_Pin MUXC_S0_Pin */
+  GPIO_InitStruct.Pin = USER_LD1_Pin|USER_LD2_Pin|MUXA_S3_Pin|DO2_Pin
+                          |MUXB_S0_Pin|MUXC_S0_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -888,9 +988,9 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : MUX1_S0_Pin MUX1_S1_Pin MUX1_S2_Pin DEBUG_LD1_Pin
+  /*Configure GPIO pins : MUXA_S0_Pin MUXA_S1_Pin MUXA_S2_Pin DEBUG_LD1_Pin
                            DEBUG_LD2_Pin DEBUG_LD3_Pin DO1_Pin */
-  GPIO_InitStruct.Pin = MUX1_S0_Pin|MUX1_S1_Pin|MUX1_S2_Pin|DEBUG_LD1_Pin
+  GPIO_InitStruct.Pin = MUXA_S0_Pin|MUXA_S1_Pin|MUXA_S2_Pin|DEBUG_LD1_Pin
                           |DEBUG_LD2_Pin|DEBUG_LD3_Pin|DO1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;

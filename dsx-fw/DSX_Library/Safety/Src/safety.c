@@ -56,9 +56,10 @@ uint8_t Multiplex_Control_Arr_16CH_4Sel[16][4] = {
 // Function to init current sense timer and state
 void safety_init(void)
 {
-	HAL_TIM_Base_Start_IT(&htim4);	// Start timer 4
+	HAL_TIM_Base_Start_IT(&htim2);	// Start timer 2
+	HAL_TIM_Base_Start_IT(&htim5);	// Start timer 5
 	state = STATE_NORMAL;			// Assume initial state is NORMAL, so no faults
-	update_debug_leds(DEBUG_LED_NORMAL_OP);
+	write_debug_leds(DEBUG_LED_NORMAL_OP);
 }
 
 // Function to update the 3 debug LEDs
@@ -99,24 +100,28 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	static uint8_t mux_channel_C  = 0;	// For cycling through the Multiplex Control Array for MUX C
 
 	// MultiplexAB_100Hz_Control ISR
-	// Uses Timer4, PSC=10000-1, Period=170-1. Result is an update freq=100Hz.
-	if(htim->Instance == TIM4) 		// if the interrupt source is timer 4
+	// Uses Timer2, PSC=170-1, Period=10000-1. Result is an update freq=100Hz.
+	if(htim->Instance == TIM2) 		// if the interrupt source is timer 4
 	{
-//		HAL_GPIO_WritePin(MUXA_S0_GPIO_Port, MUXA_S0_Pin, Multiplex_Control_Arr_16CH_4Sel[mux_channel][0]);	// Goes to Multiplexer Control pin S0
-//		HAL_GPIO_WritePin(MUXA_S1_GPIO_Port, MUXA_S1_Pin, Multiplex_Control_Arr_16CH_4Sel[mux_channel][1]);	// Goes to Multiplexer Control pin S1
-//		HAL_GPIO_WritePin(MUXA_S2_GPIO_Port, MUXA_S2_Pin, Multiplex_Control_Arr_16CH_4Sel[mux_channel][2]);	// Goes to Multiplexer Control pin S2
-//		HAL_GPIO_WritePin(MUXA_S3_GPIO_Port, MUXA_S3_Pin, Multiplex_Control_Arr_16CH_4Sel[mux_channel][3]);	// Goes to Multiplexer Control pin S3
+		HAL_GPIO_WritePin(MUXA_S0_GPIO_Port, MUXA_S0_Pin, Multiplex_Control_Arr_16CH_4Sel[mux_channel_AB][0]);	// Goes to Multiplexer Control pin S0
+		HAL_GPIO_WritePin(MUXA_S1_GPIO_Port, MUXA_S1_Pin, Multiplex_Control_Arr_16CH_4Sel[mux_channel_AB][1]);	// Goes to Multiplexer Control pin S1
+		HAL_GPIO_WritePin(MUXA_S2_GPIO_Port, MUXA_S2_Pin, Multiplex_Control_Arr_16CH_4Sel[mux_channel_AB][2]);	// Goes to Multiplexer Control pin S2
+		HAL_GPIO_WritePin(MUXA_S3_GPIO_Port, MUXA_S3_Pin, Multiplex_Control_Arr_16CH_4Sel[mux_channel_AB][3]);	// Goes to Multiplexer Control pin S3
 
-//		HAL_GPIO_WritePin(MUXB_S0_GPIO_Port, MUXB_S0_Pin, Multiplex_Control_Arr_2CH_1Sel[mux_channel % 2]);	// Goes to Multiplexer Control pin S0
+		HAL_GPIO_WritePin(MUXB_S0_GPIO_Port, MUXB_S0_Pin, Multiplex_Control_Arr_2CH_1Sel[mux_channel_AB % 2]);	// Goes to Multiplexer Control pin S0
 
 		// Go to the next channel, wrap at the end channel
 		mux_channel_AB = (mux_channel_AB == MUX_CHANNEL_END) ? MUX_CHANNEL_0 : mux_channel_AB+1;
 	}
 
 	// MultiplexC_400Hz_Control ISR
-	// Check interrupt source
-	//	HAL_GPIO_WritePin(MUXC_S0_GPIO_Port, MUXC_S0_Pin, Multiplex_Control_Arr_2CH_1Sel[mux_channel_C]);	// Goes to Multiplexer Control pin S0
-	//	mux_channel_C ^= 0x1;
+	// Uses Timer5, PSC=170-1, Period=. Result is an update freq=100Hz.
+	if(htim->Instance == TIM5)
+	{
+		HAL_GPIO_WritePin(MUXC_S0_GPIO_Port, MUXC_S0_Pin, Multiplex_Control_Arr_2CH_1Sel[mux_channel_C]);	// Goes to Multiplexer Control pin S0
+		mux_channel_C ^= 0x1;
+	}
+
 
 }
 
