@@ -67,6 +67,10 @@ uint32_t temp_current_buf[2];
 #define MUX_CHANNEL_15		(15U)
 #define MUX_CHANNEL_END		MUX_CHANNEL_15
 
+// For enabling or disabling all the MUX. The MUX Enable pins are all active HIGH.
+#define ENABLE_MUX		(0)
+#define DISABLE_MUX		(1U)
+
 // Functions for updating the 3 debug LEDs
 void update_debug_leds(uint8_t state);
 void write_debug_leds(uint8_t led1_state, uint8_t led2_state, uint8_t led3_state);
