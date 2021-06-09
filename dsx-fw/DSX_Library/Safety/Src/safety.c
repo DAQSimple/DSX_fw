@@ -7,9 +7,6 @@
 
 #include "safety.h"
 
-// global state variable to store fault states or normal state
-uint8_t state;
-
 // Array of arrays for controlling dual multiplexers
 uint8_t Multiplex_Control_Arr_2CH_1Sel[2] = {
 		0,	/* Select multiplexer channel 0 */
@@ -57,7 +54,7 @@ uint8_t Multiplex_Control_Arr_16CH_4Sel[16][4] = {
 void safety_init(void)
 {
 	HAL_TIM_Base_Start_IT(&htim2);	// Start timer 2
-	HAL_TIM_Base_Start_IT(&htim5);	// Start timer 5
+	HAL_ADC_Start_DMA(&hadc5, temp_current_buf, sizeof(temp_current_buf));
 	state = STATE_NORMAL;			// Assume initial state is NORMAL, so no faults
 	write_debug_leds(DEBUG_LED_NORMAL_OP);
 }
@@ -90,7 +87,9 @@ void update_debug_leds(uint8_t state)
 // Function to write to the 3 debug LEDs
 void write_debug_leds(uint8_t led1_state, uint8_t led2_state, uint8_t led3_state)
 {
-
+	HAL_GPIO_WritePin(DEBUG_LD1_GPIO_Port, DEBUG_LD1_Pin, led1_state);
+	HAL_GPIO_WritePin(DEBUG_LD2_GPIO_Port, DEBUG_LD2_Pin, led2_state);
+	HAL_GPIO_WritePin(DEBUG_LD3_GPIO_Port, DEBUG_LD3_Pin, led3_state);
 }
 
 
@@ -99,7 +98,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	static uint8_t mux_channel_AB = 0;	// For cycling through the Multiplex Control Array for MUX pair A and B
 	static uint8_t mux_channel_C  = 0;	// For cycling through the Multiplex Control Array for MUX C
 
-	// MultiplexAB_100Hz_Control ISR
+	// MultiplexAB_100Hz_Control and temp/current read ISR
 	// Uses Timer2, PSC=170-1, Period=10000-1. Result is an update freq=100Hz.
 	if(htim->Instance == TIM2) 		// if the interrupt source is timer 4
 	{
@@ -112,6 +111,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 		// Go to the next channel, wrap at the end channel
 		mux_channel_AB = (mux_channel_AB == MUX_CHANNEL_END) ? MUX_CHANNEL_0 : mux_channel_AB+1;
+
+		// Check temperature and current
+		if(temp_current_buf[0] > MAX_TEMP_ALLOWED)     state = STATE_FAULT_OVER_TEMP;
+		if(temp_current_buf[1] > MAX_POSITIVE_CURRENT) state = STATE_FAULT_OVER_CURR;
+		if(temp_current_buf[1] < MAX_NEGATIVE_CURRENT) state = STATE_FAULT_OVER_CURR;
 	}
 
 	// MultiplexC_400Hz_Control ISR
@@ -121,8 +125,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		HAL_GPIO_WritePin(MUXC_S0_GPIO_Port, MUXC_S0_Pin, Multiplex_Control_Arr_2CH_1Sel[mux_channel_C]);	// Goes to Multiplexer Control pin S0
 		mux_channel_C ^= 0x1;
 	}
-
-
 }
 
 // Fault event handlers
@@ -154,9 +156,3 @@ void DSX_Fault_Handler(uint8_t state)
 		break;
 	}
 }
-
-// Over Current ISR : set state = STATE_FAULT_OVER_CURR
-// Need to have an ADC pin configured for reading the current sense circuit
-
-// Over Temperature ISR : set state = STATE_FAULT_OVER_TEMP
-// Need to config the board temp sensor and set interrupt event at some threshhold

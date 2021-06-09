@@ -26,6 +26,8 @@
 /* USER CODE END Includes */
 extern DMA_HandleTypeDef hdma_adc1;
 
+extern DMA_HandleTypeDef hdma_adc5;
+
 extern DMA_HandleTypeDef hdma_lpuart1_rx;
 
 extern DMA_HandleTypeDef hdma_lpuart1_tx;
@@ -191,6 +193,24 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(ADC_CURRENT_GPIO_Port, &GPIO_InitStruct);
 
+    /* ADC5 DMA Init */
+    /* ADC5 Init */
+    hdma_adc5.Instance = DMA1_Channel4;
+    hdma_adc5.Init.Request = DMA_REQUEST_ADC5;
+    hdma_adc5.Init.Direction = DMA_PERIPH_TO_MEMORY;
+    hdma_adc5.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_adc5.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_adc5.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+    hdma_adc5.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+    hdma_adc5.Init.Mode = DMA_CIRCULAR;
+    hdma_adc5.Init.Priority = DMA_PRIORITY_LOW;
+    if (HAL_DMA_Init(&hdma_adc5) != HAL_OK)
+    {
+      Error_Handler();
+    }
+
+    __HAL_LINKDMA(hadc,DMA_Handle,hdma_adc5);
+
     /* ADC5 interrupt Init */
     HAL_NVIC_SetPriority(ADC5_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(ADC5_IRQn);
@@ -268,6 +288,9 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
     PA9     ------> ADC5_IN2
     */
     HAL_GPIO_DeInit(ADC_CURRENT_GPIO_Port, ADC_CURRENT_Pin);
+
+    /* ADC5 DMA DeInit */
+    HAL_DMA_DeInit(hadc->DMA_Handle);
 
     /* ADC5 interrupt DeInit */
     HAL_NVIC_DisableIRQ(ADC5_IRQn);

@@ -12,9 +12,16 @@
 #include <stdint.h>
 
 
-// For initializing timer 2 and 5
+// global state variable to store fault states or normal state
+uint8_t state;
+
+// For initialization
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim5;
+extern ADC_HandleTypeDef hadc5;
+
+// For storing temperature and system current
+uint32_t temp_current_buf[2];
 
 // State definitions - See state
 #define STATE_NORMAL            (0)
@@ -26,7 +33,7 @@ extern TIM_HandleTypeDef htim5;
 #define STATE_FAULT_WATCHDOG    (6U)
 
 // Thresholds - NOT SURE ABOUT THESE YET, NEED TO TEST VALUES BEFORE IMPLEMENTING
- #define MAX_TEMP_ALLOWED         (3000U)
+ #define MAX_TEMP_ALLOWED         (1000U)
  #define MAX_POSITIVE_CURRENT     (3800U)
  #define MAX_NEGATIVE_CURRENT     (500U)
 
