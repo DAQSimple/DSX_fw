@@ -121,7 +121,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	}
 
 	// MultiplexC_400Hz_Control ISR
-	// Uses Timer5, PSC=170-1, Period=. Result is an update freq=100Hz.
+	// Uses Timer5, PSC=170-1, Period=2500-1. Result is an update freq=400Hz.
 	if(htim->Instance == TIM5)
 	{
 		HAL_GPIO_WritePin(MUXC_S0_GPIO_Port, MUXC_S0_Pin, Multiplex_Control_Arr_2CH_1Sel[mux_channel_C]);	// Goes to Multiplexer Control pin S0

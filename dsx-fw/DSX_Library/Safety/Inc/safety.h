@@ -21,6 +21,8 @@ extern TIM_HandleTypeDef htim5;
 extern ADC_HandleTypeDef hadc5;
 
 // For storing temperature and system current
+//	temp_current_buf[0] -> Onboard temperature channel ADC reading
+//  temp_current_buf[0] -> System current from current sensing mux circuit ADC reading
 uint32_t temp_current_buf[2];
 
 // State definitions - See state
