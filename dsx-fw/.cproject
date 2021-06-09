@@ -52,6 +52,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/PWM/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/DAC/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/ADC/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/Board_Defines/Inc}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.64532965" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
@@ -106,6 +107,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/PWM/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/DAC/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/ADC/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/Board_Defines/Inc}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.786183696" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
