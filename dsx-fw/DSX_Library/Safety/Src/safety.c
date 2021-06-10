@@ -53,6 +53,10 @@ uint8_t Multiplex_Control_Arr_16CH_4Sel[16][4] = {
 // Function to init current sense timer and state
 void safety_init(void)
 {
+	if(HAL_GPIO_ReadPin(LIMIT_SW_GPIO_Port, LIMIT_SW_Pin)){	// Fault if limit switch pressed at startup
+		state = STATE_FAULT_LIMIT_SW;
+		return;
+	}
 	HAL_TIM_Base_Start_IT(&htim2);	// Start timer 2, 100 Hz
 	HAL_TIM_Base_Start_IT(&htim5);	// Start timer 5, 400 Hz
 	HAL_ADC_Start_DMA(&hadc5, temp_current_buf, sizeof(temp_current_buf));	// 2 channel, reads temp channel followed by system current
@@ -81,8 +85,8 @@ void update_debug_leds(uint8_t state)
 	case STATE_FAULT_UART:
 		write_debug_leds(DEBUG_LED_UART); break;
 
-	case STATE_FAULT_WATCHDOG:
-		write_debug_leds(DEBUG_LED_WATCHDOG); break;
+	case STATE_FAULT_LIMIT_SW:
+		write_debug_leds(DEBUG_LED_LIMIT_SW); break;
 	}
 }
 
@@ -102,7 +106,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 	// MultiplexAB_100Hz_Control and temp/current read ISR
 	// Uses Timer2, PSC=170-1, Period=10000-1. Result is an update freq=100Hz.
-	if(htim->Instance == TIM2) 		// if the interrupt source is timer 4
+	if(htim->Instance == TIM2) 		// if the interrupt source is timer 2
 	{
 		HAL_GPIO_WritePin(MUXA_S0_GPIO_Port, MUXA_S0_Pin, Multiplex_Control_Arr_16CH_4Sel[mux_channel_AB][0]);	// Goes to Multiplexer Control pin S0
 		HAL_GPIO_WritePin(MUXA_S1_GPIO_Port, MUXA_S1_Pin, Multiplex_Control_Arr_16CH_4Sel[mux_channel_AB][1]);	// Goes to Multiplexer Control pin S1
@@ -117,7 +121,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		// Check temperature and current
 		if(temp_current_buf[0] > MAX_TEMP_ALLOWED)     state = STATE_FAULT_OVER_TEMP;
 		if(temp_current_buf[1] > MAX_POSITIVE_CURRENT) state = STATE_FAULT_OVER_CURR;
-		if(temp_current_buf[1] < MAX_NEGATIVE_CURRENT) state = STATE_FAULT_OVER_CURR;
+//		if(temp_current_buf[1] < MAX_NEGATIVE_CURRENT) state = STATE_FAULT_OVER_CURR;	// UNCOMMENT THIS IN THE FIRMWARE VERSION FOR THE COMPLETED SHIELD
 	}
 
 	// MultiplexC_400Hz_Control ISR
@@ -155,8 +159,17 @@ void DSX_Fault_Handler(uint8_t state)
 		/* Play Buzzer */
 		break;
 
-	case STATE_FAULT_WATCHDOG:
+	case STATE_FAULT_LIMIT_SW:
 		/* Play Buzzer */
 		break;
 	}
+}
+
+// External interrupt for limit switch. Fired at rising edge.
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(GPIO_Pin);
+
+  state = STATE_FAULT_LIMIT_SW;
 }

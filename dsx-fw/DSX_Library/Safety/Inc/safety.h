@@ -32,7 +32,7 @@ uint32_t temp_current_buf[2];
 #define STATE_FAULT_OVER_TEMP   (3U)
 #define	STATE_FAULT_REV_POL     (4U)
 #define STATE_FAULT_UART        (5U)
-#define STATE_FAULT_WATCHDOG    (6U)
+#define STATE_FAULT_LIMIT_SW    (6U)
 
 // Thresholds - NOT SURE ABOUT THESE YET, NEED TO TEST VALUES BEFORE IMPLEMENTING
  #define MAX_TEMP_ALLOWED         (1000U)
@@ -48,7 +48,7 @@ uint32_t temp_current_buf[2];
 #define DEBUG_LED_USB           1,  0,  0
 #define DEBUG_LED_REV_POL       1,  0,  1
 #define DEBUG_LED_UART          1,  1,  0
-#define DEBUG_LED_WATCHDOG      1,  1,  1
+#define DEBUG_LED_LIMIT_SW      1,  1,  1
 
 // Multiplexer channel for cycling through, for readability
 #define MUX_CHANNEL_0		(0)
