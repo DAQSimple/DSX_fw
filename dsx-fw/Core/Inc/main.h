@@ -60,22 +60,68 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define DO1_Pin GPIO_PIN_0
-#define DO1_GPIO_Port GPIOA
-#define DO2_Pin GPIO_PIN_1
-#define DO2_GPIO_Port GPIOA
+#define USER_LD1_Pin GPIO_PIN_2
+#define USER_LD1_GPIO_Port GPIOC
+#define USER_LD2_Pin GPIO_PIN_3
+#define USER_LD2_GPIO_Port GPIOC
 #define LPUART1_TX_Pin GPIO_PIN_2
 #define LPUART1_TX_GPIO_Port GPIOA
 #define LPUART1_RX_Pin GPIO_PIN_3
 #define LPUART1_RX_GPIO_Port GPIOA
-#define LD2_Pin GPIO_PIN_5
-#define LD2_GPIO_Port GPIOA
+#define PWM1_Pin GPIO_PIN_6
+#define PWM1_GPIO_Port GPIOA
+#define PWM2_Pin GPIO_PIN_7
+#define PWM2_GPIO_Port GPIOA
+#define DI2_Pin GPIO_PIN_4
+#define DI2_GPIO_Port GPIOC
+#define DI1_Pin GPIO_PIN_5
+#define DI1_GPIO_Port GPIOC
+#define MUX1_S0_Pin GPIO_PIN_1
+#define MUX1_S0_GPIO_Port GPIOB
+#define MUX1_S1_Pin GPIO_PIN_2
+#define MUX1_S1_GPIO_Port GPIOB
+#define DI7_Pin GPIO_PIN_10
+#define DI7_GPIO_Port GPIOB
+#define MUX1_S2_Pin GPIO_PIN_12
+#define MUX1_S2_GPIO_Port GPIOB
+#define DEBUG_LD1_Pin GPIO_PIN_13
+#define DEBUG_LD1_GPIO_Port GPIOB
+#define DEBUG_LD2_Pin GPIO_PIN_14
+#define DEBUG_LD2_GPIO_Port GPIOB
+#define DEBUG_LD3_Pin GPIO_PIN_15
+#define DEBUG_LD3_GPIO_Port GPIOB
+#define MUX1_S3_Pin GPIO_PIN_6
+#define MUX1_S3_GPIO_Port GPIOC
+#define DO2_Pin GPIO_PIN_7
+#define DO2_GPIO_Port GPIOC
+#define MUX2_S0_Pin GPIO_PIN_8
+#define MUX2_S0_GPIO_Port GPIOC
+#define MUX3_S0_Pin GPIO_PIN_9
+#define MUX3_S0_GPIO_Port GPIOC
+#define DI8_Pin GPIO_PIN_8
+#define DI8_GPIO_Port GPIOA
+#define ADC_CURRENT_Pin GPIO_PIN_9
+#define ADC_CURRENT_GPIO_Port GPIOA
+#define DI3_Pin GPIO_PIN_10
+#define DI3_GPIO_Port GPIOA
+#define ENC_A_Pin GPIO_PIN_11
+#define ENC_A_GPIO_Port GPIOA
+#define ENC_B_Pin GPIO_PIN_12
+#define ENC_B_GPIO_Port GPIOA
 #define T_SWDIO_Pin GPIO_PIN_13
 #define T_SWDIO_GPIO_Port GPIOA
 #define T_SWCLK_Pin GPIO_PIN_14
 #define T_SWCLK_GPIO_Port GPIOA
-#define T_SWO_Pin GPIO_PIN_3
-#define T_SWO_GPIO_Port GPIOB
+#define MUX_En_Pin GPIO_PIN_15
+#define MUX_En_GPIO_Port GPIOA
+#define DI4_Pin GPIO_PIN_3
+#define DI4_GPIO_Port GPIOB
+#define DI6_Pin GPIO_PIN_4
+#define DI6_GPIO_Port GPIOB
+#define DI5_Pin GPIO_PIN_5
+#define DI5_GPIO_Port GPIOB
+#define DO1_Pin GPIO_PIN_6
+#define DO1_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
