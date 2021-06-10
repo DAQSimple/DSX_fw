@@ -60,12 +60,13 @@ UART_HandleTypeDef hlpuart1;
 DMA_HandleTypeDef hdma_lpuart1_rx;
 DMA_HandleTypeDef hdma_lpuart1_tx;
 
+TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim4;
 TIM_HandleTypeDef htim16;
 TIM_HandleTypeDef htim17;
 
 /* USER CODE BEGIN PV */
-
+uint16_t data = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -78,6 +79,7 @@ static void MX_DAC1_Init(void);
 static void MX_TIM16_Init(void);
 static void MX_TIM17_Init(void);
 static void MX_TIM4_Init(void);
+static void MX_TIM2_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -126,6 +128,7 @@ int main(void)
   MX_TIM16_Init();
   MX_TIM17_Init();
   MX_TIM4_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 
   // Initialize PWM driver
@@ -141,11 +144,16 @@ int main(void)
   DAC_init();
 
   //Set the CPR of the encoder
-  Encoder_Set_CPR(100);
+  //Encoder_Set_CPR(100);
 
-  uint16_t data = 0;
+//  uint16_t data = 0;
   uint8_t buffer[100];
   HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_ALL);
+
+  // ++ ADDED BY JAY PACAMARRA
+  HAL_TIM_Base_Start_IT(&htim2);
+  // ++ ADDED BY JAY PACAMARRA
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -165,8 +173,8 @@ int main(void)
 	  // update dsx data based on received buffer
 	   parse_buffer_to_dsx_data(&dsx_data);
 	   data = Encoder_read();
-	   HAL_UART_Transmit(&hlpuart1, buffer, sprintf(buffer, "%d\n\r", data), 1000);
-	   HAL_Delay(1000);
+//	   HAL_UART_Transmit(&hlpuart1, buffer, sprintf(buffer, "%d\n\r", data), 1000);
+//	   HAL_Delay(1000);
 	  // execute commands
 
   }
@@ -219,7 +227,7 @@ void SystemClock_Config(void)
   /** Initializes the peripherals clocks
   */
   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_LPUART1|RCC_PERIPHCLK_ADC12;
-  PeriphClkInit.Lpuart1ClockSelection = RCC_LPUART1CLKSOURCE_HSI;
+  PeriphClkInit.Lpuart1ClockSelection = RCC_LPUART1CLKSOURCE_SYSCLK;
   PeriphClkInit.Adc12ClockSelection = RCC_ADC12CLKSOURCE_SYSCLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
@@ -351,13 +359,6 @@ static void MX_DAC1_Init(void)
   {
     Error_Handler();
   }
-  /** DAC channel OUT2 config
-  */
-  sConfig.DAC_ConnectOnChipPeripheral = DAC_CHIPCONNECT_EXTERNAL;
-  if (HAL_DAC_ConfigChannel(&hdac1, &sConfig, DAC_CHANNEL_2) != HAL_OK)
-  {
-    Error_Handler();
-  }
   /* USER CODE BEGIN DAC1_Init 2 */
 
   /* USER CODE END DAC1_Init 2 */
@@ -380,7 +381,7 @@ static void MX_LPUART1_UART_Init(void)
 
   /* USER CODE END LPUART1_Init 1 */
   hlpuart1.Instance = LPUART1;
-  hlpuart1.Init.BaudRate = 9600;
+  hlpuart1.Init.BaudRate = 2000000;
   hlpuart1.Init.WordLength = UART_WORDLENGTH_8B;
   hlpuart1.Init.StopBits = UART_STOPBITS_1;
   hlpuart1.Init.Parity = UART_PARITY_NONE;
@@ -412,6 +413,51 @@ static void MX_LPUART1_UART_Init(void)
 }
 
 /**
+  * @brief TIM2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM2_Init(void)
+{
+
+  /* USER CODE BEGIN TIM2_Init 0 */
+
+  /* USER CODE END TIM2_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM2_Init 1 */
+
+  /* USER CODE END TIM2_Init 1 */
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 170-1;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 249999;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM2_Init 2 */
+
+  /* USER CODE END TIM2_Init 2 */
+
+}
+
+/**
   * @brief TIM4 Initialization Function
   * @param None
   * @retval None
@@ -432,18 +478,18 @@ static void MX_TIM4_Init(void)
   htim4.Instance = TIM4;
   htim4.Init.Prescaler = 0;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 65535;
+  htim4.Init.Period = 50000;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   sConfig.EncoderMode = TIM_ENCODERMODE_TI1;
   sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
   sConfig.IC1Selection = TIM_ICSELECTION_DIRECTTI;
   sConfig.IC1Prescaler = TIM_ICPSC_DIV1;
-  sConfig.IC1Filter = 0;
+  sConfig.IC1Filter = 4;
   sConfig.IC2Polarity = TIM_ICPOLARITY_RISING;
   sConfig.IC2Selection = TIM_ICSELECTION_DIRECTTI;
   sConfig.IC2Prescaler = TIM_ICPSC_DIV1;
-  sConfig.IC2Filter = 0;
+  sConfig.IC2Filter = 4;
   if (HAL_TIM_Encoder_Init(&htim4, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -625,24 +671,14 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, DO1_Pin|DO2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, DO1_Pin|DO2_Pin|LD2_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : DI1_Pin */
-  GPIO_InitStruct.Pin = DI1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  HAL_GPIO_Init(DI1_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : DO1_Pin DO2_Pin */
-  GPIO_InitStruct.Pin = DO1_Pin|DO2_Pin;
+  /*Configure GPIO pins : DO1_Pin DO2_Pin LD2_Pin */
+  GPIO_InitStruct.Pin = DO1_Pin|DO2_Pin|LD2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
 }
 
