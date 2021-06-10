@@ -30,7 +30,7 @@
 #include "blink.h"
 #include "DAC.h"
 #include "board_defines.h"
-
+#include "Encoder.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -131,6 +131,7 @@ int main(void)
   MX_DMA_Init();
   MX_LPUART1_UART_Init();
   MX_DAC1_Init();
+  MX_TIM4_Init();
   MX_TIM16_Init();
   MX_TIM17_Init();
   MX_ADC1_Init();
@@ -152,7 +153,9 @@ int main(void)
 
   // Start DAC
   DAC_init();
-
+  Encoder_Set_CPR(100);
+  uint16_t data = 0;
+  uint8_t buffer[100];
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -171,7 +174,9 @@ int main(void)
 
 	  // update dsx data based on received buffer
 	   parse_buffer_to_dsx_data(&dsx_data);
-
+	   data = Encoder_Read_Count();
+	   HAL_UART_Transmit(&hlpuart1, buffer, sprintf(buffer, "%d\n\r", data), 1000);
+	   HAL_Delay(1000);
 	  // execute commands
 
   }
@@ -578,7 +583,7 @@ static void MX_LPUART1_UART_Init(void)
 
   /* USER CODE END LPUART1_Init 1 */
   hlpuart1.Instance = LPUART1;
-  hlpuart1.Init.BaudRate = 2000000;
+  hlpuart1.Init.BaudRate = 9600;
   hlpuart1.Init.WordLength = UART_WORDLENGTH_8B;
   hlpuart1.Init.StopBits = UART_STOPBITS_1;
   hlpuart1.Init.Parity = UART_PARITY_NONE;
