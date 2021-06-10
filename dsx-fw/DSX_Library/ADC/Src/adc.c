@@ -11,7 +11,7 @@
 uint32_t volatile adc_buf[NUM_ADC_CHANNELS];
 // Make ADC start continuously reading values and storing in adc_buf
 void Start_ADC(void){
-	HAL_ADC_Start_DMA(&hadc2, (uint32_t *)adc_buf, NUM_ADC_CHANNELS);
+	HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_buf, NUM_ADC_CHANNELS);
 }
 
  /*Pull a single channel reading from the ADC buffer
