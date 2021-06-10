@@ -60,9 +60,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define LIMIT_SW_Pin GPIO_PIN_13
-#define LIMIT_SW_GPIO_Port GPIOC
-#define LIMIT_SW_EXTI_IRQn EXTI15_10_IRQn
 #define USER_LD1_Pin GPIO_PIN_2
 #define USER_LD1_GPIO_Port GPIOC
 #define USER_LD2_Pin GPIO_PIN_3
@@ -125,6 +122,9 @@ void Error_Handler(void);
 #define DI5_GPIO_Port GPIOB
 #define DO1_Pin GPIO_PIN_6
 #define DO1_GPIO_Port GPIOB
+#define LIMIT_SW_Pin GPIO_PIN_7
+#define LIMIT_SW_GPIO_Port GPIOB
+#define LIMIT_SW_EXTI_IRQn EXTI9_5_IRQn
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

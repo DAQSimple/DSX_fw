@@ -971,12 +971,6 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(MUX_En_GPIO_Port, MUX_En_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : LIMIT_SW_Pin */
-  GPIO_InitStruct.Pin = LIMIT_SW_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  HAL_GPIO_Init(LIMIT_SW_GPIO_Port, &GPIO_InitStruct);
-
   /*Configure GPIO pins : USER_LD1_Pin USER_LD2_Pin MUXA_S3_Pin DO2_Pin
                            MUXB_S0_Pin MUXC_S0_Pin */
   GPIO_InitStruct.Pin = USER_LD1_Pin|USER_LD2_Pin|MUXA_S3_Pin|DO2_Pin
@@ -1020,9 +1014,15 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(MUX_En_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : LIMIT_SW_Pin */
+  GPIO_InitStruct.Pin = LIMIT_SW_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(LIMIT_SW_GPIO_Port, &GPIO_InitStruct);
+
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
 }
 
