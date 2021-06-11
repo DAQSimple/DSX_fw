@@ -96,9 +96,6 @@ static void MX_TIM7_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-int16_t cpr = 0;
-int32_t freq = 0;
-int32_t rpm = 0;
 /* USER CODE END 0 */
 
 /**
@@ -157,8 +154,6 @@ int main(void)
 
   // Start DAC
   DAC_init();
-  Encoder_Set_CPR(100);
-  Encoder_Start();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -171,9 +166,6 @@ int main(void)
     /* USER CODE BEGIN 3 */
 	  // update dsx data based on received buffer
 	   parse_buffer_to_dsx_data(&dsx_data);
-	   cpr = Encoder_Read_Count();
-	   rpm = Encoder_Read_RPM();
-	   freq = Encoder_Read_Freq();
 	   // execute commands
 
   }
