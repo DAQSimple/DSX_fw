@@ -15,6 +15,8 @@
 #include "dsx_data_structure.h"
 #include "validate.h"
 #include "serial.h"
+#include "PWM.h"
+
 
 
 #define CMD_READY_TO_EXECUTE 		1

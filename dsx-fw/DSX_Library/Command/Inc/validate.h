@@ -12,6 +12,7 @@
 #include "dsx_data_structure.h"
 #include "command.h"
 #include <stdbool.h>
+#include "board_defines.h"
 
 
 // Validate Digital Write Command

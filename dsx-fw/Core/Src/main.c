@@ -25,6 +25,8 @@
 #include "serial.h"
 #include "dsx_data_structure.h"
 #include "command.h"
+#include "channel.h"
+#include "validate.h"
 #include "PWM.h"
 #include <stdbool.h>
 #include "adc.h"

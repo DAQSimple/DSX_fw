@@ -27,7 +27,7 @@ void cmd_get_pin_mode(volatile DSX_data_t *dsx_data){};
 
 // Analog Read Command
 void cmd_analog_read(volatile DSX_data_t *dsx_data){
-	if(dsx_data->loc==20)
+	if(dsx_data->loc==13)
 		dsx_data->val = read_ADC_channel(0);
 	else if(dsx_data->loc==14)
 		dsx_data->val = read_ADC_channel(1);
@@ -39,10 +39,20 @@ void cmd_analog_read(volatile DSX_data_t *dsx_data){
 }
 
 // PWM Write Command
-void cmd_pwm_write(volatile DSX_data_t *dsx_data){};
+void cmd_pwm_write(volatile DSX_data_t *dsx_data){
+	if(dsx_data->loc==11)
+		updateDutyCycle(htim16,dsx_data->val);
+	else if (dsx_data->loc==12)
+		updateDutyCycle(htim17,dsx_data->val);
+}
 
 // Set PWM Frequency Command
-void cmd_set_pwm_freq(volatile DSX_data_t *dsx_data){};
+void cmd_set_pwm_freq(volatile DSX_data_t *dsx_data){
+	if(dsx_data->loc==11)
+		updatePWMFrequency(htim16,dsx_data->val);
+	else if (dsx_data->loc==12)
+		updatePWMFrequency(htim17,dsx_data->val);
+}
 
 // Servo Write Command
 void cmd_servo_write(volatile DSX_data_t *dsx_data){};
@@ -138,6 +148,3 @@ void execute_command(volatile DSX_data_t *dsx_data)
 
 	serial_available = false;
 }
-
-
-

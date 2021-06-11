@@ -11,7 +11,7 @@
 // Validate Digital Write Command
 bool validate_digital_write(volatile DSX_data_t *dsx_data){
 	bool check_data = true;
-	if(dsx_data->loc != 9 && dsx_data->loc != 10) check_data = false;
+	if(dsx_data->loc != DO1 && dsx_data->loc != DO2) check_data = false;
 	if(dsx_data->sign != 1) check_data = false;
 	if(dsx_data->val != 0 && dsx_data->val != 1) check_data = false;
 	return check_data;
@@ -20,28 +20,49 @@ bool validate_digital_write(volatile DSX_data_t *dsx_data){
 // Validate Digital Read Command
 bool validate_digital_read(volatile DSX_data_t *dsx_data){
 	bool check_data = true;
-	if(dsx_data->loc < 1 && dsx_data->loc > 8) check_data = false;
+	if(dsx_data->loc < DI1 || dsx_data->loc > DI8) check_data = false;
 	return check_data;
 }
 
 // Validate Get Pin Mode Command
-bool validate_get_pin_mode(volatile DSX_data_t *dsx_data){};
+bool validate_get_pin_mode(volatile DSX_data_t *dsx_data){
+	bool check_data = true;
+	if(dsx_data->loc < DI1 || dsx_data->loc > AO2) check_data = false;
+	return check_data;
+}
 
 // Validate Analog Read Command
 bool validate_analog_read(volatile DSX_data_t *dsx_data){
 	bool check_data = true;
-	//if(dsx_data->loc < 13 && dsx_data->loc > 16) check_data = false;
+	if(dsx_data->loc < AI1 || dsx_data->loc > AI4) check_data = false;
 	return check_data;
 }
 
 // Validate PWM Write Command
-bool validate_pwm_write(volatile DSX_data_t *dsx_data){};
+bool validate_pwm_write(volatile DSX_data_t *dsx_data){
+	bool check_data = true;
+	if(dsx_data->loc != PWM1 && dsx_data->loc != PWM2) check_data = false;
+	if(dsx_data->sign != 1) check_data = false;
+	if(dsx_data->val < dutyCycle_Min || dsx_data->val > dutyCycle_Max) check_data = false;
+	return check_data;
+}
 
 // Validate Set PWM Frequency Command
-bool validate_set_PWM_freq(volatile DSX_data_t *dsx_data){};
+bool validate_set_PWM_freq(volatile DSX_data_t *dsx_data){
+	bool check_data = true;
+	if(dsx_data->loc != PWM1 && dsx_data->loc != PWM2) check_data = false;
+	if(dsx_data->sign != 1) check_data = false;
+//	if(dsx_data->val < PWM_Min || dsx_data->val > PWM_Max) check_data = false;
+	return check_data;
+}
 
 // Validate Servo Write Command
-bool validate_servo_write(volatile DSX_data_t *dsx_data){};
+bool validate_servo_write(volatile DSX_data_t *dsx_data){
+	bool check_data = true;
+	if(dsx_data->sign != 1) check_data = false;
+	if(dsx_data->val < 0 || dsx_data->val > 180) check_data = false;
+	return check_data;
+}
 
 // Validate Read Encoder Speed and Direction Command
 bool validate_read_encoder(volatile DSX_data_t *dsx_data){};
@@ -55,14 +76,19 @@ bool validate_get_sys_status(volatile DSX_data_t *dsx_data){};
 // Validate DAC Write Command
 bool validate_dac_write(volatile DSX_data_t *dsx_data){
 	bool check_data = true;
-	if(dsx_data->loc != 17 && dsx_data->loc != 18) check_data = false;
+	if(dsx_data->loc != AO1 && dsx_data->loc != AO2) check_data = false;
 	if(dsx_data->sign != 1) check_data = false;
-	if(dsx_data->val < 0 && dsx_data->val > 4095) check_data = false;
+	if(dsx_data->val < 0 || dsx_data->val > 4095) check_data = false;
 	return check_data;
 }
 
 // Validate Set PWM Level Command
-bool validate_set_pwm_level(volatile DSX_data_t *dsx_data){};
+bool validate_set_pwm_level(volatile DSX_data_t *dsx_data){
+	bool check_data = true;
+	if(dsx_data->loc != PWM1 && dsx_data->loc != PWM2) check_data = false;
+//	if(dsx_data->val != 33 && dsx_data->val != 5) check_data = false;
+	return check_data;
+};
 
 // Validate Write SPI Command
 bool validate_spi_write(volatile DSX_data_t *dsx_data){};
