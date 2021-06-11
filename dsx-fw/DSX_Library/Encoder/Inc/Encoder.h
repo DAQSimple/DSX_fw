@@ -11,15 +11,14 @@
 #include <stdint.h>
 #include "main.h"
 
+volatile static uint32_t freq = 0;
+volatile static uint32_t rpm = 0;
+
 #define SAMPLING_FREQ (4U)
 
 extern TIM_HandleTypeDef htim4;
 
-volatile static uint32_t freq = 0;
-volatile static uint32_t rpm = 0;
-volatile static uint16_t CPR = 0;
-
-void Encoder_Set_CPR(uint16_t CPR);
+void Encoder_Set_CPR(uint16_t CPR_set);
 
 void Encoder_Clear_Count(void);
 
