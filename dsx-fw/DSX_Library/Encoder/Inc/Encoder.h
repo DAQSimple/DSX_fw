@@ -35,7 +35,7 @@ void Encoder_Clear_Count(void);
 uint16_t Encoder_Get_CPR(void);
 
 //Function returns the current encoder count
-int32_t Encoder_Read_Count(void);
+int16_t Encoder_Read_Count(void);
 
 //Function returns the current frequency
 int32_t Encoder_Read_Freq(void);
