@@ -11,10 +11,28 @@
 #include <stdint.h>
 #include "main.h"
 
+#define SAMPLING_FREQ (4U)
+
 extern TIM_HandleTypeDef htim4;
+
+volatile static uint32_t freq = 0;
+volatile static uint32_t rpm = 0;
+volatile static uint16_t CPR = 0;
 
 void Encoder_Set_CPR(uint16_t CPR);
 
-uint16_t Encoder_read();
+void Encoder_Clear_Count(void);
 
-#endif /* ENCODER_H_ */
+uint16_t Encoder_Get_CPR(void);
+
+int32_t Encoder_Read_Count(void);
+
+int32_t Encoder_Read_Freq(void);
+
+int32_t Encoder_Read_RPM(void);
+
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
+
+#endif
+
