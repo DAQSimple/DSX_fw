@@ -11,26 +11,39 @@
 #include <stdint.h>
 #include "main.h"
 
-volatile static uint32_t freq = 0;
-volatile static uint32_t rpm = 0;
+#define SAMPLING_FREQ_TIM7 (4U)				//Sampling rate of timer 7 in Hz
 
-#define SAMPLING_FREQ (4U)
+volatile static uint32_t Encoder_freq = 0;
+volatile static uint32_t Encoder_rpm = 0;
 
+//Timer handle for timers 4 and 7
 extern TIM_HandleTypeDef htim4;
+extern TIM_HandleTypeDef htim7;
 
+//Sets the Counts per revolution (CPR) of the encoder
+//NOTE: Max counts is 65535
 void Encoder_Set_CPR(uint16_t CPR_set);
 
+//Function to start encoder timer and sampling timer
+//NOTE: CPR should be set before calling
+void Encoder_Start(void);
+
+//Function to clear the current encoder count
 void Encoder_Clear_Count(void);
 
+//Function returns the CPR used to calculate RPM
 uint16_t Encoder_Get_CPR(void);
 
+//Function returns the current encoder count
 int32_t Encoder_Read_Count(void);
 
+//Function returns the current frequency
 int32_t Encoder_Read_Freq(void);
 
+//Function returns the current RPM
 int32_t Encoder_Read_RPM(void);
 
-
+//Interrupt callback for timer 7
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
 
 #endif
