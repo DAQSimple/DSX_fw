@@ -10,6 +10,7 @@ extern TIM_HandleTypeDef htim17;
 // Function for updating the PWM duty cycle
 void updateDutyCycle (TIM_HandleTypeDef htim, uint8_t dutyCycle)
 {
+	// Remove after writing checks in the execution of commands
 	if (dutyCycle > dutyCycle_Max){
 		dutyCycle = dutyCycle_Max;
 	}
@@ -24,6 +25,7 @@ void updateDutyCycle (TIM_HandleTypeDef htim, uint8_t dutyCycle)
 // Function for that updates the PWM frequency
 void updatePWMFrequency (TIM_HandleTypeDef htim, uint32_t pwm_freq)
 {
+	// Remove after writing checks in the execution of commands
 	if (pwm_freq > PWM_Max){
 		pwm_freq = PWM_Max;
 	}
