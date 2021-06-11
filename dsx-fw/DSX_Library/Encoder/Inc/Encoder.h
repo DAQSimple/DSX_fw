@@ -11,7 +11,7 @@
 #include <stdint.h>
 #include "main.h"
 
-#define SAMPLING_FREQ_TIM7 (4U)				//Sampling rate of timer 7 in Hz
+#define SAMPLING_FREQ_TIM7  (4U)				//Sampling rate of timer 7 in Hz
 
 volatile static uint32_t Encoder_freq = 0;
 volatile static uint32_t Encoder_rpm = 0;

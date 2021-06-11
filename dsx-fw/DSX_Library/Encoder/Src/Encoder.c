@@ -6,22 +6,24 @@
  */
 
 #include "Encoder.h"
+#include "stdlib.h"	// for the abs() function
 
 volatile uint16_t Encoder_CPR = 0;
 
 void Encoder_Set_CPR(uint16_t CPR_set){
 	if(CPR_set == 0) CPR_set = 1;		//To avoid division by 0 set CPR to 1
-	TIM4->ARR = CPR_set;				//Change the TIM4_ARR register to specified CPR
+	//TIM4->ARR = CPR_set;				//Delete this
 	Encoder_CPR = CPR_set;
 }
 
 void Encoder_Start(void){
 	HAL_TIM_Base_Start_IT(&htim7);
 	HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_ALL);
+	__HAL_TIM_SET_COUNTER(&htim4, TIM4->ARR/2);
 }
 
 void Encoder_Clear_Count(void){
-	__HAL_TIM_SET_COUNTER(&htim4, 0);
+	__HAL_TIM_SET_COUNTER(&htim4, TIM4->ARR/2);
 }
 
 uint16_t Encoder_Get_CPR(void){
@@ -29,7 +31,7 @@ uint16_t Encoder_Get_CPR(void){
 }
 
 int32_t Encoder_Read_Count(){
-	return __HAL_TIM_GET_COUNTER(&htim4);
+	return abs(__HAL_TIM_GET_COUNTER(&htim4) - TIM4->ARR/2);
 }
 
 int32_t Encoder_Read_Freq(void){
