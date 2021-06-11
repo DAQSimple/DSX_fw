@@ -9,6 +9,10 @@
 
 extern bool serial_available;
 
+// Timer handles
+extern TIM_HandleTypeDef htim16;
+extern TIM_HandleTypeDef htim17;
+
 // Digital Write Command
 void cmd_digital_write(volatile DSX_data_t *dsx_data){
 	channel_t channel = convert_loc_to_channel(dsx_data->loc);
