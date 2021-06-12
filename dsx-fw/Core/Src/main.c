@@ -30,7 +30,7 @@
 #include "blink.h"
 #include "DAC.h"
 #include "board_defines.h"
-#include "Encoder.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -66,7 +66,6 @@ DMA_HandleTypeDef hdma_lpuart1_tx;
 SPI_HandleTypeDef hspi3;
 
 TIM_HandleTypeDef htim4;
-TIM_HandleTypeDef htim7;
 TIM_HandleTypeDef htim16;
 TIM_HandleTypeDef htim17;
 
@@ -88,13 +87,13 @@ static void MX_I2C1_Init(void);
 static void MX_TIM4_Init(void);
 static void MX_ADC5_Init(void);
 static void MX_ADC3_Init(void);
-static void MX_TIM7_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
 
 /* USER CODE END 0 */
 
@@ -140,7 +139,6 @@ int main(void)
   MX_TIM4_Init();
   MX_ADC5_Init();
   MX_ADC3_Init();
-  MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
 
   // Initialize PWM driver
@@ -155,10 +153,6 @@ int main(void)
   // Start DAC
   DAC_init();
 
-  //Start Encoder
-  Encoder_Set_CPR(ENCODER_DEFAULT_CPR);
-  Encoder_Start();
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -169,9 +163,16 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+//	  uint16_t duty =0;
+//	  for (int i =100; duty < i; duty ++ ){
+//		  htim16.Instance->CCR1 = duty;
+//		  HAL_Delay(10);
+//	  }
+
 	  // update dsx data based on received buffer
 	   parse_buffer_to_dsx_data(&dsx_data);
-	   // execute commands
+
+	  // execute commands
 
   }
   /* USER CODE END 3 */
@@ -694,44 +695,6 @@ static void MX_TIM4_Init(void)
   /* USER CODE BEGIN TIM4_Init 2 */
 
   /* USER CODE END TIM4_Init 2 */
-
-}
-
-/**
-  * @brief TIM7 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM7_Init(void)
-{
-
-  /* USER CODE BEGIN TIM7_Init 0 */
-
-  /* USER CODE END TIM7_Init 0 */
-
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
-
-  /* USER CODE BEGIN TIM7_Init 1 */
-
-  /* USER CODE END TIM7_Init 1 */
-  htim7.Instance = TIM7;
-  htim7.Init.Prescaler = 1700-1;
-  htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim7.Init.Period = 24999;
-  htim7.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim7, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM7_Init 2 */
-
-  /* USER CODE END TIM7_Init 2 */
 
 }
 
