@@ -10,7 +10,7 @@
 volatile uint16_t Encoder_CPR = 0;		//Encoder counts per revolution
 
 void Encoder_Set_CPR(uint16_t CPR_set){
-	if(CPR_set == 0) CPR_set = 1;		//To avoid division by 0 set CPR to 1
+	if(CPR_set == 0) CPR_set = ENCODER_DEFAULT_CPR;		//To avoid division by 0 set CPR to default
 	Encoder_CPR = CPR_set;
 }
 

@@ -154,6 +154,11 @@ int main(void)
 
   // Start DAC
   DAC_init();
+
+  //Start Encoder
+  Encoder_Set_CPR(ENCODER_DEFAULT_CPR);
+  Encoder_Start();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */

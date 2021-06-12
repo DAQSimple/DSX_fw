@@ -13,6 +13,7 @@
 #include "stdlib.h"		// for the abs() function
 
 #define SAMPLING_FREQ_TIM7  (4U)				//Sampling rate of timer 7 in Hz
+#define ENCODER_DEFAULT_CPR (100U)				//Default encoder counts per revolution
 
 volatile static uint32_t Encoder_freq = 0;		//Encoder frequency
 volatile static uint32_t Encoder_rpm = 0;		//Encoder RPM
