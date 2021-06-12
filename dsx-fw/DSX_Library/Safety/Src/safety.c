@@ -100,39 +100,42 @@ void write_debug_leds(uint8_t led1_state, uint8_t led2_state, uint8_t led3_state
 }
 
 
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+// Getters for MUX channel select S0 for MUX pair AB
+uint8_t MUXAB_CH_Select_S0(uint8_t mux_channel)
 {
-	static uint8_t mux_channel_AB = 0;	// For cycling through the Multiplex Control Array for MUX pair A and B
-	static uint8_t mux_channel_C  = 0;	// For cycling through the Multiplex Control Array for MUX C
-
-	// MultiplexAB_100Hz_Control and temp/current read ISR
-	// Uses Timer2, PSC=170-1, Period=10000-1. Result is an update freq=100Hz.
-	if(htim->Instance == TIM2) 		// if the interrupt source is timer 2
-	{
-		HAL_GPIO_WritePin(MUXA_S0_GPIO_Port, MUXA_S0_Pin, Multiplex_Control_Arr_16CH_4Sel[mux_channel_AB][0]);	// Goes to Multiplexer Control pin S0
-		HAL_GPIO_WritePin(MUXA_S1_GPIO_Port, MUXA_S1_Pin, Multiplex_Control_Arr_16CH_4Sel[mux_channel_AB][1]);	// Goes to Multiplexer Control pin S1
-		HAL_GPIO_WritePin(MUXA_S2_GPIO_Port, MUXA_S2_Pin, Multiplex_Control_Arr_16CH_4Sel[mux_channel_AB][2]);	// Goes to Multiplexer Control pin S2
-		HAL_GPIO_WritePin(MUXA_S3_GPIO_Port, MUXA_S3_Pin, Multiplex_Control_Arr_16CH_4Sel[mux_channel_AB][3]);	// Goes to Multiplexer Control pin S3
-
-		HAL_GPIO_WritePin(MUXB_S0_GPIO_Port, MUXB_S0_Pin, Multiplex_Control_Arr_2CH_1Sel[mux_channel_AB % 2]);	// Goes to Multiplexer Control pin S0
-
-		// Go to the next channel, wrap at the end channel
-		mux_channel_AB = (mux_channel_AB == MUX_CHANNEL_END) ? MUX_CHANNEL_0 : mux_channel_AB+1;
-
-		// Check temperature and current
-		if(temp_current_buf[0] > MAX_TEMP_ALLOWED)     state = STATE_FAULT_OVER_TEMP;
-		if(temp_current_buf[1] > MAX_POSITIVE_CURRENT) state = STATE_FAULT_OVER_CURR;
-//		if(temp_current_buf[1] < MAX_NEGATIVE_CURRENT) state = STATE_FAULT_OVER_CURR;	// UNCOMMENT THIS IN THE FIRMWARE VERSION FOR THE COMPLETED SHIELD
-	}
-
-	// MultiplexC_400Hz_Control ISR
-	// Uses Timer5, PSC=170-1, Period=2500-1. Result is an update freq=400Hz.
-	if(htim->Instance == TIM5)
-	{
-		HAL_GPIO_WritePin(MUXC_S0_GPIO_Port, MUXC_S0_Pin, Multiplex_Control_Arr_2CH_1Sel[mux_channel_C]);	// Goes to Multiplexer Control pin S0
-		mux_channel_C ^= 0x1;
-	}
+	return Multiplex_Control_Arr_16CH_4Sel[mux_channel][0];
 }
+
+// Getters for MUX channel select S1 for MUX pair AB
+uint8_t MUXAB_CH_Select_S1(uint8_t mux_channel)
+{
+	return Multiplex_Control_Arr_16CH_4Sel[mux_channel][1];
+}
+
+// Getters for MUX channel select S2 for MUX pair AB
+uint8_t MUXAB_CH_Select_S2(uint8_t mux_channel)
+{
+	return Multiplex_Control_Arr_16CH_4Sel[mux_channel][2];
+}
+
+// Getters for MUX channel select S3 for MUX pair AB
+uint8_t MUXAB_CH_Select_S3(uint8_t mux_channel)
+{
+	return Multiplex_Control_Arr_16CH_4Sel[mux_channel][3];
+}
+
+// Getters for MUX channel select S0 for MUX pair B
+uint8_t MUXB_CH_Select_S0(uint8_t mux_channel)
+{
+	return Multiplex_Control_Arr_2CH_1Sel[mux_channel % 2];
+}
+
+// Getters for MUX channel select S0 for MUX C
+uint8_t MUXC_CH_Select_S0(uint8_t mux_channel)
+{
+	return Multiplex_Control_Arr_2CH_1Sel[mux_channel];
+}
+
 
 // Fault event handlers
 void DSX_Fault_Handler(uint8_t state)

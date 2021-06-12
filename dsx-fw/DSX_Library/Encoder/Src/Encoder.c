@@ -45,12 +45,3 @@ int32_t Encoder_Read_Freq(void){
 int32_t Encoder_Read_RPM(void){
 	return Encoder_rpm;
 }
-
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	if(htim->Instance == TIM7){
-		//need to divide frequency by 2 since encoder read always counts both rising and falling edges
-		Encoder_freq = (SAMPLING_FREQ_TIM7 * abs(Encoder_Read_Count())) / 2;
-		Encoder_rpm = (Encoder_freq * 60)/ Encoder_Get_CPR();
-		Encoder_Clear_Count();
-	}
-}
