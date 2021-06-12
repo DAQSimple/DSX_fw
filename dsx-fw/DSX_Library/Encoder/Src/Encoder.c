@@ -27,6 +27,12 @@ uint16_t Encoder_Get_CPR(void){
 	return Encoder_CPR;
 }
 
+uint8_t Encoder_Get_DIR(void){
+	//Direction is stored in the CR1 register of TIM4
+	return (TIM4->CR1 & TIM_CR1_DIR_Msk) >> TIM_CR1_DIR_Pos;
+}
+
+
 int16_t Encoder_Read_Count(){
 	return __HAL_TIM_GET_COUNTER(&htim4);
 }

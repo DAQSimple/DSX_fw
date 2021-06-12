@@ -35,6 +35,12 @@ void Encoder_Clear_Count(void);
 //Function returns the CPR used to calculate RPM
 uint16_t Encoder_Get_CPR(void);
 
+//Function return the direction of encoder
+//NOTE:
+// 0 is counting up
+// 1 is counting down
+uint8_t Encoder_Get_DIR(void);
+
 //Function returns the current encoder count
 int16_t Encoder_Read_Count(void);
 
