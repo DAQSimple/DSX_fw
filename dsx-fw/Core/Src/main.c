@@ -1,21 +1,21 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+ * All rights reserved.</center></h2>
+ *
+ * This software component is licensed by ST under BSD 3-Clause license,
+ * the "License"; You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                        opensource.org/licenses/BSD-3-Clause
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -29,6 +29,7 @@
 #include "adc.h"
 #include "blink.h"
 #include "DAC.h"
+#include "safety.h"
 #include "board_defines.h"
 
 /* USER CODE END Includes */
@@ -54,6 +55,7 @@ ADC_HandleTypeDef hadc1;
 ADC_HandleTypeDef hadc3;
 ADC_HandleTypeDef hadc5;
 DMA_HandleTypeDef hdma_adc1;
+DMA_HandleTypeDef hdma_adc5;
 
 DAC_HandleTypeDef hdac1;
 
@@ -65,12 +67,14 @@ DMA_HandleTypeDef hdma_lpuart1_tx;
 
 SPI_HandleTypeDef hspi3;
 
+TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim4;
+TIM_HandleTypeDef htim5;
 TIM_HandleTypeDef htim16;
 TIM_HandleTypeDef htim17;
 
 /* USER CODE BEGIN PV */
-
+extern uint8_t state;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -87,6 +91,8 @@ static void MX_I2C1_Init(void);
 static void MX_TIM4_Init(void);
 static void MX_ADC5_Init(void);
 static void MX_ADC3_Init(void);
+static void MX_TIM2_Init(void);
+static void MX_TIM5_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -105,9 +111,9 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 
-  // Initialize DSX data structure
-  volatile DSX_data_t dsx_data;
-  DSX_data_init(&dsx_data);
+	// Initialize DSX data structure
+	volatile DSX_data_t dsx_data;
+	DSX_data_init(&dsx_data);
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -139,42 +145,47 @@ int main(void)
   MX_TIM4_Init();
   MX_ADC5_Init();
   MX_ADC3_Init();
+  MX_TIM2_Init();
+  MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
 
-  // Initialize PWM driver
-  initPWM();
+	// Initialize PWM driver
+	initPWM();
 
-  // Receive Serial and store into buffer
-  Serial_Receive_DMA();
+	// Receive Serial and store into buffer
+	Serial_Receive_DMA();
 
-  // Start ADC
-  Start_ADC();
+	// Start ADC
+	Start_ADC();
 
-  // Start DAC
-  DAC_init();
+	// Start DAC
+	DAC_init();
+
+	// init safety driver
+	safety_init();
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  while (1)
-  {
+	while (1)
+	{
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-//	  uint16_t duty =0;
-//	  for (int i =100; duty < i; duty ++ ){
-//		  htim16.Instance->CCR1 = duty;
-//		  HAL_Delay(10);
-//	  }
+		while(state==STATE_NORMAL)
+		{
+			// update dsx data based on received buffer
+			parse_buffer_to_dsx_data(&dsx_data);
 
-	  // update dsx data based on received buffer
-	   parse_buffer_to_dsx_data(&dsx_data);
+			// execute commands
+		}
 
-	  // execute commands
+		// Error Handler. If we enter here, then a fault occured.
+		Error_Handler();
 
-  }
+	}
   /* USER CODE END 3 */
 }
 
@@ -405,7 +416,6 @@ static void MX_ADC5_Init(void)
 
   /* USER CODE END ADC5_Init 0 */
 
-  ADC_AnalogWDGConfTypeDef AnalogWDGConfig = {0};
   ADC_ChannelConfTypeDef sConfig = {0};
 
   /* USER CODE BEGIN ADC5_Init 1 */
@@ -418,31 +428,18 @@ static void MX_ADC5_Init(void)
   hadc5.Init.Resolution = ADC_RESOLUTION_12B;
   hadc5.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc5.Init.GainCompensation = 0;
-  hadc5.Init.ScanConvMode = ADC_SCAN_DISABLE;
+  hadc5.Init.ScanConvMode = ADC_SCAN_ENABLE;
   hadc5.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
   hadc5.Init.LowPowerAutoWait = DISABLE;
-  hadc5.Init.ContinuousConvMode = DISABLE;
-  hadc5.Init.NbrOfConversion = 1;
+  hadc5.Init.ContinuousConvMode = ENABLE;
+  hadc5.Init.NbrOfConversion = 2;
   hadc5.Init.DiscontinuousConvMode = DISABLE;
   hadc5.Init.ExternalTrigConv = ADC_SOFTWARE_START;
   hadc5.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
-  hadc5.Init.DMAContinuousRequests = DISABLE;
+  hadc5.Init.DMAContinuousRequests = ENABLE;
   hadc5.Init.Overrun = ADC_OVR_DATA_PRESERVED;
   hadc5.Init.OversamplingMode = DISABLE;
   if (HAL_ADC_Init(&hadc5) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /** Configure Analog WatchDog 1
-  */
-  AnalogWDGConfig.WatchdogNumber = ADC_ANALOGWATCHDOG_1;
-  AnalogWDGConfig.WatchdogMode = ADC_ANALOGWATCHDOG_SINGLE_REG;
-  AnalogWDGConfig.Channel = ADC_CHANNEL_TEMPSENSOR_ADC5;
-  AnalogWDGConfig.ITMode = ENABLE;
-  AnalogWDGConfig.HighThreshold = 4095;
-  AnalogWDGConfig.LowThreshold = 2000;
-  AnalogWDGConfig.FilteringConfig = ADC_AWD_FILTERING_8SAMPLES;
-  if (HAL_ADC_AnalogWDGConfig(&hadc5, &AnalogWDGConfig) != HAL_OK)
   {
     Error_Handler();
   }
@@ -450,10 +447,18 @@ static void MX_ADC5_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_TEMPSENSOR_ADC5;
   sConfig.Rank = ADC_REGULAR_RANK_1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_2CYCLES_5;
+  sConfig.SamplingTime = ADC_SAMPLETIME_47CYCLES_5;
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
   sConfig.OffsetNumber = ADC_OFFSET_NONE;
   sConfig.Offset = 0;
+  if (HAL_ADC_ConfigChannel(&hadc5, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure Regular Channel
+  */
+  sConfig.Channel = ADC_CHANNEL_2;
+  sConfig.Rank = ADC_REGULAR_RANK_2;
   if (HAL_ADC_ConfigChannel(&hadc5, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -650,6 +655,51 @@ static void MX_SPI3_Init(void)
 }
 
 /**
+  * @brief TIM2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM2_Init(void)
+{
+
+  /* USER CODE BEGIN TIM2_Init 0 */
+
+  /* USER CODE END TIM2_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM2_Init 1 */
+
+  /* USER CODE END TIM2_Init 1 */
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 170-1;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 9999;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM2_Init 2 */
+
+  /* USER CODE END TIM2_Init 2 */
+
+}
+
+/**
   * @brief TIM4 Initialization Function
   * @param None
   * @retval None
@@ -695,6 +745,51 @@ static void MX_TIM4_Init(void)
   /* USER CODE BEGIN TIM4_Init 2 */
 
   /* USER CODE END TIM4_Init 2 */
+
+}
+
+/**
+  * @brief TIM5 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM5_Init(void)
+{
+
+  /* USER CODE BEGIN TIM5_Init 0 */
+
+  /* USER CODE END TIM5_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM5_Init 1 */
+
+  /* USER CODE END TIM5_Init 1 */
+  htim5.Instance = TIM5;
+  htim5.Init.Prescaler = 170-1;
+  htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim5.Init.Period = 2499;
+  htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim5.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim5) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim5, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim5, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM5_Init 2 */
+
+  /* USER CODE END TIM5_Init 2 */
 
 }
 
@@ -844,6 +939,9 @@ static void MX_DMA_Init(void)
   /* DMA1_Channel3_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel3_IRQn);
+  /* DMA1_Channel4_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel4_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel4_IRQn);
 
 }
 
@@ -863,20 +961,20 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, USER_LD1_Pin|USER_LD2_Pin|MUX1_S3_Pin|DO2_Pin
-                          |MUX2_S0_Pin|MUX3_S0_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, USER_LD1_Pin|FAULT_LED_Pin|MUXA_S3_Pin|DO2_Pin
+                          |MUXB_S0_Pin|MUXC_S0_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, MUX1_S0_Pin|MUX1_S1_Pin|MUX1_S2_Pin|DEBUG_LD1_Pin
+  HAL_GPIO_WritePin(GPIOB, MUXA_S0_Pin|MUXA_S1_Pin|MUXA_S2_Pin|DEBUG_LD1_Pin
                           |DEBUG_LD2_Pin|DEBUG_LD3_Pin|DO1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(MUX_En_GPIO_Port, MUX_En_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : USER_LD1_Pin USER_LD2_Pin MUX1_S3_Pin DO2_Pin
-                           MUX2_S0_Pin MUX3_S0_Pin */
-  GPIO_InitStruct.Pin = USER_LD1_Pin|USER_LD2_Pin|MUX1_S3_Pin|DO2_Pin
-                          |MUX2_S0_Pin|MUX3_S0_Pin;
+  /*Configure GPIO pins : USER_LD1_Pin FAULT_LED_Pin MUXA_S3_Pin DO2_Pin
+                           MUXB_S0_Pin MUXC_S0_Pin */
+  GPIO_InitStruct.Pin = USER_LD1_Pin|FAULT_LED_Pin|MUXA_S3_Pin|DO2_Pin
+                          |MUXB_S0_Pin|MUXC_S0_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -888,9 +986,9 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : MUX1_S0_Pin MUX1_S1_Pin MUX1_S2_Pin DEBUG_LD1_Pin
+  /*Configure GPIO pins : MUXA_S0_Pin MUXA_S1_Pin MUXA_S2_Pin DEBUG_LD1_Pin
                            DEBUG_LD2_Pin DEBUG_LD3_Pin DO1_Pin */
-  GPIO_InitStruct.Pin = MUX1_S0_Pin|MUX1_S1_Pin|MUX1_S2_Pin|DEBUG_LD1_Pin
+  GPIO_InitStruct.Pin = MUXA_S0_Pin|MUXA_S1_Pin|MUXA_S2_Pin|DEBUG_LD1_Pin
                           |DEBUG_LD2_Pin|DEBUG_LD3_Pin|DO1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -916,6 +1014,16 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(MUX_En_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : LIMIT_SW_Pin */
+  GPIO_InitStruct.Pin = LIMIT_SW_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(LIMIT_SW_GPIO_Port, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+
 }
 
 /* USER CODE BEGIN 4 */
@@ -929,11 +1037,22 @@ static void MX_GPIO_Init(void)
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
-  __disable_irq();
-  while (1)
-  {
-  }
+	/* User can add his own implementation to report the HAL error return state */
+	__disable_irq();
+
+	// Turn on front panel fault led
+	HAL_GPIO_WritePin(FAULT_LED_GPIO_Port, FAULT_LED_Pin, 1);
+
+	// DSX Fault Handler
+	DSX_Fault_Handler(state);
+
+	// Update debug LED
+	update_debug_leds(state);
+
+	while (1)
+	{
+		// continiously send error message through uart?
+	}
   /* USER CODE END Error_Handler_Debug */
 }
 
@@ -948,7 +1067,7 @@ void Error_Handler(void)
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
-  /* User can add his own implementation to report the file name and line number,
+	/* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
