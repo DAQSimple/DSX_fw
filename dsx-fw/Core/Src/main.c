@@ -961,7 +961,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, USER_LD1_Pin|USER_LD2_Pin|MUXA_S3_Pin|DO2_Pin
+  HAL_GPIO_WritePin(GPIOC, USER_LD1_Pin|FAULT_LED_Pin|MUXA_S3_Pin|DO2_Pin
                           |MUXB_S0_Pin|MUXC_S0_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
@@ -971,9 +971,9 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(MUX_En_GPIO_Port, MUX_En_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : USER_LD1_Pin USER_LD2_Pin MUXA_S3_Pin DO2_Pin
+  /*Configure GPIO pins : USER_LD1_Pin FAULT_LED_Pin MUXA_S3_Pin DO2_Pin
                            MUXB_S0_Pin MUXC_S0_Pin */
-  GPIO_InitStruct.Pin = USER_LD1_Pin|USER_LD2_Pin|MUXA_S3_Pin|DO2_Pin
+  GPIO_InitStruct.Pin = USER_LD1_Pin|FAULT_LED_Pin|MUXA_S3_Pin|DO2_Pin
                           |MUXB_S0_Pin|MUXC_S0_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -1040,7 +1040,8 @@ void Error_Handler(void)
 	/* User can add his own implementation to report the HAL error return state */
 	__disable_irq();
 
-	// Turn on front panel fault led (not applicable to DSX Shield)
+	// Turn on front panel fault led
+	HAL_GPIO_WritePin(FAULT_LED_GPIO_Port, FAULT_LED_Pin, 1);
 
 	// DSX Fault Handler
 	DSX_Fault_Handler(state);

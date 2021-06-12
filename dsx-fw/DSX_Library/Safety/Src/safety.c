@@ -63,6 +63,7 @@ void safety_init(void)
 	HAL_GPIO_WritePin(MUX_En_GPIO_Port, MUX_En_Pin, ENABLE_MUX);  // Enable MUX
 	state = STATE_NORMAL;			// Assume initial state is NORMAL, so no faults
 	write_debug_leds(DEBUG_LED_NORMAL_OP);	// Write to the 3 debug leds, normal operation
+	HAL_GPIO_WritePin(FAULT_LED_GPIO_Port, FAULT_LED_Pin, 0);	// Front panel fault LED off
 }
 
 // Function to update the 3 debug LEDs
