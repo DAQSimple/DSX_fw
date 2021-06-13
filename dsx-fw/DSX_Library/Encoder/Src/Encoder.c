@@ -15,6 +15,7 @@ void Encoder_Set_CPR(uint16_t CPR_set){
 }
 
 void Encoder_Start(void){
+	Encoder_Set_CPR(100); // default CPR
 	HAL_TIM_Base_Start_IT(&htim7);
 	HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_ALL);
 }
@@ -44,4 +45,14 @@ int32_t Encoder_Read_Freq(void){
 
 int32_t Encoder_Read_RPM(void){
 	return Encoder_rpm;
+}
+
+//Function to set Encoder Frequency in timer interrupt library
+void Encoder_Set_Freq(uint32_t freq){
+	Encoder_freq = freq;
+}
+
+//Function to set Encoder RPM in timer interrupt library
+void Encoder_Set_RPM(uint32_t rpm){
+	Encoder_rpm = rpm;
 }

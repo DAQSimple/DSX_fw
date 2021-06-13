@@ -51,7 +51,10 @@ int32_t Encoder_Read_Freq(void);
 //Function returns the current RPM
 int32_t Encoder_Read_RPM(void);
 
-//Interrupt callback for timer 7
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
+//Function to set Encoder Frequency in timer interrupt library
+void Encoder_Set_Freq(uint32_t freq);
+
+//Function to set Encoder RPM in timer interrupt library
+void Encoder_Set_RPM(uint32_t rpm);
 
 #endif

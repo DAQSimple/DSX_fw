@@ -6,17 +6,17 @@
  */
 
 #include "timer_interrupt.h"
-
+#include "safety.h"
+#include "Encoder.h"
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	static uint8_t mux_channel_AB = 0;	// For cycling through the Multiplex Control Array for MUX pair A and B
-	static uint8_t mux_channel_C  = 0;	// For cycling through the Multiplex Control Array for MUX C
-
 	// MultiplexAB_100Hz_Control and temp/current read ISR
 	// Uses Timer2, PSC=170-1, Period=10000-1. Result is an update freq=100Hz.
 	if(htim->Instance == TIM2) 		// if the interrupt source is timer 2
 	{
+		volatile static uint8_t mux_channel_AB = 0;	// For cycling through the Multiplex Control Array for MUX pair A and B
+
 		HAL_GPIO_WritePin(MUXA_S0_GPIO_Port, MUXA_S0_Pin, MUXAB_CH_Select_S0(mux_channel_AB));	// Goes to Multiplexer Control pin S0
 		HAL_GPIO_WritePin(MUXA_S1_GPIO_Port, MUXA_S1_Pin, MUXAB_CH_Select_S1(mux_channel_AB));	// Goes to Multiplexer Control pin S1
 		HAL_GPIO_WritePin(MUXA_S2_GPIO_Port, MUXA_S2_Pin, MUXAB_CH_Select_S2(mux_channel_AB));	// Goes to Multiplexer Control pin S2
@@ -37,15 +37,21 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	// Uses Timer5, PSC=170-1, Period=2500-1. Result is an update freq=400Hz.
 	if(htim->Instance == TIM5)
 	{
+		volatile static uint8_t mux_channel_C  = 0;	// For cycling through the Multiplex Control Array for MUX C
 		HAL_GPIO_WritePin(MUXC_S0_GPIO_Port, MUXC_S0_Pin, MUXC_CH_Select_S0(mux_channel_C));	// Goes to Multiplexer Control pin S0
 		mux_channel_C ^= 0x1;
 	}
 
 	// 4 Hz for calculating encoder freq and rpm
 	if(htim->Instance == TIM7){
+		volatile static uint32_t Encoder_freq;
+		volatile static uint32_t Encoder_rpm;
+
 		//need to divide frequency by 2 since encoder read always counts both rising and falling edges
 		Encoder_freq = (SAMPLING_FREQ_TIM7 * abs(Encoder_Read_Count())) / 2;
+		Encoder_Set_Freq(Encoder_freq);
 		Encoder_rpm = (Encoder_freq * 60)/ Encoder_Get_CPR();
+		Encoder_Set_RPM(Encoder_rpm);
 		Encoder_Clear_Count();
 	}
 }

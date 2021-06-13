@@ -27,10 +27,10 @@
 #include "PWM.h"
 #include <stdbool.h>
 #include "adc.h"
-#include "blink.h"
 #include "DAC.h"
 #include "safety.h"
 #include "board_defines.h"
+#include "Encoder.h"
 
 /* USER CODE END Includes */
 
@@ -167,6 +167,9 @@ int main(void)
 	// init safety driver
 	safety_init();
 
+	// Start encoder driver
+	Encoder_Start();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -183,6 +186,7 @@ int main(void)
 			parse_buffer_to_dsx_data(&dsx_data);
 
 			// execute commands
+
 		}
 
 		// Error Handler. If we enter here, then a fault occured.

@@ -9,8 +9,6 @@
 #define TTIM_INTERRUPT_H
 
 #include "main.h"
-#include "safety.h"
-#include "Encoder.h"
 
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim5;
