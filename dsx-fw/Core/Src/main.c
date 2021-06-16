@@ -1020,10 +1020,6 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
-
-  HAL_GPIO_WritePin(GPIOC, USER_LD1_Pin|USER_LD2_Pin|MUX1_S3_Pin|DO2_Pin
-                          |MUX2_S0_Pin|MUX3_S0_Pin, GPIO_PIN_RESET);
-
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, USER_LD1_Pin|FAULT_LED_Pin|MUXA_S3_Pin|DO2_Pin
                           |MUXB_S0_Pin|MUXC_S0_Pin, GPIO_PIN_RESET);

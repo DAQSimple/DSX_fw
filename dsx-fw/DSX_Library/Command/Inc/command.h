@@ -16,13 +16,15 @@
 #include "validate.h"
 #include "serial.h"
 #include "PWM.h"
+#include "board_defines.h"
+#include "Encoder.h"
 
 
-
+// Do we need these?
 #define CMD_READY_TO_EXECUTE 		1
 #define CMD_NOT_READY_TO_EXECUTE	0
 
-// Macros to compare with the ID in the dsx data structure
+// Macros to compare with the ID in the DSX data structure
 #define CMD_DIGITAL_WRITE			10
 #define CMD_DIGITAL_READ       		11
 #define CMD_GET_PIN_MODE       		12
@@ -38,6 +40,19 @@
 #define	CMD_SPI_WRITE				22
 #define CMD_I2C_WRITE				23
 #define CMD_WAVEFORM_WRITE			24
+
+// Return commands to SIMULINK
+#define RETURN_DIGITAL_READ			1
+#define RETURN_PIN_MODE				2
+#define RETURN_ANALOG_READ			3
+#define RETURN_ENCODER_SPEED		4
+#define RETURN_SERIAL_INFO			5
+#define CMD_COMPLETE_PING			9
+#define CMD_EXECUTED				8888
+
+// Sign bits
+#define POSITIVE 					1
+#define NEGATIVE					0
 
 
 // Digital Write Command

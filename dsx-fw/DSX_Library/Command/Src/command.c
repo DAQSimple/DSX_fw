@@ -17,12 +17,15 @@ extern TIM_HandleTypeDef htim17;
 void cmd_digital_write(volatile DSX_data_t *dsx_data){
 	channel_t channel = convert_loc_to_channel(dsx_data->loc);
 	HAL_GPIO_WritePin(channel.port, channel.pin, dsx_data->val);
+	dsx_data->val = CMD_EXECUTED;
+	Serial_Transmit(dsx_data);
 }
 
 // Digital Read Command
 void cmd_digital_read(volatile DSX_data_t *dsx_data){
 	channel_t channel = convert_loc_to_channel(dsx_data->loc);
 	dsx_data->val = HAL_GPIO_ReadPin(channel.port, channel.pin);
+	dsx_data->ret = RETURN_DIGITAL_READ;
 	Serial_Transmit(dsx_data);
 }
 
@@ -31,38 +34,48 @@ void cmd_get_pin_mode(volatile DSX_data_t *dsx_data){};
 
 // Analog Read Command
 void cmd_analog_read(volatile DSX_data_t *dsx_data){
-	if(dsx_data->loc==13)
+	if(dsx_data->loc==AI1)
 		dsx_data->val = read_ADC_channel(0);
-	else if(dsx_data->loc==14)
+	else if(dsx_data->loc==AI2)
 		dsx_data->val = read_ADC_channel(1);
-	else if(dsx_data->loc==15)
+	else if(dsx_data->loc==AI3)
 		dsx_data->val = read_ADC_channel(2);
-	else if(dsx_data->loc==16)
+	else if(dsx_data->loc==AI4)
 		dsx_data->val = read_ADC_channel(3);
+	dsx_data->ret = RETURN_ANALOG_READ;
 	Serial_Transmit(dsx_data);
 }
 
 // PWM Write Command
 void cmd_pwm_write(volatile DSX_data_t *dsx_data){
-	if(dsx_data->loc==11)
+	if(dsx_data->loc==PWM1)
 		updateDutyCycle(htim16,dsx_data->val);
-	else if (dsx_data->loc==12)
+	else if (dsx_data->loc==PWM2)
 		updateDutyCycle(htim17,dsx_data->val);
+	dsx_data->val = CMD_EXECUTED;
+	Serial_Transmit(dsx_data);
 }
 
 // Set PWM Frequency Command
 void cmd_set_pwm_freq(volatile DSX_data_t *dsx_data){
-	if(dsx_data->loc==11)
+	if(dsx_data->loc==PWM1)
 		updatePWMFrequency(htim16,dsx_data->val);
-	else if (dsx_data->loc==12)
+	else if (dsx_data->loc==PWM2)
 		updatePWMFrequency(htim17,dsx_data->val);
+	dsx_data->val = CMD_EXECUTED;
+	Serial_Transmit(dsx_data);
 }
 
 // Servo Write Command
 void cmd_servo_write(volatile DSX_data_t *dsx_data){};
 
 // Read Encoder Speed and Direction Command
-void cmd_encoder_read(volatile DSX_data_t *dsx_data){};
+void cmd_encoder_read(volatile DSX_data_t *dsx_data){
+	dsx_data->sign = Encoder_Get_DIR();
+	dsx_data->val = Encoder_Read_RPM();
+	dsx_data->ret = RETURN_ENCODER_SPEED;
+	Serial_Transmit(dsx_data);
+}
 
 // Get Serial Info Command
 void cmd_get_serial_info(volatile DSX_data_t *dsx_data){};
@@ -72,10 +85,12 @@ void cmd_get_system_status(volatile DSX_data_t *dsx_data){};
 
 // DAC Write Command
 void cmd_dac_write(volatile DSX_data_t *dsx_data){
-	if(dsx_data->loc==17)
+	if(dsx_data->loc==AO1)
 		DAC_write(dsx_data->val, DAC1_CHANNEL_1);
-	else if(dsx_data->loc==18)
+	else if(dsx_data->loc==AO2)
 		DAC_write(dsx_data->val, DAC1_CHANNEL_2);
+	dsx_data->val = CMD_EXECUTED;
+	Serial_Transmit(dsx_data);
 }
 
 // Set PWM Level Command

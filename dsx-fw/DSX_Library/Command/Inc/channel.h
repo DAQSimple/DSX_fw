@@ -10,6 +10,7 @@
 
 #include "main.h"
 #include <stdint.h>
+#include "board_defines.h"
 
 typedef struct channel_t
 {

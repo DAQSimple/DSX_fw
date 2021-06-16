@@ -17,44 +17,45 @@ channel_t convert_loc_to_channel(uint32_t loc)
 	switch (loc)
 	{
 		// Digital input pins (8)
-		case 1:
+		case DI1:
 			channel.port=DI1_GPIO_Port;
 			channel.pin=DI1_Pin;
 			break;
-		case 2:
+		case DI2:
 			channel.port=DI2_GPIO_Port;
 			channel.pin=DI2_Pin;
 			break;
-		case 3:
+		case DI3:
 			channel.port=DI3_GPIO_Port;
 			channel.pin=DI3_Pin;
 			break;
-		case 4:
+		case DI4:
 			channel.port=DI4_GPIO_Port;
 			channel.pin=DI4_Pin;
 			break;
-		case 5:
+		case DI5:
 			channel.port=DI5_GPIO_Port;
 			channel.pin=DI5_Pin;
 			break;
-		case 6:
+		case DI6:
 			channel.port=DI6_GPIO_Port;
 			channel.pin=DI6_Pin;
 			break;
-		case 7:
+		case DI7:
 			channel.port=DI7_GPIO_Port;
 			channel.pin=DI7_Pin;
 			break;
-		case 8:
+		case DI8:
 			channel.port=DI8_GPIO_Port;
 			channel.pin=DI8_Pin;
 			break;
+
 		// Digital output pins (2)
-		case 9:
+		case DO1:
 			channel.port=DO1_GPIO_Port;
 			channel.pin=DO1_Pin;
 			break;
-		case 10:
+		case DO2:
 			channel.port=DO2_GPIO_Port;
 			channel.pin=DO2_Pin;
 			break;
