@@ -165,6 +165,8 @@ void DSX_Fault_Handler(uint8_t state)
 
 	case STATE_FAULT_LIMIT_SW:
 		/* Play Buzzer */
+		updateDutyCycle(htim16, 0);	// Disable PWM
+		updateDutyCycle(htim17, 0); // Disable PWM
 		break;
 	}
 }
