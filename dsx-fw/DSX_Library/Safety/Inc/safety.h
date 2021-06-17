@@ -9,6 +9,7 @@
 #define SAFETY_H
 
 #include "main.h"
+#include "dsx_data_structure.h"
 #include <stdint.h>
 
 

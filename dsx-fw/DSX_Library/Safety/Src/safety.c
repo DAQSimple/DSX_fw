@@ -175,5 +175,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   /* Prevent unused argument(s) compilation warning */
   UNUSED(GPIO_Pin);
 
-  state = STATE_FAULT_LIMIT_SW;
+  if(dsx_data_get_ID()==21 && dsx_data_get_sign()==0){
+	  state = STATE_FAULT_LIMIT_SW;
+  }
 }
