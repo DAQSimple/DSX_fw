@@ -80,8 +80,6 @@ void Error_Handler(void);
 #define MUXA_S0_GPIO_Port GPIOB
 #define MUXA_S1_Pin GPIO_PIN_2
 #define MUXA_S1_GPIO_Port GPIOB
-#define DI7_Pin GPIO_PIN_10
-#define DI7_GPIO_Port GPIOB
 #define MUXA_S2_Pin GPIO_PIN_12
 #define MUXA_S2_GPIO_Port GPIOB
 #define DEBUG_LD1_Pin GPIO_PIN_13
@@ -98,8 +96,6 @@ void Error_Handler(void);
 #define MUXB_S0_GPIO_Port GPIOC
 #define MUXC_S0_Pin GPIO_PIN_9
 #define MUXC_S0_GPIO_Port GPIOC
-#define DI8_Pin GPIO_PIN_8
-#define DI8_GPIO_Port GPIOA
 #define ADC_CURRENT_Pin GPIO_PIN_9
 #define ADC_CURRENT_GPIO_Port GPIOA
 #define DI3_Pin GPIO_PIN_10
