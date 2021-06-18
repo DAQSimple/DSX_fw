@@ -7,6 +7,10 @@
 
 #include "safety.h"
 
+// flag to know if limit switch interrupts are wanted
+bool limit_switch1_interrupt = ENABLED;	//limit switch1 interrupt enabled by default
+bool limit_switch2_interrupt = ENABLED;	//limit switch2 interrupt enabled by default
+
 // Array of arrays for controlling dual multiplexers
 uint8_t Multiplex_Control_Arr_2CH_1Sel[2] = {
 		0,	/* Select multiplexer channel 0 */
