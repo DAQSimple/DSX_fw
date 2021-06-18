@@ -35,6 +35,7 @@
 #include "safety.h"
 #include "board_defines.h"
 #include "Encoder.h"
+#include "Servo.h"
 
 /* USER CODE END Includes */
 
@@ -186,11 +187,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
 		while(state==STATE_NORMAL)
 		{
-			// update dsx data based on received buffer
-			parse_buffer_to_dsx_data(&dsx_data);
-
 
 			if(serial_available)
 			{

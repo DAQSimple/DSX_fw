@@ -23,8 +23,8 @@
 #define DI4 4U		// PB3
 #define DI5 5U		// PB5
 #define DI6 6U		// PB4
-#define DI7 7U		// PB10
-#define DI8 8U		// PA8
+#define DI7 7U		// PB10 limit switch
+#define DI8 8U		// PA8 limit switch
 
 /* ANALOG INPUTS */
 #define AI1 13U		// PC0

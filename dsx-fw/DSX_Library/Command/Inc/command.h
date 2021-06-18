@@ -36,7 +36,7 @@
 #define CMD_GET_SERIAL_INFO			18
 #define CMD_GET_SYS_STATUS			19
 #define CMD_DAC_WRITE				20
-#define CMD_SET_PWM_LEVEL			21
+#define CMD_LIMIT_SWITCH			21
 #define	CMD_SPI_WRITE				22
 #define CMD_I2C_WRITE				23
 #define CMD_WAVEFORM_WRITE			24
@@ -89,7 +89,7 @@ void cmd_get_system_status(volatile DSX_data_t *dsx_data);
 void cmd_dac_write(volatile DSX_data_t *dsx_data);
 
 // Set PWM Level Command
-void cmd_set_pwm_level(volatile DSX_data_t *dsx_data);
+void cmd_limit_switch(volatile DSX_data_t *dsx_data);
 
 // Write SPI Command
 void cmd_spi_write(volatile DSX_data_t *dsx_data);

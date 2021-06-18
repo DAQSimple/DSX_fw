@@ -59,15 +59,24 @@ void cmd_pwm_write(volatile DSX_data_t *dsx_data){
 // Set PWM Frequency Command
 void cmd_set_pwm_freq(volatile DSX_data_t *dsx_data){
 	if(dsx_data->loc==PWM1)
-		updatePWMFrequency(htim16,dsx_data->val);
+		if (dsx_data->sign == 1) updatePWMFrequency(htim16,dsx_data->val);
+		else if (dsx_data->sign == 2) updatePWMFrequency(htim16,(dsx_data->val)*10000);
 	else if (dsx_data->loc==PWM2)
-		updatePWMFrequency(htim17,dsx_data->val);
+		if (dsx_data->sign == 1) updatePWMFrequency(htim17,dsx_data->val);
+		else if (dsx_data->sign == 2) updatePWMFrequency(htim17,(dsx_data->val)*10000);
 	dsx_data->val = CMD_EXECUTED;
 	Serial_Transmit(dsx_data);
 }
 
 // Servo Write Command
-void cmd_servo_write(volatile DSX_data_t *dsx_data){};
+void cmd_servo_write(volatile DSX_data_t *dsx_data){
+	if(dsx_data->loc==PWM1)
+		writeServo(htim16,dsx_data->val);
+	else if (dsx_data->loc==PWM2)
+		writeServo(htim17,dsx_data->val);
+	dsx_data->val = CMD_EXECUTED;
+	Serial_Transmit(dsx_data);
+};
 
 // Read Encoder Speed and Direction Command
 void cmd_encoder_read(volatile DSX_data_t *dsx_data){
@@ -94,7 +103,7 @@ void cmd_dac_write(volatile DSX_data_t *dsx_data){
 }
 
 // Set PWM Level Command
-void cmd_set_pwm_level(volatile DSX_data_t *dsx_data){};
+void cmd_limit_switch(volatile DSX_data_t *dsx_data){};
 
 // Write SPI Command
 void cmd_spi_write(volatile DSX_data_t *dsx_data){};
@@ -145,8 +154,8 @@ void execute_command(volatile DSX_data_t *dsx_data)
 	else if(dsx_data->ID == CMD_DAC_WRITE){
 		cmd_dac_write(dsx_data);
 	}
-	else if(dsx_data->ID == CMD_SET_PWM_LEVEL){
-		cmd_set_pwm_level(dsx_data);
+	else if(dsx_data->ID == CMD_LIMIT_SWITCH){
+		cmd_limit_switch(dsx_data);
 	}
 	else if(dsx_data->ID == CMD_SPI_WRITE){
 		cmd_spi_write(dsx_data);

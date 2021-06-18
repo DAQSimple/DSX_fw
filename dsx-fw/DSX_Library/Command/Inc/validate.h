@@ -15,6 +15,7 @@
 #include "board_defines.h"
 
 
+
 // Validate Digital Write Command
 bool validate_digital_write(volatile DSX_data_t *dsx_data);
 
@@ -49,7 +50,7 @@ bool validate_get_sys_status(volatile DSX_data_t *dsx_data);
 bool validate_dac_write(volatile DSX_data_t *dsx_data);
 
 // Validate Set PWM Level Command
-bool validate_set_pwm_level(volatile DSX_data_t *dsx_data);
+bool validate_limit_switch(volatile DSX_data_t *dsx_data);
 
 // Validate Write SPI Command
 bool validate_spi_write(volatile DSX_data_t *dsx_data);
