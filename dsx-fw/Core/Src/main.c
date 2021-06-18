@@ -1006,8 +1006,8 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, USER_LD1_Pin|FAULT_LED_Pin|MUXA_S3_Pin|DO2_Pin
-                          |MUXB_S0_Pin|MUXC_S0_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, CS_Pin|USER_LD1_Pin|FAULT_LED_Pin|MUXA_S3_Pin
+                          |DO2_Pin|MUXB_S0_Pin|MUXC_S0_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, MUXA_S0_Pin|MUXA_S1_Pin|MUXA_S2_Pin|DEBUG_LD1_Pin
@@ -1016,10 +1016,10 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(MUX_En_GPIO_Port, MUX_En_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : USER_LD1_Pin FAULT_LED_Pin MUXA_S3_Pin DO2_Pin
-                           MUXB_S0_Pin MUXC_S0_Pin */
-  GPIO_InitStruct.Pin = USER_LD1_Pin|FAULT_LED_Pin|MUXA_S3_Pin|DO2_Pin
-                          |MUXB_S0_Pin|MUXC_S0_Pin;
+  /*Configure GPIO pins : CS_Pin USER_LD1_Pin FAULT_LED_Pin MUXA_S3_Pin
+                           DO2_Pin MUXB_S0_Pin MUXC_S0_Pin */
+  GPIO_InitStruct.Pin = CS_Pin|USER_LD1_Pin|FAULT_LED_Pin|MUXA_S3_Pin
+                          |DO2_Pin|MUXB_S0_Pin|MUXC_S0_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
