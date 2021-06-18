@@ -39,7 +39,7 @@ uint32_t temp_current_buf[2];
 
 // flag to know if limit switch interrupts are wanted
 static bool limit_switch1_interrupt = ENABLED;	//limit switch1 interrupt enabled by default
-static bool limit_switch2_interrupt = ENABLED;	//limit switch1 interrupt enabled by default
+static bool limit_switch2_interrupt = ENABLED;	//limit switch2 interrupt enabled by default
 
 // State definitions - See state
 #define STATE_NORMAL            (0)
