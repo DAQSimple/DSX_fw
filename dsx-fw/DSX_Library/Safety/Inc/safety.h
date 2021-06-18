@@ -10,8 +10,10 @@
 
 #include "main.h"
 #include "PWM.h"
+#include "board_defines.h"
 #include "dsx_data_structure.h"
 #include <stdint.h>
+#include <stdbool.h>
 
 
 // global state variable to store fault states or normal state
@@ -22,10 +24,22 @@ extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim5;
 extern ADC_HandleTypeDef hadc5;
 
+// For disabling pwm if limit switch fault occured and limit switch interrupt is enabled
+extern TIM_HandleTypeDef htim16;
+extern TIM_HandleTypeDef htim17;
+
 // For storing temperature and system current
 //	temp_current_buf[0] -> Onboard temperature channel ADC reading
 //  temp_current_buf[0] -> System current from current sensing mux circuit ADC reading
 uint32_t temp_current_buf[2];
+
+// macros for enabling or disabling limit switch interrupts
+#define DISABLED	(0)
+#define ENABLED		(1U)
+
+// flag to know if limit switch interrupts are wanted
+static bool limit_switch1_interrupt = ENABLED;	//limit switch1 interrupt enabled by default
+static bool limit_switch2_interrupt = ENABLED;	//limit switch1 interrupt enabled by default
 
 // State definitions - See state
 #define STATE_NORMAL            (0)
@@ -99,6 +113,9 @@ void write_debug_leds(uint8_t led1_state, uint8_t led2_state, uint8_t led3_state
 
 // Fault event handlers
 void DSX_Fault_Handler(uint8_t state);
+
+// Function to disable limit switch interrupts for use in commands library
+void disable_limit_sw_interrupt_pin(uint8_t DI_pin);
 
 // Function to init current sense timer and state
 void safety_init(void);

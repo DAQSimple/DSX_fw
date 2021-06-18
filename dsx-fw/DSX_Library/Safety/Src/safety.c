@@ -53,10 +53,16 @@ uint8_t Multiplex_Control_Arr_16CH_4Sel[16][4] = {
 // Function to init current sense timer and state
 void safety_init(void)
 {
-	if(HAL_GPIO_ReadPin(LIMIT_SW_GPIO_Port, LIMIT_SW_Pin)){	// Fault if limit switch pressed at startup
-		state = STATE_FAULT_LIMIT_SW;
-		return;
+	if(limit_switch1_interrupt == ENABLED && limit_switch2_interrupt == ENABLED)
+	{
+		if(    HAL_GPIO_ReadPin(LIMIT_SW1_GPIO_Port, LIMIT_SW1_Pin )	// Fault if a limit switch is pressed at startup
+			|| HAL_GPIO_ReadPin(LIMIT_SW2_GPIO_Port, LIMIT_SW2_Pin ))
+		{
+			state = STATE_FAULT_LIMIT_SW;
+			return;
+		}
 	}
+
 	HAL_TIM_Base_Start_IT(&htim2);	// Start timer 2, 100 Hz
 	HAL_TIM_Base_Start_IT(&htim5);	// Start timer 5, 400 Hz
 	HAL_ADC_Start_DMA(&hadc5, temp_current_buf, sizeof(temp_current_buf));	// 2 channel, reads temp channel followed by system current
@@ -136,6 +142,16 @@ uint8_t MUXC_CH_Select_S0(uint8_t mux_channel)
 	return Multiplex_Control_Arr_2CH_1Sel[mux_channel];
 }
 
+// Function to disable limit switch interrupts for use in commands library
+void disable_limit_sw_interrupt_pin(uint8_t DI_pin)
+{
+	if(DI_pin == DI7){
+		limit_switch1_interrupt = DISABLED;
+	}
+	else if(DI_pin == DI8){
+		limit_switch2_interrupt = DISABLED;
+	}
+}
 
 // Fault event handlers
 void DSX_Fault_Handler(uint8_t state)
@@ -177,7 +193,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   /* Prevent unused argument(s) compilation warning */
   UNUSED(GPIO_Pin);
 
-  if(dsx_data_get_ID()==21 && dsx_data_get_sign()==0){
+  if(limit_switch1_interrupt == ENABLED || limit_switch2_interrupt == ENABLED){
 	  state = STATE_FAULT_LIMIT_SW;
   }
 }
