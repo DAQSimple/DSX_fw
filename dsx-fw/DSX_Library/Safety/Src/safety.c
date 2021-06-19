@@ -157,6 +157,17 @@ void disable_limit_sw_interrupt_pin(uint8_t DI_pin)
 	}
 }
 
+// Function to enable limit switch interrupts for use in commands library
+void enable_limit_sw_interrupt_pin(uint8_t DI_pin)
+{
+	if(DI_pin == DI7){
+		limit_switch1_interrupt = ENABLED;
+	}
+	else if(DI_pin == DI8){
+		limit_switch2_interrupt = ENABLED;
+	}
+}
+
 // Fault event handlers
 void DSX_Fault_Handler(uint8_t state)
 {

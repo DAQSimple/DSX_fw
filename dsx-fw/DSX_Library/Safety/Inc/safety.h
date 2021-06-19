@@ -113,6 +113,9 @@ void DSX_Fault_Handler(uint8_t state);
 // Function to disable limit switch interrupts for use in commands library
 void disable_limit_sw_interrupt_pin(uint8_t DI_pin);
 
+// Function to enable limit switch interrupts for use in commands library
+void enable_limit_sw_interrupt_pin(uint8_t DI_pin);
+
 // Function to init current sense timer and state
 void safety_init(void);
 
