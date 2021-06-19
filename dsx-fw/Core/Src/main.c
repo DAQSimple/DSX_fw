@@ -186,7 +186,7 @@ int main(void)
 			parse_buffer_to_dsx_data(&dsx_data);
 
 			// execute commands
-			dsx_data_set_sign(&dsx_data, 1);
+
 
 		}
 
@@ -1104,7 +1104,7 @@ void Error_Handler(void)
 
 	// SOS message
 	DSX_data_t SOS = {22,0,0,420,15};
-	//Serial_Transmit(&SOS);
+	//Serial_Transmit(&SOS);	// uncomment this when this is merged into develop
 
 	while (1)
 	{
