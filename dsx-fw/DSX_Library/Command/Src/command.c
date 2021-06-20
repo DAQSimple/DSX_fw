@@ -60,11 +60,12 @@ void cmd_pwm_write(volatile DSX_data_t *dsx_data){
 void cmd_set_pwm_freq(volatile DSX_data_t *dsx_data){
 	if(dsx_data->loc==PWM1)
 		if (dsx_data->sign == 1) updatePWMFrequency(htim16,dsx_data->val);
-		else if (dsx_data->sign == 2) updatePWMFrequency(htim16,(dsx_data->val)*10000);
+		else if (dsx_data->sign == 2) updatePWMFrequency(htim16,(dsx_data->val)*10 + dsx_data->ret);
 	else if (dsx_data->loc==PWM2)
 		if (dsx_data->sign == 1) updatePWMFrequency(htim17,dsx_data->val);
-		else if (dsx_data->sign == 2) updatePWMFrequency(htim17,(dsx_data->val)*10000);
+		else if (dsx_data->sign == 2) updatePWMFrequency(htim17,(dsx_data->val)*10 + dsx_data->ret);
 	dsx_data->val = CMD_EXECUTED;
+	dsx_data->ret = CMD_COMPLETE_PING;
 	Serial_Transmit(dsx_data);
 }
 

@@ -21,7 +21,7 @@ bool validate_digital_write(volatile DSX_data_t *dsx_data){
 // Validate Digital Read Command
 bool validate_digital_read(volatile DSX_data_t *dsx_data){
 	bool check_data = true;
-	if(dsx_data->loc < DI1 || dsx_data->loc > DI6) check_data = false;
+	if(dsx_data->loc < DI1 || dsx_data->loc > DI8) check_data = false;
 	return check_data;
 }
 
@@ -55,14 +55,14 @@ bool validate_set_PWM_freq(volatile DSX_data_t *dsx_data){
 	if(dsx_data->loc != PWM1 && dsx_data->loc != PWM2) check_data = false;
 	if(dsx_data->sign != 1 && dsx_data->sign != 2) check_data = false;
 
-	// Sign = 1: 26-9999 Hz, Sign = 2: 10-1700 kHz
+	// Sign = 1: 26-9999 Hz, Sign = 2: dsx_data->val = 1000-2000 + dsx_data->ret = 0-9
 	if(dsx_data->sign == 1){
 		if(dsx_data->val < PWM_MIN || dsx_data->val > 9999) check_data = false;
 	}
 	if(dsx_data->sign == 2){
-		if(dsx_data->val < 1 || dsx_data->val > (PWM_MAX/10000)) check_data = false;
+		if(dsx_data->val < 1000 || dsx_data->val > 2000) check_data = false;
+		if(dsx_data->ret < 0 || dsx_data->ret > 9) check_data = false;
 	}
-	if(dsx_data->ret != CMD_COMPLETE_PING) check_data = false;
 	return check_data;
 }
 
@@ -92,12 +92,7 @@ bool validate_dac_write(volatile DSX_data_t *dsx_data){
 	bool check_data = true;
 	if(dsx_data->loc != AO1 && dsx_data->loc != AO2) check_data = false;
 	if(dsx_data->sign != POSITIVE && dsx_data->sign != NEGATIVE) check_data = false;
-	if(dsx_data->sign == NEGATIVE){
-		if(dsx_data->val < 0 || dsx_data->val > 2047) check_data = false;
-	}
-	if(dsx_data->sign == POSITIVE){
-		if(dsx_data->val < 2048 || dsx_data->val > 4095) check_data = false;
-	}
+	if(dsx_data->val < 0 || dsx_data->val > 4095) check_data = false;
 	if(dsx_data->ret != CMD_COMPLETE_PING) check_data = false;
 	return check_data;
 }
