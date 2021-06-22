@@ -48,8 +48,8 @@ uint32_t temp_current_buf[2];
 
 // Thresholds - NOT SURE ABOUT THESE YET, NEED TO TEST VALUES BEFORE IMPLEMENTING
 #define MAX_TEMP_ALLOWED         (1000U)
-#define MAX_POSITIVE_CURRENT     (3800U)
-#define MAX_NEGATIVE_CURRENT     (500U)
+#define MAX_POSITIVE_CURRENT     (3600U)
+#define MAX_NEGATIVE_CURRENT     (600U)
 
 // Debug LEDs
 // These were defined in the Safety Driver Flowchart
