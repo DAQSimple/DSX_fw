@@ -1040,14 +1040,14 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : DI7_Pin DI4_Pin DI6_Pin DI5_Pin */
-  GPIO_InitStruct.Pin = DI7_Pin|DI4_Pin|DI6_Pin|DI5_Pin;
+  /*Configure GPIO pins : LS1_Pin DI4_Pin DI6_Pin DI5_Pin */
+  GPIO_InitStruct.Pin = LS1_Pin|DI4_Pin|DI6_Pin|DI5_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : DI8_Pin DI3_Pin */
-  GPIO_InitStruct.Pin = DI8_Pin|DI3_Pin;
+  /*Configure GPIO pins : LS2_Pin DI3_Pin */
+  GPIO_InitStruct.Pin = LS2_Pin|DI3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);

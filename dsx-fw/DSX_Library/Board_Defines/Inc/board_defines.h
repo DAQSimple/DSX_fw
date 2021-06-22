@@ -23,8 +23,10 @@
 #define DI4 4U		// PB3
 #define DI5 5U		// PB5
 #define DI6 6U		// PB4
-#define DI7 7U		// PB10
-#define DI8 8U		// PA8
+#define LS1 7U
+#define LS2 8U
+#define DI7 LS1		// PB10
+#define DI8 LS2		// PA8
 
 /* ANALOG INPUTS */
 #define AI1 13U		// PC0
