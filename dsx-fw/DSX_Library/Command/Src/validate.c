@@ -53,13 +53,13 @@ bool validate_pwm_write(volatile DSX_data_t *dsx_data){
 bool validate_set_PWM_freq(volatile DSX_data_t *dsx_data){
 	bool check_data = true;
 	if(dsx_data->loc != PWM1 && dsx_data->loc != PWM2) check_data = false;
-	if(dsx_data->sign != 1 && dsx_data->sign != 2) check_data = false;
+	if(dsx_data->sign != 0 && dsx_data->sign != 1) check_data = false;
 
 	// Sign = 1: 26-9999 Hz, Sign = 2: dsx_data->val = 1000-2000 + dsx_data->ret = 0-9
-	if(dsx_data->sign == 1){
+	if(dsx_data->sign == 0){
 		if(dsx_data->val < PWM_MIN || dsx_data->val > 9999) check_data = false;
 	}
-	if(dsx_data->sign == 2){
+	if(dsx_data->sign == 1){
 		if(dsx_data->val < 1000 || dsx_data->val > 2000) check_data = false;
 		if(dsx_data->ret < 0 || dsx_data->ret > 9) check_data = false;
 	}
