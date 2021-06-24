@@ -33,7 +33,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //		if(temp_current_buf[1] < MAX_NEGATIVE_CURRENT) state = STATE_FAULT_OVER_CURR;	// UNCOMMENT THIS IN THE FIRMWARE VERSION FOR THE COMPLETED SHIELD
 
 		// Check 100 mA output current threshhold
-		if(Get_Total_Output_Current() > OUTPUT_CURRENT_THRESHHOLD) state = STATE_FAULT_OVER_CURR;
+		//if(Get_Total_Output_Current() > OUTPUT_CURRENT_THRESHHOLD) state = STATE_FAULT_OVER_CURR;
 	}
 
 	// MultiplexC_400Hz_Control ISR
