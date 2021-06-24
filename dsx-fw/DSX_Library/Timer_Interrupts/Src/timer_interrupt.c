@@ -27,10 +27,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		// Go to the next channel, wrap at the end channel
 		mux_channel_AB = (mux_channel_AB == MUX_CHANNEL_END) ? MUX_CHANNEL_0 : mux_channel_AB+1;
 
-		// Check temperature and current
+		// Check temperature and current threshholds
 		if(temp_current_buf[0] > MAX_TEMP_ALLOWED)     state = STATE_FAULT_OVER_TEMP;
 		if(temp_current_buf[1] > MAX_POSITIVE_CURRENT) state = STATE_FAULT_OVER_CURR;
 //		if(temp_current_buf[1] < MAX_NEGATIVE_CURRENT) state = STATE_FAULT_OVER_CURR;	// UNCOMMENT THIS IN THE FIRMWARE VERSION FOR THE COMPLETED SHIELD
+
+		// Check 100 mA output current threshhold
+		if(Get_Total_Output_Current() > OUTPUT_CURRENT_THRESHHOLD) state = STATE_FAULT_OVER_CURR;
 	}
 
 	// MultiplexC_400Hz_Control ISR

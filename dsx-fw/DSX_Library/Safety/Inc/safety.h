@@ -50,6 +50,7 @@ uint32_t temp_current_buf[2];
 #define MAX_TEMP_ALLOWED         (1000U)
 #define MAX_POSITIVE_CURRENT     (3600U)
 #define MAX_NEGATIVE_CURRENT     (600U)
+#define MAX_OUTPUT_CURRENT		 (100U) //100 mA
 
 // Debug LEDs
 // These were defined in the Safety Driver Flowchart
