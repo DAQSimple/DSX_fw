@@ -64,23 +64,26 @@ uint32_t temp_current_buf[2];
 #define DEBUG_LED_LIMIT_SW      1,  1,  1
 
 // Multiplexer channel for cycling through, for readability
-#define MUX_CHANNEL_0		(0)
-#define MUX_CHANNEL_1		(1U)
-#define MUX_CHANNEL_2		(2U)
-#define MUX_CHANNEL_3		(3U)
-#define MUX_CHANNEL_4		(4U)
-#define MUX_CHANNEL_5		(5U)
-#define MUX_CHANNEL_6		(6U)
-#define MUX_CHANNEL_7		(7U)
-#define MUX_CHANNEL_8		(8U)
-#define MUX_CHANNEL_9		(9U)
-#define MUX_CHANNEL_10		(10U)
-#define MUX_CHANNEL_11		(11U)
-#define MUX_CHANNEL_12		(12U)
-#define MUX_CHANNEL_13		(13U)
-#define MUX_CHANNEL_14		(14U)
-#define MUX_CHANNEL_15		(15U)
-#define MUX_CHANNEL_END		MUX_CHANNEL_15
+#define MUXA_CHANNEL_0		(0)			/* Digital Input 1 */
+#define MUXA_CHANNEL_1		(1U)		/* Digital Input 2 */
+#define MUXA_CHANNEL_2		(2U)		/* Digital Input 3 */
+#define MUXA_CHANNEL_3		(3U)		/* Digital Input 4 */
+#define MUXA_CHANNEL_4		(4U)		/* Digital Input 5 */
+#define MUXA_CHANNEL_5		(5U)		/* Digital Input 6 */
+#define MUXA_CHANNEL_6		(6U)		/* Limit Switch 1 Input */
+#define MUXA_CHANNEL_7		(7U)		/* Limit Switch 2 Input */
+#define MUXA_CHANNEL_8		(8U)		/* Digital Output 1 */
+#define MUXA_CHANNEL_9		(9U)		/* Digital Output 2 */
+#define MUXA_CHANNEL_10		(10U)		/* PWM Output 1 */
+#define MUXA_CHANNEL_11		(11U)		/* PWM Output 2 */
+#define MUXA_CHANNEL_12		(12U)		/* Analog Input 1 */
+#define MUXA_CHANNEL_13		(13U)		/* Analog Input 2 */
+#define MUXA_CHANNEL_14		(14U)		/* Analog Input 3 */
+#define MUXA_CHANNEL_15		(15U)		/* Analog Input 4 */
+#define MUXA_CHANNEL_END	MUXA_CHANNEL_15
+
+#define MUXB_CHANNEL_0		(0)			/* Analog Output 1 */
+#define MUXB_CHANNEL_1		(1U)		/* Analog Output 2 */
 
 // For enabling or disabling all the MUX. The MUX Enable pins are all active HIGH.
 #define ENABLE_MUX		(0)
@@ -103,6 +106,10 @@ uint8_t MUXB_CH_Select_S0(uint8_t mux_channel);
 
 // Getters for MUX channel select S0 for MUX C
 uint8_t MUXC_CH_Select_S0(uint8_t mux_channel);
+
+// Getters for Temperature and Current readings
+uint32_t get_temp_reading(void);
+uint32_t get_current_reading(void);		// current reading into the ADC_CURRENT pin
 
 // Functions for updating the 3 debug LEDs
 void update_debug_leds(uint8_t state);

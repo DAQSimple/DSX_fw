@@ -146,6 +146,17 @@ uint8_t MUXC_CH_Select_S0(uint8_t mux_channel)
 	return Multiplex_Control_Arr_2CH_1Sel[mux_channel];
 }
 
+// Getters for Temperature and Current readings
+uint32_t get_temp_reading(void)
+{
+	return temp_current_buf[0];
+}
+
+uint32_t get_current_reading(void)
+{
+	return temp_current_buf[1];
+}
+
 // Function to disable limit switch interrupts for use in commands library
 void disable_limit_sw_interrupt_pin(uint8_t DI_pin)
 {
