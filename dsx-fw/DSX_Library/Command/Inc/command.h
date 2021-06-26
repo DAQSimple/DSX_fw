@@ -18,6 +18,7 @@
 #include "PWM.h"
 #include "board_defines.h"
 #include "Encoder.h"
+#include "Servo.h"
 
 
 // Do we need these?
