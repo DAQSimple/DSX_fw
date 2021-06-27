@@ -1098,18 +1098,15 @@ void Error_Handler(void)
 	// Turn on front panel fault led
 	HAL_GPIO_WritePin(FAULT_LED_GPIO_Port, FAULT_LED_Pin, 1);
 
-	// DSX Fault Handler
-	DSX_Fault_Handler(state);
+	// DSX Fault Handler, returns SOS message to send to simulink
+	DSX_data_t SOS = DSX_Fault_Handler(state);
 
 	// Update debug LED
 	update_debug_leds(state);
 
-	// SOS message
-	DSX_data_t SOS = {22,0,0,420,15};
-	//Serial_Transmit(&SOS);	// uncomment this when this is merged into develop
-
 	while (1)
 	{
+		//Serial_Transmit(&SOS);	// uncomment this when this is merged into develop
 	}
   /* USER CODE END Error_Handler_Debug */
 }

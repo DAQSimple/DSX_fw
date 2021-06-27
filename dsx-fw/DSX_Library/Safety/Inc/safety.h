@@ -123,7 +123,7 @@ uint32_t to_current_mA(uint32_t current_reading);
 uint16_t Get_Total_Output_Current(volatile uint8_t mux_channel_A, volatile uint8_t mux_channel_B);
 
 // Fault event handlers
-void DSX_Fault_Handler(uint8_t state);
+DSX_data_t DSX_Fault_Handler(uint8_t state);
 
 // Function to disable limit switch interrupts for use in commands library
 void disable_limit_sw_interrupt_pin(uint8_t DI_pin);

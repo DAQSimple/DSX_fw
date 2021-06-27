@@ -209,36 +209,48 @@ uint16_t Get_Total_Output_Current(volatile uint8_t mux_channel_A, volatile uint8
 }
 
 // Fault event handlers
-void DSX_Fault_Handler(uint8_t state)
+DSX_data_t DSX_Fault_Handler(uint8_t state)
 {
+	// SOS message
+	DSX_data_t SOS;
+
 	switch(state)
 	{
 	case STATE_FAULT_OVER_CURR:
 		HAL_GPIO_WritePin(MUX_En_GPIO_Port, MUX_En_Pin, DISABLE_MUX);  // DISABLE MUX
+		SOS.ID=22;
+		SOS.val=420;
 		break;
 
 	case STATE_FAULT_OVER_TEMP:
-		/* What do we do if over temperature? */
+		SOS.ID=22;
+		SOS.val=421;
 		break;
 
 	case STATE_FAULT_REV_POL:
-		/* Not Implemented */
+		SOS.ID=22;
+		SOS.val=422;
 		break;
 
 	case STATE_FAULT_USB:
-		/* Not Implemented */
+		SOS.ID=22;
+		SOS.val=423;
 		break;
 
 	case STATE_FAULT_UART:
-		/* Not Implemented */
+		SOS.ID=22;
+		SOS.val=424;
 		break;
 
 	case STATE_FAULT_LIMIT_SW:
-		/* Play Buzzer */
 		updateDutyCycle(htim16, 0);	// Disable PWM
 		updateDutyCycle(htim17, 0); // Disable PWM
+		SOS.ID=22;
+		SOS.val=425;
 		break;
 	}
+
+	return SOS;
 }
 
 // External interrupt for limit switch. Fired at rising edge.
