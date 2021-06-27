@@ -11,7 +11,12 @@
 #include <stdint.h>
 #include "main.h"
 
+extern I2C_HandleTypeDef hi2c1;
+
+// Init I2C
+void I2C_Init(void);
+
 // driver function for i2c write
-// void I2C_Write(uint8_t slave_address, uint16_t value);
+void I2C_Write(uint16_t slave_address, uint8_t i2c_data);
 
 #endif /* I2C_H */

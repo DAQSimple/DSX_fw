@@ -31,6 +31,7 @@
 #include "safety.h"
 #include "board_defines.h"
 #include "Encoder.h"
+#include "i2c.h"
 
 /* USER CODE END Includes */
 
@@ -170,10 +171,8 @@ int main(void)
 	// Start encoder driver
 	Encoder_Start();
 
-	/*   TESTING I2C MASTER WRITE COMMAND HAL   */
-	uint8_t i2c_data = 70;
-	uint16_t dev_address = 0x7F << 1;
-	HAL_I2C_Master_Transmit(&hi2c1, dev_address, &i2c_data, 1, 10);
+	// Start I2C Driver
+	I2C_Init();
 
   /* USER CODE END 2 */
 
