@@ -219,21 +219,33 @@ DSX_data_t DSX_Fault_Handler(uint8_t state)
 	case STATE_FAULT_OVER_CURR:
 		HAL_GPIO_WritePin(MUX_En_GPIO_Port, MUX_En_Pin, DISABLE_MUX);  // DISABLE MUX
 		SOS.ID=22;
-		SOS.val=420;
+		SOS.loc=0;
+		SOS.ret=0;
+		SOS.sign=0;
+		SOS.val=420; // val based on lookup table fault code
 		break;
 
 	case STATE_FAULT_OVER_TEMP:
 		SOS.ID=22;
+		SOS.loc=0;
+		SOS.ret=0;
+		SOS.sign=0;
 		SOS.val=421;
 		break;
 
 	case STATE_FAULT_REV_POL:
 		SOS.ID=22;
+		SOS.loc=0;
+		SOS.ret=0;
+		SOS.sign=0;
 		SOS.val=422;
 		break;
 
 	case STATE_FAULT_USB:
 		SOS.ID=22;
+		SOS.loc=0;
+		SOS.ret=0;
+		SOS.sign=0;
 		SOS.val=423;
 		break;
 
@@ -246,6 +258,9 @@ DSX_data_t DSX_Fault_Handler(uint8_t state)
 		updateDutyCycle(htim16, 0);	// Disable PWM
 		updateDutyCycle(htim17, 0); // Disable PWM
 		SOS.ID=22;
+		SOS.loc=0;
+		SOS.ret=0;
+		SOS.sign=0;
 		SOS.val=425;
 		break;
 	}
