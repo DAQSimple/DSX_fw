@@ -190,8 +190,6 @@ int main(void)
 			parse_buffer_to_dsx_data(&dsx_data);
 
 			// execute commands
-			if(HAL_GPIO_ReadPin(DI1_GPIO_Port, DI1_Pin)) I2C_Write(0x36, 69);
-			else I2C_Write(0x36, 40);
 
 		}
 
