@@ -179,6 +179,35 @@ void enable_limit_sw_interrupt_pin(uint8_t DI_pin)
 	}
 }
 
+// Function to convert current reading to a mA value
+uint32_t to_current_mA(uint32_t current_adc_reading)
+{
+	return abs(0.029*current_adc_reading - 59.26);
+}
+
+// Function to calculate total output current
+uint16_t Get_Total_Output_Current(volatile uint8_t mux_channel_A, volatile uint8_t mux_channel_B)
+{
+	static uint16_t total_current = 0;
+	volatile static uint16_t ch_output_current[6];	//DSX has 6 output pins
+	if(mux_channel_A == MUXA_CHANNEL_8)  ch_output_current[0] = to_current_mA(get_current_reading());
+	if(mux_channel_A == MUXA_CHANNEL_9)  ch_output_current[1] = to_current_mA(get_current_reading());
+	if(mux_channel_A == MUXA_CHANNEL_10) ch_output_current[2] = to_current_mA(get_current_reading());
+	if(mux_channel_A == MUXA_CHANNEL_11) ch_output_current[3] = to_current_mA(get_current_reading());
+	if(mux_channel_B == MUXB_CHANNEL_0)  ch_output_current[4] = to_current_mA(get_current_reading());
+	if(mux_channel_B == MUXB_CHANNEL_1)  ch_output_current[5] = to_current_mA(get_current_reading());
+
+	if(mux_channel_A == MUXA_CHANNEL_11)	// Calculate total current once mux A gets to channel 11
+	{
+		for(int i=0; i<6; i++)
+		{
+			total_current += ch_output_current[i];
+		}
+	}
+
+	return total_current;
+}
+
 // Fault event handlers
 void DSX_Fault_Handler(uint8_t state)
 {
@@ -186,23 +215,22 @@ void DSX_Fault_Handler(uint8_t state)
 	{
 	case STATE_FAULT_OVER_CURR:
 		HAL_GPIO_WritePin(MUX_En_GPIO_Port, MUX_En_Pin, DISABLE_MUX);  // DISABLE MUX
-		/* Play Buzzer */
 		break;
 
 	case STATE_FAULT_OVER_TEMP:
-		/* Play Buzzer */
+		/* What do we do if over temperature? */
 		break;
 
 	case STATE_FAULT_REV_POL:
-		/* Play Buzzer */
+		/* Not Implemented */
 		break;
 
 	case STATE_FAULT_USB:
-		/* Play Buzzer */
+		/* Not Implemented */
 		break;
 
 	case STATE_FAULT_UART:
-		/* Play Buzzer */
+		/* Not Implemented */
 		break;
 
 	case STATE_FAULT_LIMIT_SW:

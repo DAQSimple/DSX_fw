@@ -14,6 +14,7 @@
 #include "dsx_data_structure.h"
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 
 // global state variable to store fault states or normal state
@@ -48,8 +49,8 @@ uint32_t temp_current_buf[2];
 
 // Thresholds - NOT SURE ABOUT THESE YET, NEED TO TEST VALUES BEFORE IMPLEMENTING
 #define MAX_TEMP_ALLOWED         (1000U)
-#define MAX_POSITIVE_CURRENT     (3600U)
-#define MAX_NEGATIVE_CURRENT     (600U)
+#define MAX_POSITIVE_CURRENT     (3437U)
+#define MAX_NEGATIVE_CURRENT     (650U)
 #define MAX_OUTPUT_CURRENT		 (100U) //100 mA
 
 // Debug LEDs
@@ -114,6 +115,12 @@ uint32_t get_current_reading(void);		// current reading into the ADC_CURRENT pin
 // Functions for updating the 3 debug LEDs
 void update_debug_leds(uint8_t state);
 void write_debug_leds(uint8_t led1_state, uint8_t led2_state, uint8_t led3_state);
+
+// Function to convert current reading to a mA value
+uint32_t to_current_mA(uint32_t current_reading);
+
+// Function to calculate total output current
+uint16_t Get_Total_Output_Current(volatile uint8_t mux_channel_A, volatile uint8_t mux_channel_B);
 
 // Fault event handlers
 void DSX_Fault_Handler(uint8_t state);
