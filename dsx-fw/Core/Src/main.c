@@ -172,7 +172,7 @@ int main(void)
 	DAC_init();
 
 	// init safety driver
-	safety_init();
+//	safety_init();
 
 	// Start encoder driver
 	Encoder_Start();
