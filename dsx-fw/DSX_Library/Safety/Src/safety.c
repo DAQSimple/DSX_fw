@@ -26,7 +26,7 @@ void safety_init(void)
 
 	HAL_TIM_Base_Start_IT(&htim2);	// Start timer 2, 100 Hz
 	HAL_TIM_Base_Start_IT(&htim5);	// Start timer 5, 400 Hz
-	HAL_ADC_Start_DMA(&hadc5, temp_current_buf, sizeof(temp_current_buf));	// 2 channel, reads temp channel followed by system current
+//	HAL_ADC_Start_DMA(&hadc5, temp_current_buf, sizeof(temp_current_buf));	// 2 channel, reads temp channel followed by system current
 	HAL_GPIO_WritePin(MUX_En_GPIO_Port, MUX_En_Pin, ENABLE_MUX);  // Enable MUX
 	state = STATE_NORMAL;			// Assume initial state is NORMAL, so no faults
 	write_debug_leds(DEBUG_LED_NORMAL_OP);	// Write to the 3 debug leds, normal operation
