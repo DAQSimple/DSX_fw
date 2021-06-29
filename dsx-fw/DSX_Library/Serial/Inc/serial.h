@@ -20,7 +20,7 @@ extern UART_HandleTypeDef hlpuart1;
 void Serial_Receive_DMA(void);
 
 // Function to transmit serial data via DMA
-void Serial_Transmit_DMA(volatile DSX_data_t *data);
+void Serial_Transmit(volatile DSX_data_t *data);
 
 // Function to parse buffer and store into dsx data
 void parse_buffer_to_dsx_data(volatile DSX_data_t *data);
