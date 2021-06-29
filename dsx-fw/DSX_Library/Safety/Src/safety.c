@@ -11,49 +11,6 @@
 bool limit_switch1_interrupt = ENABLED;	//limit switch1 interrupt enabled by default
 bool limit_switch2_interrupt = ENABLED;	//limit switch2 interrupt enabled by default
 
-// Array of arrays for controlling dual multiplexers
-uint8_t Multiplex_Control_Arr_2CH_1Sel[2] = {
-		0,	/* Select multiplexer channel 0 */
-		1,	/* Select multiplexer channel 1 */
-};
-
-uint8_t Multiplex_Control_Arr_4CH_2Sel[4][2] = {
-		{0,  0},	/* Select multiplexer channel 0 */
-		{0,  1},	/* Select multiplexer channel 1 */
-		{1,  0},	/* Select multiplexer channel 2 */
-		{1,  1},	/* Select multiplexer channel 3 */
-};
-
-uint8_t Multiplex_Control_Arr_8CH_3Sel[8][3] = {
-		{0,  0,  0},	/* Select multiplexer channel 0 */
-		{0,  0,  1},	/* Select multiplexer channel 1 */
-		{0,  1,  0},	/* Select multiplexer channel 2 */
-		{0,  1,  1},	/* Select multiplexer channel 3 */
-		{1,  0,  0},	/* Select multiplexer channel 4 */
-		{1,  0,  1},	/* Select multiplexer channel 5 */
-		{1,  1,  0},	/* Select multiplexer channel 6 */
-		{1,  1,  1}		/* Select multiplexer channel 7 */
-};
-
-uint8_t Multiplex_Control_Arr_16CH_4Sel[16][4] = {
-		{0,  0,  0,  0},	/* Select multiplexer channel 0  */
-		{0,  0,  0,  1},	/* Select multiplexer channel 1  */
-		{0,  0,  1,  0},	/* Select multiplexer channel 2  */
-		{0,  0,  1,  1},	/* Select multiplexer channel 3  */
-		{0,  1,  0,  0},	/* Select multiplexer channel 4  */
-		{0,  1,  0,  1},	/* Select multiplexer channel 5  */
-		{0,  1,  1,  0},	/* Select multiplexer channel 6  */
-		{0,  1,  1,  1},	/* Select multiplexer channel 7  */
-		{1,  0,  0,  0},	/* Select multiplexer channel 8  */
-		{1,  0,  0,  1},	/* Select multiplexer channel 9  */
-		{1,  0,  1,  0},	/* Select multiplexer channel 10 */
-		{1,  0,  1,  1},	/* Select multiplexer channel 11 */
-		{1,  1,  0,  0},	/* Select multiplexer channel 12 */
-		{1,  1,  0,  1},	/* Select multiplexer channel 13 */
-		{1,  1,  1,  0},	/* Select multiplexer channel 14 */
-		{1,  1,  1,  1},	/* Select multiplexer channel 15 */
-};
-
 // Function to init current sense timer and state
 void safety_init(void)
 {
@@ -107,43 +64,6 @@ void write_debug_leds(uint8_t led1_state, uint8_t led2_state, uint8_t led3_state
 	HAL_GPIO_WritePin(DEBUG_LD1_GPIO_Port, DEBUG_LD1_Pin, led1_state);
 	HAL_GPIO_WritePin(DEBUG_LD2_GPIO_Port, DEBUG_LD2_Pin, led2_state);
 	HAL_GPIO_WritePin(DEBUG_LD3_GPIO_Port, DEBUG_LD3_Pin, led3_state);
-}
-
-
-// Getters for MUX channel select S0 for MUX pair AB
-uint8_t MUXAB_CH_Select_S0(uint8_t mux_channel)
-{
-	return Multiplex_Control_Arr_16CH_4Sel[mux_channel][0];
-}
-
-// Getters for MUX channel select S1 for MUX pair AB
-uint8_t MUXAB_CH_Select_S1(uint8_t mux_channel)
-{
-	return Multiplex_Control_Arr_16CH_4Sel[mux_channel][1];
-}
-
-// Getters for MUX channel select S2 for MUX pair AB
-uint8_t MUXAB_CH_Select_S2(uint8_t mux_channel)
-{
-	return Multiplex_Control_Arr_16CH_4Sel[mux_channel][2];
-}
-
-// Getters for MUX channel select S3 for MUX pair AB
-uint8_t MUXAB_CH_Select_S3(uint8_t mux_channel)
-{
-	return Multiplex_Control_Arr_16CH_4Sel[mux_channel][3];
-}
-
-// Getters for MUX channel select S0 for MUX pair B
-uint8_t MUXB_CH_Select_S0(uint8_t mux_channel)
-{
-	return Multiplex_Control_Arr_2CH_1Sel[mux_channel % 2];
-}
-
-// Getters for MUX channel select S0 for MUX C
-uint8_t MUXC_CH_Select_S0(uint8_t mux_channel)
-{
-	return Multiplex_Control_Arr_2CH_1Sel[mux_channel];
 }
 
 // Getters for Temperature and Current readings

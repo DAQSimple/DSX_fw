@@ -90,24 +90,6 @@ uint32_t temp_current_buf[2];
 #define ENABLE_MUX		(0)
 #define DISABLE_MUX		(1U)
 
-// Getters for MUX channel select S0 for MUX pair AB
-uint8_t MUXAB_CH_Select_S0(uint8_t mux_channel);
-
-// Getters for MUX channel select S1 for MUX pair AB
-uint8_t MUXAB_CH_Select_S1(uint8_t mux_channel);
-
-// Getters for MUX channel select S2 for MUX pair AB
-uint8_t MUXAB_CH_Select_S2(uint8_t mux_channel);
-
-// Getters for MUX channel select S3 for MUX pair AB
-uint8_t MUXAB_CH_Select_S3(uint8_t mux_channel);
-
-// Getters for MUX channel select S0 for MUX pair B
-uint8_t MUXB_CH_Select_S0(uint8_t mux_channel);
-
-// Getters for MUX channel select S0 for MUX C
-uint8_t MUXC_CH_Select_S0(uint8_t mux_channel);
-
 // Getters for Temperature and Current readings
 uint32_t get_temp_reading(void);
 uint32_t get_current_reading(void);		// current reading into the ADC_CURRENT pin
