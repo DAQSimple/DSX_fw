@@ -30,9 +30,9 @@ extern TIM_HandleTypeDef htim16;
 extern TIM_HandleTypeDef htim17;
 
 // For storing temperature and system current
-//	temp_current_buf[0] -> Onboard temperature channel ADC reading
-//  temp_current_buf[0] -> System current from current sensing mux circuit ADC reading
-uint32_t temp_current_buf[2];
+//	adc_buf[4] -> System current from current sensing mux circuit ADC reading
+//  adc_buf[5] -> Onboard temperature channel ADC reading
+extern uint32_t volatile adc_buf[];
 
 // macros for enabling or disabling limit switch interrupts
 #define DISABLED	(0)
@@ -48,7 +48,7 @@ uint32_t temp_current_buf[2];
 #define STATE_FAULT_LIMIT_SW    (6U)
 
 // Thresholds - NOT SURE ABOUT THESE YET, NEED TO TEST VALUES BEFORE IMPLEMENTING
-#define MAX_TEMP_ALLOWED         (1000U)
+#define MAX_TEMP_ALLOWED         (2000U)
 #define MAX_POSITIVE_CURRENT     (3437U)
 #define MAX_NEGATIVE_CURRENT     (650U)
 #define MAX_OUTPUT_CURRENT		 (100U) //100 mA
