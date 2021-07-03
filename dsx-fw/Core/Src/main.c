@@ -31,6 +31,7 @@
 #include "safety.h"
 #include "board_defines.h"
 #include "Encoder.h"
+#include "SPI.h"
 
 /* USER CODE END Includes */
 
@@ -165,11 +166,14 @@ int main(void)
 	DAC_init();
 
 	// init safety driver
-	safety_init();
+	//safety_init();
 
 	// Start encoder driver
 	Encoder_Start();
 
+	SPI_Init();
+
+	volatile uint8_t data = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -180,6 +184,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
+		data = SPI_Read();
+		/*
 		while(state==STATE_NORMAL)
 		{
 			// update dsx data based on received buffer
@@ -191,7 +198,7 @@ int main(void)
 
 		// Error Handler. If we enter here, then a fault occured.
 		Error_Handler();
-
+		*/
 	}
   /* USER CODE END 3 */
 }
@@ -640,11 +647,11 @@ static void MX_SPI3_Init(void)
   hspi3.Instance = SPI3;
   hspi3.Init.Mode = SPI_MODE_MASTER;
   hspi3.Init.Direction = SPI_DIRECTION_2LINES;
-  hspi3.Init.DataSize = SPI_DATASIZE_4BIT;
+  hspi3.Init.DataSize = SPI_DATASIZE_8BIT;
   hspi3.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi3.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi3.Init.NSS = SPI_NSS_SOFT;
-  hspi3.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
+  hspi3.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_128;
   hspi3.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi3.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi3.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
