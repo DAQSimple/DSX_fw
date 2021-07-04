@@ -26,4 +26,6 @@ void SPI_Write(uint8_t address);
 
 uint8_t SPI_Read(void);
 
+void SPI_TransmitRecieve(void);
+
 #endif /* SPI_H_ */

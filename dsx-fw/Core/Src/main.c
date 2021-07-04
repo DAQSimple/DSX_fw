@@ -173,7 +173,8 @@ int main(void)
 
 	SPI_Init();
 
-	volatile uint8_t data = 0;
+	 uint8_t rx;
+	 uint8_t tx = {10};
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -184,8 +185,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
-		data = SPI_Read();
+		rx = SPI_Read();
+		SPI_Write(++tx);
 		/*
 		while(state==STATE_NORMAL)
 		{

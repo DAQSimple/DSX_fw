@@ -7,6 +7,9 @@
 
 #include "SPI.h"
 
+static uint8_t SPI_Rx = 0;
+static uint8_t SPI_Tx = 0;
+
 void SPI_Set_Mode(uint8_t mode){
 	switch(mode){
 		case 0:
@@ -38,15 +41,17 @@ void SPI_Init(void){
 }
 
 void SPI_Write(uint8_t address){
-	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi3, &address, 1, 100);
-	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
+	SPI_Tx = address;
+	SPI_TransmitRecieve();
 }
 
 uint8_t SPI_Read(void){
-	uint8_t data = 0;
+	SPI_TransmitRecieve();
+	return SPI_Rx;
+}
+
+void SPI_TransmitRecieve(void){
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
-	HAL_SPI_Receive(&hspi3, &data, 1, 100);
+	HAL_SPI_TransmitReceive(&hspi3, &SPI_Tx, &SPI_Rx, 1, 100);
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
-	return data;
 }
