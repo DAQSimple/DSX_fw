@@ -171,10 +171,11 @@ int main(void)
 	// Start encoder driver
 	Encoder_Start();
 
+	// Start SPI
 	SPI_Init();
 
 	 uint8_t rx;
-	 uint8_t tx = {10};
+	 uint8_t tx = 10;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -186,7 +187,8 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 		rx = SPI_Read();
-		SPI_Write(++tx);
+		tx++;
+		SPI_Write(tx);
 		/*
 		while(state==STATE_NORMAL)
 		{
