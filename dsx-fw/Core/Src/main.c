@@ -186,9 +186,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+		SPI_Write(tx);
 		rx = SPI_Read();
 		tx++;
-		SPI_Write(tx);
 		/*
 		while(state==STATE_NORMAL)
 		{
