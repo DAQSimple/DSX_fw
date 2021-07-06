@@ -174,8 +174,6 @@ int main(void)
 	// Start SPI
 	SPI_Init();
 
-	 uint8_t rx;
-	 uint8_t tx = 10;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -186,10 +184,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		SPI_Write(tx);
-		rx = SPI_Read();
-		tx++;
-		/*
+
 		while(state==STATE_NORMAL)
 		{
 			// update dsx data based on received buffer
@@ -201,7 +196,7 @@ int main(void)
 
 		// Error Handler. If we enter here, then a fault occured.
 		Error_Handler();
-		*/
+
 	}
   /* USER CODE END 3 */
 }
