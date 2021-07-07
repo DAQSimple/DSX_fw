@@ -174,8 +174,6 @@ DSX_data_t DSX_Fault_Handler(uint8_t state)
 		break;
 
 	case STATE_FAULT_LIMIT_SW:
-		updateDutyCycle(htim16, 0);	// Disable PWM
-		updateDutyCycle(htim17, 0); // Disable PWM
 		SOS.ID=22;
 		SOS.loc=0;
 		SOS.ret=0;

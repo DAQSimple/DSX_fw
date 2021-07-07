@@ -1057,16 +1057,22 @@ void Error_Handler(void)
 	// Turn on front panel fault led
 	HAL_GPIO_WritePin(FAULT_LED_GPIO_Port, FAULT_LED_Pin, 1);
 
+	// Disable all outputs
+	updateDutyCycle(htim16, 0);	// Disable PWM
+    updateDutyCycle(htim17, 0); // Disable PWM
+    HAL_GPIO_WritePin(DO1_GPIO_Port, DO1_Pin, 0); // Reset DO1
+    HAL_GPIO_WritePin(DO2_GPIO_Port, DO2_Pin, 0); // Reset DO2
+    DAC_write(0, DAC1_CHANNEL_1); // Reset AO1
+    DAC_write(0, DAC1_CHANNEL_2); // Reset AO2
+
 	// DSX Fault Handler, returns SOS message to send to simulink
 	DSX_data_t SOS = DSX_Fault_Handler(state);
+	Serial_Transmit(&SOS);
 
 	// Update debug LED
 	update_debug_leds(state);
 
-	while (1)
-	{
-		//Serial_Transmit(&SOS);	// uncomment this when this is merged into develop
-	}
+	while (1) {}
   /* USER CODE END Error_Handler_Debug */
 }
 
