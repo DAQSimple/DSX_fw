@@ -14,7 +14,7 @@ bool validate_digital_write(volatile DSX_data_t *dsx_data){
 	if(dsx_data->loc != DO1 && dsx_data->loc != DO2) check_data = false;
 	if(dsx_data->sign != POSITIVE) check_data = false;
 	if(dsx_data->val != 0 && dsx_data->val != 1) check_data = false;
-	if(dsx_data->ret != CMD_COMPLETE_PING) check_data = false;
+//	if(dsx_data->ret != CMD_COMPLETE_PING) check_data = false;
 	return check_data;
 }
 
@@ -45,7 +45,7 @@ bool validate_pwm_write(volatile DSX_data_t *dsx_data){
 	if(dsx_data->loc != PWM1 && dsx_data->loc != PWM2) check_data = false;
 	if(dsx_data->sign != POSITIVE) check_data = false;
 	if(dsx_data->val < DUTYCYCLE_MIN || dsx_data->val > DUTYCYCLE_MAX) check_data = false;
-	if(dsx_data->ret != CMD_COMPLETE_PING) check_data = false;
+//	if(dsx_data->ret != CMD_COMPLETE_PING) check_data = false;
 	return check_data;
 }
 
@@ -74,7 +74,7 @@ bool validate_servo_write(volatile DSX_data_t *dsx_data){
 
 	// Define max and min degree macros for servo in the servo library
 	if(dsx_data->val < MIN_DEGREES || dsx_data->val > MAX_DEGREES) check_data = false;
-	if(dsx_data->ret != CMD_COMPLETE_PING) check_data = false;
+//	if(dsx_data->ret != CMD_COMPLETE_PING) check_data = false;
 	return check_data;
 }
 
@@ -96,7 +96,7 @@ bool validate_dac_write(volatile DSX_data_t *dsx_data){
 	if(dsx_data->loc != AO1 && dsx_data->loc != AO2) check_data = false;
 	if(dsx_data->sign != POSITIVE && dsx_data->sign != NEGATIVE) check_data = false;
 	if(dsx_data->val < 0 || dsx_data->val > 4095) check_data = false;
-	if(dsx_data->ret != CMD_COMPLETE_PING) check_data = false;
+//	if(dsx_data->ret != CMD_COMPLETE_PING) check_data = false;
 	return check_data;
 }
 
