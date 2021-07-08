@@ -79,7 +79,10 @@ bool validate_servo_write(volatile DSX_data_t *dsx_data){
 }
 
 // Validate Read Encoder Speed and Direction Command
-bool validate_read_encoder(volatile DSX_data_t *dsx_data){};
+bool validate_read_encoder(volatile DSX_data_t *dsx_data){
+	bool check_data = true;
+	return check_data;
+}
 
 // Validate Get Serial Info Command
 bool validate_get_serial_info(volatile DSX_data_t *dsx_data){};
