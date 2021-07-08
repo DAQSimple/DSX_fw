@@ -17,7 +17,7 @@ extern TIM_HandleTypeDef htim17;
 void cmd_digital_write(volatile DSX_data_t *dsx_data){
 	channel_t channel = convert_loc_to_channel(dsx_data->loc);
 	HAL_GPIO_WritePin(channel.port, channel.pin, dsx_data->val);
-	dsx_data->val = CMD_EXECUTED;
+//	dsx_data->val = CMD_EXECUTED;
 	Serial_Transmit(dsx_data);
 }
 
@@ -52,7 +52,7 @@ void cmd_pwm_write(volatile DSX_data_t *dsx_data){
 		updateDutyCycle(htim16,dsx_data->val);
 	else if (dsx_data->loc==PWM2)
 		updateDutyCycle(htim17,dsx_data->val);
-	dsx_data->val = CMD_EXECUTED;
+//	dsx_data->val = CMD_EXECUTED;
 	Serial_Transmit(dsx_data);
 }
 
@@ -66,7 +66,7 @@ void cmd_set_pwm_freq(volatile DSX_data_t *dsx_data){
 		if (dsx_data->sign == 0) updatePWMFrequency(htim17,dsx_data->val);
 		else if (dsx_data->sign == 1) updatePWMFrequency(htim17,(dsx_data->val)*10 + dsx_data->ret);
 	}
-	dsx_data->val = CMD_EXECUTED;
+//	dsx_data->val = CMD_EXECUTED;
 //	dsx_data->ret = CMD_COMPLETE_PING;
 	Serial_Transmit(dsx_data);
 }
@@ -77,7 +77,7 @@ void cmd_servo_write(volatile DSX_data_t *dsx_data){
 		writeServo(htim16,dsx_data->val);
 	else if (dsx_data->loc==PWM2)
 		writeServo(htim17,dsx_data->val);
-	dsx_data->val = CMD_EXECUTED;
+//	dsx_data->val = CMD_EXECUTED;
 	Serial_Transmit(dsx_data);
 };
 
@@ -85,7 +85,7 @@ void cmd_servo_write(volatile DSX_data_t *dsx_data){
 void cmd_encoder_read(volatile DSX_data_t *dsx_data){
 	dsx_data->sign = Encoder_Get_DIR();
 	dsx_data->val = Encoder_Read_RPM();
-	dsx_data->ret = RETURN_ENCODER_SPEED;
+	dsx_data->ret = RETURN_ENCODER_VELO;
 	Serial_Transmit(dsx_data);
 }
 
@@ -101,7 +101,7 @@ void cmd_dac_write(volatile DSX_data_t *dsx_data){
 		DAC_write(dsx_data->val, DAC1_CHANNEL_1);
 	else if(dsx_data->loc==AO2)
 		DAC_write(dsx_data->val, DAC1_CHANNEL_2);
-	dsx_data->val = CMD_EXECUTED;
+//	dsx_data->val = CMD_EXECUTED;
 	Serial_Transmit(dsx_data);
 }
 
@@ -121,7 +121,15 @@ void cmd_generate_waveform(volatile DSX_data_t *dsx_data){};
 void execute_command(volatile DSX_data_t *dsx_data)
 {
 	// Validate dsx_data
-	if(!is_valid(dsx_data)) return;
+	if(!is_valid(dsx_data)){
+		dsx_data->ID 	= 0;
+		dsx_data->loc 	= 0;
+		dsx_data->sign 	= 0;
+		dsx_data->val 	= 0;
+		dsx_data->ret 	= 0;
+		serial_available = false;
+		return;
+	}
 
 	// Execute command based on ID
 	if(dsx_data->ID == CMD_DIGITAL_WRITE){

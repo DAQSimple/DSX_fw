@@ -8,6 +8,11 @@ extern TIM_HandleTypeDef htim17;
 // Function for updating the PWM duty cycle and starting the PWM
 void updateDutyCycle (TIM_HandleTypeDef htim, uint8_t dutyCycle)
 {
+	/* Set the period to 100-1. This is important because switching between
+	 * Servo and PWM functionality, the period value changes
+	 */
+	htim.Instance->ARR = DUTYCYCLE_MAX;
+
 	// Sets the duty cycle cycle from 0 to Period
 	htim.Instance->CCR1 = dutyCycle;
 	HAL_TIM_PWM_Start(&htim, TIM_CHANNEL_1);
