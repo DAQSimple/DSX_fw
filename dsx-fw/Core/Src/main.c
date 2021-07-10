@@ -24,13 +24,18 @@
 /* USER CODE BEGIN Includes */
 #include "serial.h"
 #include "dsx_data_structure.h"
+#include "command.h"
+#include "channel.h"
+#include "validate.h"
 #include "PWM.h"
 #include <stdbool.h>
 #include "adc.h"
 #include "DAC.h"
+#include <stdint.h>
 #include "safety.h"
 #include "board_defines.h"
 #include "Encoder.h"
+#include "Servo.h"
 
 /* USER CODE END Includes */
 
@@ -102,6 +107,8 @@ static void MX_TIM7_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+// github aye
+extern bool serial_available;
 
 /* USER CODE END 0 */
 
@@ -165,7 +172,7 @@ int main(void)
 	DAC_init();
 
 	// init safety driver
-	safety_init();
+//	safety_init();
 
 	// Start encoder driver
 	Encoder_Start();
@@ -180,14 +187,21 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
 		while(state==STATE_NORMAL)
 		{
-			// update dsx data based on received buffer
-			parse_buffer_to_dsx_data(&dsx_data);
 
-			// execute commands
+			if(serial_available)
+			{
+				// update dsx data based on received buffer
+				parse_buffer_to_dsx_data(&dsx_data);
+
+				// execute commands
+				execute_command(&dsx_data);
+			}
 
 		}
+
 
 		// Error Handler. If we enter here, then a fault occured.
 		Error_Handler();
@@ -590,7 +604,7 @@ static void MX_LPUART1_UART_Init(void)
 
   /* USER CODE END LPUART1_Init 1 */
   hlpuart1.Instance = LPUART1;
-  hlpuart1.Init.BaudRate = 2000000;
+  hlpuart1.Init.BaudRate = 230400;
   hlpuart1.Init.WordLength = UART_WORDLENGTH_8B;
   hlpuart1.Init.StopBits = UART_STOPBITS_1;
   hlpuart1.Init.Parity = UART_PARITY_NONE;
@@ -1008,6 +1022,7 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, USER_LD1_Pin|FAULT_LED_Pin|MUXA_S3_Pin|DO2_Pin
                           |MUXB_S0_Pin|MUXC_S0_Pin, GPIO_PIN_RESET);
+
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, MUXA_S0_Pin|MUXA_S1_Pin|MUXA_S2_Pin|DEBUG_LD1_Pin

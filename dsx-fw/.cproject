@@ -46,7 +46,6 @@
 									<listOptionValue builtIn="false" value="../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32G4xx/Include"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/Blink/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/Data_structure/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/Serial/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/PWM/Inc}&quot;"/>
@@ -56,7 +55,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/Safety/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/Timer_Interrupts/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/Encoder/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/deleteme/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/Command/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/Servo/Inc}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.64532965" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
@@ -105,7 +105,6 @@
 									<listOptionValue builtIn="false" value="../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32G4xx/Include"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/Blink/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/Data_structure/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/Serial/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/PWM/Inc}&quot;"/>
@@ -115,7 +114,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/Safety/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/Timer_Interrupts/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/Encoder/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/deleteme/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/Command/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/dsx-fw/DSX_Library/Servo/Inc}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.786183696" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
