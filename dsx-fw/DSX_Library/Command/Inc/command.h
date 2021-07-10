@@ -46,10 +46,10 @@
 #define RETURN_DIGITAL_READ			1
 #define RETURN_PIN_MODE				2
 #define RETURN_ANALOG_READ			3
-#define RETURN_ENCODER_SPEED		4
+#define RETURN_ENCODER_VELO			4
 #define RETURN_SERIAL_INFO			5
-#define CMD_COMPLETE_PING			9
-#define CMD_EXECUTED				8888
+//#define CMD_COMPLETE_PING			9
+//#define CMD_EXECUTED				8888
 
 // Sign bits
 #define POSITIVE 					1
