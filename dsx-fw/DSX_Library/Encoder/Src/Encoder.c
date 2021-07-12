@@ -7,7 +7,8 @@
 
 #include "Encoder.h"
 
-volatile uint16_t Encoder_CPR = 0;		//Encoder counts per revolution
+volatile uint16_t Encoder_CPR = 0;			//Encoder counts per revolution
+volatile uint8_t Encoder_INT_Status = 0; 	//Status of timer interrupt 7
 
 void Encoder_Set_CPR(uint16_t CPR_set){
 	if(CPR_set == 0) CPR_set = ENCODER_DEFAULT_CPR;		//To avoid division by 0 set CPR to default
@@ -18,7 +19,21 @@ void Encoder_Start(void){
 	Encoder_Set_CPR(100); // default CPR
 	HAL_TIM_Base_Start_IT(&htim7);
 	HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_ALL);
+	Encoder_INT_Status = ENCODER_INT_ENABLED;			//Set status to enabled
 }
+
+void Disable_Encoder_INT(void){
+	if(Encoder_INT_Status == ENCODER_INT_DISABLED) return;
+	HAL_TIM_Base_Stop_IT(&htim7);
+	Encoder_INT_Status = ENCODER_INT_DISABLED;			//Set status to enabled
+}
+
+void Enable_Encoder_INT(void){
+	if(Encoder_INT_Status == ENCODER_INT_ENABLED) return;
+	HAL_TIM_Base_Start_IT(&htim7);
+	Encoder_INT_Status = ENCODER_INT_ENABLED;			//Set status to enabled
+}
+
 
 void Encoder_Clear_Count(void){
 	__HAL_TIM_SET_COUNTER(&htim4, 0);

@@ -12,8 +12,10 @@
 #include "main.h"
 #include "stdlib.h"		// for the abs() function
 
-#define SAMPLING_FREQ_TIM7  (4U)				//Sampling rate of timer 7 in Hz
-#define ENCODER_DEFAULT_CPR (100U)				//Default encoder counts per revolution
+#define SAMPLING_FREQ_TIM7  	(4U)				//Sampling rate of timer 7 in Hz
+#define ENCODER_DEFAULT_CPR 	(100U)				//Default encoder counts per revolution
+#define ENCODER_INT_ENABLED 	(1)
+#define ENCODER_INT_DISABLED 	(0)
 
 volatile static uint32_t Encoder_freq = 0;		//Encoder frequency
 volatile static uint32_t Encoder_rpm = 0;		//Encoder RPM
@@ -29,6 +31,10 @@ void Encoder_Set_CPR(uint16_t CPR_set);
 //Function to start encoder timer and sampling timer
 //NOTE: CPR should be set before calling
 void Encoder_Start(void);
+
+void Disable_Encoder_INT(void);
+
+void Enable_Encoder_INT(void);
 
 //Function to clear the current encoder count
 void Encoder_Clear_Count(void);
