@@ -9,6 +9,7 @@
 #define ENCODER_H_
 
 #include <stdint.h>
+#include <stdlib.h>
 #include "main.h"
 #include "stdlib.h"		// for the abs() function
 

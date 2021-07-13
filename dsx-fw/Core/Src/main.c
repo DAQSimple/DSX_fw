@@ -176,7 +176,6 @@ int main(void)
 
 	// Start encoder driver
 	Encoder_Start();
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -187,7 +186,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
 		while(state==STATE_NORMAL)
 		{
 
