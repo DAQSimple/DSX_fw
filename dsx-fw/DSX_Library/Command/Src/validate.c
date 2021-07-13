@@ -79,7 +79,13 @@ bool validate_servo_write(volatile DSX_data_t *dsx_data){
 }
 
 // Validate Read Encoder Speed and Direction Command
-bool validate_read_encoder(volatile DSX_data_t *dsx_data){
+bool validate_read_encoder_rpm(volatile DSX_data_t *dsx_data){
+	bool check_data = true;
+	return check_data;
+}
+
+// Validate Read Encoder Count Command
+bool validate_read_encoder_count(volatile DSX_data_t *dsx_data){
 	bool check_data = true;
 	return check_data;
 }
@@ -138,8 +144,8 @@ bool is_valid(volatile DSX_data_t *dsx_data)
 	else if(dsx_data->ID == CMD_SERVO_WRITE){
 		dsx_data_valid = validate_servo_write(dsx_data);
 	}
-	else if(dsx_data->ID == CMD_ENCODER_READ){
-		dsx_data_valid = validate_read_encoder(dsx_data);
+	else if(dsx_data->ID == CMD_ENCODER_READ_RPM){
+		dsx_data_valid = validate_read_encoder_rpm(dsx_data);
 	}
 	else if(dsx_data->ID == CMD_GET_SERIAL_INFO){
 		dsx_data_valid = validate_get_serial_info(dsx_data);
@@ -161,6 +167,9 @@ bool is_valid(volatile DSX_data_t *dsx_data)
 	}
 	else if(dsx_data->ID == CMD_WAVEFORM_WRITE){
 		dsx_data_valid = validate_generate_waveform_(dsx_data);
+	}
+	else if(dsx_data->ID == CMD_ENCODER_READ_COUNT){
+			dsx_data_valid = validate_read_encoder_count(dsx_data);
 	}
 
 	return dsx_data_valid;
