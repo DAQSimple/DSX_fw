@@ -24,8 +24,6 @@ extern I2C_HandleTypeDef hi2c1;
 #define I2C_SLAVE_ADDRESS_8		8U
 #define I2C_SLAVE_ADDRESS_9		9U
 
-#define I2C_REQUEST_DATA		69U
-
 // Init I2C
 void I2C_Init(void);
 
