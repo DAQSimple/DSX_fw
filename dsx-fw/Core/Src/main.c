@@ -35,6 +35,7 @@
 #include "safety.h"
 #include "board_defines.h"
 #include "Encoder.h"
+#include "i2c.h"
 #include "Servo.h"
 
 /* USER CODE END Includes */
@@ -174,6 +175,9 @@ int main(void)
 	// Start encoder driver
 	Encoder_Start();
 
+	// Start I2C Driver
+	I2C_Init();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -184,7 +188,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
 		while(state==STATE_NORMAL)
 		{
 
@@ -553,7 +556,7 @@ static void MX_LPUART1_UART_Init(void)
 
   /* USER CODE END LPUART1_Init 1 */
   hlpuart1.Instance = LPUART1;
-  hlpuart1.Init.BaudRate = 256000;
+  hlpuart1.Init.BaudRate = 230400;
   hlpuart1.Init.WordLength = UART_WORDLENGTH_8B;
   hlpuart1.Init.StopBits = UART_STOPBITS_1;
   hlpuart1.Init.Parity = UART_PARITY_NONE;

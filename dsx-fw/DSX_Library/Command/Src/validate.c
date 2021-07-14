@@ -79,7 +79,13 @@ bool validate_servo_write(volatile DSX_data_t *dsx_data){
 }
 
 // Validate Read Encoder Speed and Direction Command
-bool validate_read_encoder(volatile DSX_data_t *dsx_data){
+bool validate_read_encoder_rpm(volatile DSX_data_t *dsx_data){
+	bool check_data = true;
+	return check_data;
+}
+
+// Validate Read Encoder Count Command
+bool validate_read_encoder_count(volatile DSX_data_t *dsx_data){
 	bool check_data = true;
 	return check_data;
 }
@@ -107,7 +113,21 @@ bool validate_limit_switch(volatile DSX_data_t *dsx_data){};
 bool validate_spi_write(volatile DSX_data_t *dsx_data){};
 
 // Validate Write I2C Command
-bool validate_i2c_write(volatile DSX_data_t *dsx_data){};
+bool validate_i2c_write(volatile DSX_data_t *dsx_data)
+{
+	bool check_data = true;
+	if(dsx_data->loc < I2C_SLAVE_ADDRESS_0 && dsx_data->loc > I2C_SLAVE_ADDRESS_9) check_data = false;
+	if(dsx_data->val < 0 && dsx_data->val > 255) check_data = false;
+	return check_data;
+}
+
+// Validate Read I2C Command
+bool validate_i2c_read(volatile DSX_data_t *dsx_data)
+{
+	bool check_data = true;
+	if(dsx_data->loc < I2C_SLAVE_ADDRESS_0 && dsx_data->loc > I2C_SLAVE_ADDRESS_9) check_data = false;
+	return check_data;
+}
 
 // Validate Generate Waveform Command
 bool validate_generate_waveform_(volatile DSX_data_t *dsx_data){};
@@ -138,8 +158,8 @@ bool is_valid(volatile DSX_data_t *dsx_data)
 	else if(dsx_data->ID == CMD_SERVO_WRITE){
 		dsx_data_valid = validate_servo_write(dsx_data);
 	}
-	else if(dsx_data->ID == CMD_ENCODER_READ){
-		dsx_data_valid = validate_read_encoder(dsx_data);
+	else if(dsx_data->ID == CMD_ENCODER_READ_RPM){
+		dsx_data_valid = validate_read_encoder_rpm(dsx_data);
 	}
 	else if(dsx_data->ID == CMD_GET_SERIAL_INFO){
 		dsx_data_valid = validate_get_serial_info(dsx_data);
@@ -159,8 +179,14 @@ bool is_valid(volatile DSX_data_t *dsx_data)
 	else if(dsx_data->ID == CMD_I2C_WRITE){
 		dsx_data_valid = validate_i2c_write(dsx_data);
 	}
+	else if(dsx_data->ID == CMD_I2C_READ){
+		dsx_data_valid = validate_i2c_read(dsx_data);
+	}
 	else if(dsx_data->ID == CMD_WAVEFORM_WRITE){
 		dsx_data_valid = validate_generate_waveform_(dsx_data);
+	}
+	else if(dsx_data->ID == CMD_ENCODER_READ_COUNT){
+			dsx_data_valid = validate_read_encoder_count(dsx_data);
 	}
 
 	return dsx_data_valid;
