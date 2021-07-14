@@ -80,8 +80,11 @@ void Error_Handler(void);
 #define MUXA_S0_GPIO_Port GPIOB
 #define MUXA_S1_Pin GPIO_PIN_2
 #define MUXA_S1_GPIO_Port GPIOB
-#define DI7_Pin GPIO_PIN_10
-#define DI7_GPIO_Port GPIOB
+#define LIMIT_SW2_Pin GPIO_PIN_10
+#define LIMIT_SW2_GPIO_Port GPIOB
+#define LIMIT_SW2_EXTI_IRQn EXTI15_10_IRQn
+#define ADC_CURRENT_Pin GPIO_PIN_11
+#define ADC_CURRENT_GPIO_Port GPIOB
 #define MUXA_S2_Pin GPIO_PIN_12
 #define MUXA_S2_GPIO_Port GPIOB
 #define DEBUG_LD1_Pin GPIO_PIN_13
@@ -98,10 +101,9 @@ void Error_Handler(void);
 #define MUXB_S0_GPIO_Port GPIOC
 #define MUXC_S0_Pin GPIO_PIN_9
 #define MUXC_S0_GPIO_Port GPIOC
-#define DI8_Pin GPIO_PIN_8
-#define DI8_GPIO_Port GPIOA
-#define ADC_CURRENT_Pin GPIO_PIN_9
-#define ADC_CURRENT_GPIO_Port GPIOA
+#define LIMIT_SW1_Pin GPIO_PIN_8
+#define LIMIT_SW1_GPIO_Port GPIOA
+#define LIMIT_SW1_EXTI_IRQn EXTI9_5_IRQn
 #define DI3_Pin GPIO_PIN_10
 #define DI3_GPIO_Port GPIOA
 #define ENC_A_Pin GPIO_PIN_11
@@ -122,9 +124,6 @@ void Error_Handler(void);
 #define DI5_GPIO_Port GPIOB
 #define DO1_Pin GPIO_PIN_6
 #define DO1_GPIO_Port GPIOB
-#define LIMIT_SW_Pin GPIO_PIN_7
-#define LIMIT_SW_GPIO_Port GPIOB
-#define LIMIT_SW_EXTI_IRQn EXTI9_5_IRQn
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

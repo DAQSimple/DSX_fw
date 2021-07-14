@@ -113,8 +113,16 @@ void cmd_dac_write(volatile DSX_data_t *dsx_data){
 	Serial_Transmit(dsx_data);
 }
 
-// Set PWM Level Command
-void cmd_limit_switch(volatile DSX_data_t *dsx_data){};
+// Enable or Disable Limit Switch Interrupts on LS1 and LS2 Command
+void cmd_limit_switch(volatile DSX_data_t *dsx_data)
+{
+	if(dsx_data->sign == 1){
+		disable_limit_sw_interrupt_pin(dsx_data->loc);
+	}else if(dsx_data->sign == 0){
+		enable_limit_sw_interrupt_pin(dsx_data->loc);
+	}
+	Serial_Transmit(dsx_data);
+}
 
 // Write SPI Command
 void cmd_spi_write(volatile DSX_data_t *dsx_data){};

@@ -23,5 +23,4 @@ typedef struct DSX_data_t{
 /* Function to initialize a DSX structure */
 void DSX_data_init(volatile DSX_data_t *dsx_ptr);
 
-
 #endif /* DATA_STRUCTURE_INC_DSX_DATA_STRUCTURE_H_ */
