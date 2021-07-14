@@ -984,6 +984,10 @@ static void MX_GPIO_Init(void)
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
+	// DSX Fault Handler, returns SOS message to send to simulink
+	DSX_Fault_Handler(state);
+	HAL_Delay(20);
+
 	/* User can add his own implementation to report the HAL error return state */
 	__disable_irq();
 
@@ -997,10 +1001,6 @@ void Error_Handler(void)
     HAL_GPIO_WritePin(DO2_GPIO_Port, DO2_Pin, 0); // Reset DO2
     DAC_write(0, DAC1_CHANNEL_1); // Reset AO1
     DAC_write(0, DAC1_CHANNEL_2); // Reset AO2
-
-	// DSX Fault Handler, returns SOS message to send to simulink
-	DSX_data_t SOS = DSX_Fault_Handler(state);
-	Serial_Transmit(&SOS);
 
 	// Update debug LED
 	update_debug_leds(state);

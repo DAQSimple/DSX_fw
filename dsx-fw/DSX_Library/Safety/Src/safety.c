@@ -128,7 +128,7 @@ uint16_t Get_Total_Output_Current(volatile uint8_t mux_channel_A, volatile uint8
 }
 
 // Fault event handlers
-DSX_data_t DSX_Fault_Handler(uint8_t state)
+void DSX_Fault_Handler(uint8_t state)
 {
 	// SOS message
 	DSX_data_t SOS;
@@ -182,7 +182,7 @@ DSX_data_t DSX_Fault_Handler(uint8_t state)
 		break;
 	}
 
-	return SOS;
+	Serial_Transmit(&SOS);
 }
 
 // External interrupt for limit switch. Fired at rising edge.
