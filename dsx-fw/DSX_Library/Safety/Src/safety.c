@@ -191,7 +191,14 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   /* Prevent unused argument(s) compilation warning */
   UNUSED(GPIO_Pin);
 
-  if(limit_switch1_interrupt == ENABLED || limit_switch2_interrupt == ENABLED){
-	  state = STATE_FAULT_LIMIT_SW;
+  if(GPIO_Pin == LIMIT_SW1_Pin){
+	  if(limit_switch1_interrupt == ENABLED){
+		  state = STATE_FAULT_LIMIT_SW;
+	  }
+  }
+  if(GPIO_Pin == LIMIT_SW2_Pin){
+	  if(limit_switch2_interrupt == ENABLED){
+		  state = STATE_FAULT_LIMIT_SW;
+	  }
   }
 }

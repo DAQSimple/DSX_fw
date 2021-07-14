@@ -106,8 +106,14 @@ bool validate_dac_write(volatile DSX_data_t *dsx_data){
 	return check_data;
 }
 
-// Validate Set PWM Level Command
-bool validate_limit_switch(volatile DSX_data_t *dsx_data){};
+// Validate Limit Switch Command
+bool validate_limit_switch(volatile DSX_data_t *dsx_data)
+{
+	bool check_data = true;
+	if(dsx_data->loc != 7 && dsx_data->loc != 8) check_data = false;
+	if(dsx_data->sign != 0 && dsx_data->sign != 1) check_data = false;
+	return check_data;
+}
 
 // Validate Write SPI Command
 bool validate_spi_write(volatile DSX_data_t *dsx_data){};
