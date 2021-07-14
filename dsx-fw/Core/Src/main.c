@@ -35,6 +35,7 @@
 #include "safety.h"
 #include "board_defines.h"
 #include "Encoder.h"
+#include "i2c.h"
 #include "Servo.h"
 #include "SPI.h"
 
@@ -180,6 +181,10 @@ int main(void)
 
 	// Start SPI
 	SPI_Init();
+
+  // Start I2C Driver
+	I2C_Init();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
