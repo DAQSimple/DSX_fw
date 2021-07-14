@@ -13,7 +13,7 @@
 #include "command.h"
 #include <stdbool.h>
 #include "board_defines.h"
-
+#include "i2c.h"
 
 
 // Validate Digital Write Command
@@ -57,6 +57,9 @@ bool validate_spi_write(volatile DSX_data_t *dsx_data);
 
 // Validate Write I2C Command
 bool validate_i2c_write(volatile DSX_data_t *dsx_data);
+
+// Validate Read I2C Command
+bool validate_i2c_read(volatile DSX_data_t *dsx_data);
 
 // Validate Generate Waveform Command
 bool validate_generate_waveform_(volatile DSX_data_t *dsx_data);

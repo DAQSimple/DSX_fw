@@ -42,6 +42,9 @@
 #define CMD_I2C_WRITE				23
 #define CMD_WAVEFORM_WRITE			24
 
+
+#define CMD_I2C_READ				30
+
 // Return commands to SIMULINK
 #define RETURN_DIGITAL_READ			1
 #define RETURN_PIN_MODE				2
@@ -97,6 +100,9 @@ void cmd_spi_write(volatile DSX_data_t *dsx_data);
 
 // Write I2C Command
 void cmd_i2c_write(volatile DSX_data_t *dsx_data);
+
+// Read I2C Command
+void cmd_i2c_read(volatile DSX_data_t *dsx_data);
 
 // Generate Waveform Command
 void cmd_generate_waveform(volatile DSX_data_t *dsx_data);
