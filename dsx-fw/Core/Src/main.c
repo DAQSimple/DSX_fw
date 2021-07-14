@@ -36,6 +36,7 @@
 #include "board_defines.h"
 #include "Encoder.h"
 #include "Servo.h"
+#include "SPI.h"
 
 /* USER CODE END Includes */
 
@@ -176,6 +177,9 @@ int main(void)
 
 	// Start encoder driver
 	Encoder_Start();
+
+	// Start SPI
+	SPI_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
