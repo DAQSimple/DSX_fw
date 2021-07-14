@@ -50,10 +50,14 @@ uint8_t Encoder_Get_DIR(void){
 
 
 int16_t Encoder_Read_Count(){
-	Encoder_Count = abs(__HAL_TIM_GET_COUNTER(&htim4));
-	if(Encoder_Count >= Encoder_CPR && Encoder_INT_Status == ENCODER_INT_DISABLED){
+	Encoder_Count = __HAL_TIM_GET_COUNTER(&htim4);
+	if(Encoder_Count > Encoder_CPR && Encoder_INT_Status == ENCODER_INT_DISABLED){
 		Encoder_Clear_Count();
 	}
+	else if(Encoder_Count < 0 && Encoder_INT_Status == ENCODER_INT_DISABLED){
+		__HAL_TIM_SET_COUNTER(&htim4, Encoder_CPR);
+	}
+	Encoder_Count = __HAL_TIM_GET_COUNTER(&htim4);
 	return Encoder_Count;
 }
 

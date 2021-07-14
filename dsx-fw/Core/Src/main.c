@@ -1021,7 +1021,6 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, USER_LD1_Pin|FAULT_LED_Pin|MUXA_S3_Pin|DO2_Pin
                           |MUXB_S0_Pin|MUXC_S0_Pin, GPIO_PIN_RESET);
 
-
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, MUXA_S0_Pin|MUXA_S1_Pin|MUXA_S2_Pin|DEBUG_LD1_Pin
                           |DEBUG_LD2_Pin|DEBUG_LD3_Pin|DO1_Pin, GPIO_PIN_RESET);
