@@ -58,7 +58,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 		// Check temperature and current threshholds
 		if(get_temp_reading() > MAX_TEMP_ALLOWED)        state = STATE_FAULT_OVER_TEMP;
-		if(get_current_reading() > MAX_POSITIVE_CURRENT) state = STATE_FAULT_OVER_CURR;
+//		if(get_current_reading() > MAX_POSITIVE_CURRENT) state = STATE_FAULT_OVER_CURR;
 //		if(get_current_reading() < MAX_NEGATIVE_CURRENT) state = STATE_FAULT_OVER_CURR;	// UNCOMMENT THIS IN THE FIRMWARE VERSION FOR THE COMPLETED SHIELD
 
 		// Check 100 mA output current threshhold

@@ -58,9 +58,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
-ADC_HandleTypeDef hadc5;
 DMA_HandleTypeDef hdma_adc1;
-DMA_HandleTypeDef hdma_adc5;
 
 DAC_HandleTypeDef hdac1;
 
@@ -95,7 +93,6 @@ static void MX_ADC1_Init(void);
 static void MX_SPI3_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_TIM4_Init(void);
-static void MX_ADC5_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_TIM5_Init(void);
 static void MX_TIM7_Init(void);
@@ -151,7 +148,6 @@ int main(void)
   MX_SPI3_Init();
   MX_I2C1_Init();
   MX_TIM4_Init();
-  MX_ADC5_Init();
   MX_TIM2_Init();
   MX_TIM5_Init();
   MX_TIM7_Init();
@@ -170,7 +166,7 @@ int main(void)
 	DAC_init();
 
 	// init safety driver
-//	safety_init();
+	safety_init();
 
 	// Start encoder driver
 	Encoder_Start();
@@ -257,11 +253,10 @@ void SystemClock_Config(void)
   /** Initializes the peripherals clocks
   */
   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_LPUART1|RCC_PERIPHCLK_I2C1
-                              |RCC_PERIPHCLK_ADC12|RCC_PERIPHCLK_ADC345;
+                              |RCC_PERIPHCLK_ADC12;
   PeriphClkInit.Lpuart1ClockSelection = RCC_LPUART1CLKSOURCE_SYSCLK;
   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_PCLK1;
   PeriphClkInit.Adc12ClockSelection = RCC_ADC12CLKSOURCE_SYSCLK;
-  PeriphClkInit.Adc345ClockSelection = RCC_ADC345CLKSOURCE_SYSCLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
@@ -374,71 +369,6 @@ static void MX_ADC1_Init(void)
   /* USER CODE BEGIN ADC1_Init 2 */
 
   /* USER CODE END ADC1_Init 2 */
-
-}
-
-/**
-  * @brief ADC5 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_ADC5_Init(void)
-{
-
-  /* USER CODE BEGIN ADC5_Init 0 */
-
-  /* USER CODE END ADC5_Init 0 */
-
-  ADC_ChannelConfTypeDef sConfig = {0};
-
-  /* USER CODE BEGIN ADC5_Init 1 */
-
-  /* USER CODE END ADC5_Init 1 */
-  /** Common config
-  */
-  hadc5.Instance = ADC5;
-  hadc5.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
-  hadc5.Init.Resolution = ADC_RESOLUTION_12B;
-  hadc5.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc5.Init.GainCompensation = 0;
-  hadc5.Init.ScanConvMode = ADC_SCAN_ENABLE;
-  hadc5.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
-  hadc5.Init.LowPowerAutoWait = DISABLE;
-  hadc5.Init.ContinuousConvMode = ENABLE;
-  hadc5.Init.NbrOfConversion = 2;
-  hadc5.Init.DiscontinuousConvMode = DISABLE;
-  hadc5.Init.ExternalTrigConv = ADC_SOFTWARE_START;
-  hadc5.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
-  hadc5.Init.DMAContinuousRequests = ENABLE;
-  hadc5.Init.Overrun = ADC_OVR_DATA_PRESERVED;
-  hadc5.Init.OversamplingMode = DISABLE;
-  if (HAL_ADC_Init(&hadc5) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /** Configure Regular Channel
-  */
-  sConfig.Channel = ADC_CHANNEL_2;
-  sConfig.Rank = ADC_REGULAR_RANK_1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_24CYCLES_5;
-  sConfig.SingleDiff = ADC_SINGLE_ENDED;
-  sConfig.OffsetNumber = ADC_OFFSET_NONE;
-  sConfig.Offset = 0;
-  if (HAL_ADC_ConfigChannel(&hadc5, &sConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /** Configure Regular Channel
-  */
-  sConfig.Channel = ADC_CHANNEL_TEMPSENSOR_ADC5;
-  sConfig.Rank = ADC_REGULAR_RANK_2;
-  if (HAL_ADC_ConfigChannel(&hadc5, &sConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN ADC5_Init 2 */
-
-  /* USER CODE END ADC5_Init 2 */
 
 }
 
@@ -950,9 +880,6 @@ static void MX_DMA_Init(void)
   /* DMA1_Channel3_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel3_IRQn);
-  /* DMA1_Channel4_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel4_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel4_IRQn);
 
 }
 
@@ -1040,6 +967,9 @@ static void MX_GPIO_Init(void)
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
 }
 
