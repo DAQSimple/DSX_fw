@@ -58,7 +58,7 @@ int16_t Encoder_Read_Count(){
 		__HAL_TIM_SET_COUNTER(&htim4, Encoder_CPR);
 	}
 	Encoder_Count = __HAL_TIM_GET_COUNTER(&htim4);
-	return Encoder_Count;
+	return Encoder_Count / 2;
 }
 
 //NOTE: Max reliable frequency is 64Hz
