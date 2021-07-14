@@ -48,7 +48,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		volatile static uint32_t Encoder_rpm;
 
 		//need to divide frequency by 2 since encoder read always counts both rising and falling edges
-		Encoder_freq = (SAMPLING_FREQ_TIM7 * abs(Encoder_Read_Count())) / 2;
+		Encoder_freq = SAMPLING_FREQ_TIM7 * abs(Encoder_Read_Count());
 		Encoder_Set_Freq(Encoder_freq);
 		Encoder_rpm = (Encoder_freq * 60)/ Encoder_Get_CPR();
 		Encoder_Set_RPM(Encoder_rpm);
