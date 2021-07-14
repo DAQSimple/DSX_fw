@@ -35,6 +35,7 @@
 #include "safety.h"
 #include "board_defines.h"
 #include "Encoder.h"
+#include "i2c.h"
 #include "Servo.h"
 
 /* USER CODE END Includes */
@@ -176,6 +177,10 @@ int main(void)
 
 	// Start encoder driver
 	Encoder_Start();
+
+	// Start I2C Driver
+	I2C_Init();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
