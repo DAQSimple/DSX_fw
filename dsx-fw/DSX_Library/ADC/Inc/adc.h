@@ -10,7 +10,7 @@
 
 #include "main.h"
 
-#define NUM_ADC_CHANNELS 4U
+#define NUM_ADC_CHANNELS 6U
 
 // Import adc handle from main.c for use in adc.c
 extern ADC_HandleTypeDef hadc1;
