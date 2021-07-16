@@ -13,7 +13,7 @@ volatile int16_t  Encoder_Count = 0;
 
 void Encoder_Set_CPR(uint16_t CPR_set){
 	if(CPR_set == 0) CPR_set = ENCODER_DEFAULT_CPR;		//To avoid division by 0 set CPR to default
-	Encoder_CPR = CPR_set;
+	Encoder_CPR = CPR_set*2;
 }
 
 void Encoder_Start(void){
