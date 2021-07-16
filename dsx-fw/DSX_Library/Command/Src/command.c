@@ -81,6 +81,12 @@ void cmd_servo_write(volatile DSX_data_t *dsx_data){
 	Serial_Transmit(dsx_data);
 }
 
+// Set Encoder CPR
+void cmd_encoder_set_cpr(volatile DSX_data_t *dsx_data){
+	Encoder_Set_CPR(dsx_data->val);
+	Serial_Transmit(dsx_data);
+}
+
 // Read Encoder Speed and Direction Command
 void cmd_encoder_read_rpm(volatile DSX_data_t *dsx_data){
 	Enable_Encoder_INT();
@@ -180,6 +186,12 @@ void execute_command(volatile DSX_data_t *dsx_data)
 	else if(dsx_data->ID == CMD_SERVO_WRITE){
 		cmd_servo_write(dsx_data);
 	}
+	else if(dsx_data->ID == CMD_ENCODER_SET_CPR){
+		cmd_encoder_set_cpr(dsx_data);
+	}
+	else if(dsx_data->ID == CMD_ENCODER_READ_COUNT){
+		cmd_encoder_read_count(dsx_data);
+	}
 	else if(dsx_data->ID == CMD_ENCODER_READ_RPM){
 		cmd_encoder_read_rpm(dsx_data);
 	}
@@ -206,9 +218,6 @@ void execute_command(volatile DSX_data_t *dsx_data)
 	}
 	else if(dsx_data->ID == CMD_WAVEFORM_WRITE){
 		cmd_generate_waveform(dsx_data);
-	}
-	else if(dsx_data->ID == CMD_ENCODER_READ_COUNT){
-		cmd_encoder_read_count(dsx_data);
 	}
 
 	// reset dsx data
