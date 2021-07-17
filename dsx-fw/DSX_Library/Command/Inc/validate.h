@@ -37,9 +37,6 @@ bool validate_set_PWM_freq(volatile DSX_data_t *dsx_data);
 // Validate Servo Write Command
 bool validate_servo_write(volatile DSX_data_t *dsx_data);
 
-// Validate Read Encoder Count Command
-bool validate_set_encoder_cpr(volatile DSX_data_t *dsx_data);
-
 // Validate Read Encoder Speed and Direction Command
 bool validate_read_encoder(volatile DSX_data_t *dsx_data);
 

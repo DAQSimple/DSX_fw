@@ -85,13 +85,6 @@ bool validate_read_encoder_rpm(volatile DSX_data_t *dsx_data){
 }
 
 // Validate Read Encoder Count Command
-bool validate_set_encoder_cpr(volatile DSX_data_t *dsx_data){
-	bool check_data = true;
-	if(dsx_data->val < 0 && dsx_data->val > 9999) check_data = false;
-	return check_data;
-}
-
-// Validate Read Encoder Count Command
 bool validate_read_encoder_count(volatile DSX_data_t *dsx_data){
 	bool check_data = true;
 	return check_data;
@@ -198,11 +191,8 @@ bool is_valid(volatile DSX_data_t *dsx_data)
 	else if(dsx_data->ID == CMD_WAVEFORM_WRITE){
 		dsx_data_valid = validate_generate_waveform_(dsx_data);
 	}
-	else if(dsx_data->ID == CMD_ENCODER_SET_CPR){
-		dsx_data_valid = validate_set_encoder_cpr(dsx_data);
-	}
 	else if(dsx_data->ID == CMD_ENCODER_READ_COUNT){
-		dsx_data_valid = validate_read_encoder_count(dsx_data);
+			dsx_data_valid = validate_read_encoder_count(dsx_data);
 	}
 
 	return dsx_data_valid;
