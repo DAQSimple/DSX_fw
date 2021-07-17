@@ -85,6 +85,13 @@ bool validate_read_encoder_rpm(volatile DSX_data_t *dsx_data){
 }
 
 // Validate Read Encoder Count Command
+bool validate_set_encoder_cpr(volatile DSX_data_t *dsx_data){
+	bool check_data = true;
+	if(dsx_data->val < 0 && dsx_data->val > 9999) check_data = false;
+	return check_data;
+}
+
+// Validate Read Encoder Count Command
 bool validate_read_encoder_count(volatile DSX_data_t *dsx_data){
 	bool check_data = true;
 	return check_data;
@@ -106,8 +113,14 @@ bool validate_dac_write(volatile DSX_data_t *dsx_data){
 	return check_data;
 }
 
-// Validate Set PWM Level Command
-bool validate_limit_switch(volatile DSX_data_t *dsx_data){};
+// Validate Limit Switch Command
+bool validate_limit_switch(volatile DSX_data_t *dsx_data)
+{
+	bool check_data = true;
+	if(dsx_data->loc != 7 && dsx_data->loc != 8) check_data = false;
+	if(dsx_data->sign != 0 && dsx_data->sign != 1) check_data = false;
+	return check_data;
+}
 
 // Validate Write SPI Command
 bool validate_spi_write(volatile DSX_data_t *dsx_data){};
@@ -185,8 +198,11 @@ bool is_valid(volatile DSX_data_t *dsx_data)
 	else if(dsx_data->ID == CMD_WAVEFORM_WRITE){
 		dsx_data_valid = validate_generate_waveform_(dsx_data);
 	}
+	else if(dsx_data->ID == CMD_ENCODER_SET_CPR){
+		dsx_data_valid = validate_set_encoder_cpr(dsx_data);
+	}
 	else if(dsx_data->ID == CMD_ENCODER_READ_COUNT){
-			dsx_data_valid = validate_read_encoder_count(dsx_data);
+		dsx_data_valid = validate_read_encoder_count(dsx_data);
 	}
 
 	return dsx_data_valid;

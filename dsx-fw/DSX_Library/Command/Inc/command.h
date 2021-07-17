@@ -41,8 +41,8 @@
 #define	CMD_SPI_WRITE				22
 #define CMD_I2C_WRITE				23
 #define CMD_WAVEFORM_WRITE			24
+#define CMD_ENCODER_SET_CPR			28
 #define CMD_ENCODER_READ_COUNT		29
-
 
 #define CMD_I2C_READ				30
 
