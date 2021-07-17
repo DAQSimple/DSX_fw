@@ -42,12 +42,12 @@ channel_t convert_loc_to_channel(uint32_t loc)
 			channel.pin=DI6_Pin;
 			break;
 		case DI7:
-			channel.port=LIMIT_SW1_GPIO_Port;
-			channel.pin=LIMIT_SW1_Pin;
+			channel.port=DI7_GPIO_Port;
+			channel.pin=DI7_Pin;
 			break;
 		case DI8:
-			channel.port=LIMIT_SW2_GPIO_Port;
-			channel.pin=LIMIT_SW2_Pin;
+			channel.port=DI8_GPIO_Port;
+			channel.pin=DI8_Pin;
 			break;
 
 		// Digital output pins (2)

@@ -43,6 +43,7 @@
 #define CMD_WAVEFORM_WRITE			24
 #define CMD_ENCODER_READ_COUNT		29
 
+
 #define CMD_I2C_READ				30
 
 // Return commands to SIMULINK
