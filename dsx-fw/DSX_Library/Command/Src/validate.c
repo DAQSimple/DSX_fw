@@ -87,7 +87,7 @@ bool validate_read_encoder_rpm(volatile DSX_data_t *dsx_data){
 // Validate Read Encoder Count Command
 bool validate_set_encoder_cpr(volatile DSX_data_t *dsx_data){
 	bool check_data = true;
-	if(dsx_data->val < 0 && dsx_data->val > 9999) check_data = false;
+	if(dsx_data->val < 0 || dsx_data->val > 9999) check_data = false;
 	return check_data;
 }
 
@@ -122,9 +122,6 @@ bool validate_limit_switch(volatile DSX_data_t *dsx_data)
 	return check_data;
 }
 
-// Validate Write SPI Command
-bool validate_spi_write(volatile DSX_data_t *dsx_data){};
-
 // Validate Write I2C Command
 bool validate_i2c_write(volatile DSX_data_t *dsx_data)
 {
@@ -149,7 +146,7 @@ bool validate_generate_waveform_(volatile DSX_data_t *dsx_data){};
 // Validate SPI Set Mode Command
 bool validate_spi_set_mode(volatile DSX_data_t *dsx_data){
 	bool check_data = true;
-	if(dsx_data->val < 0 && dsx_data->val > 3) check_data = false;
+	if(dsx_data->val < 0 || dsx_data->val > 3) check_data = false;
 	return check_data;
 }
 
@@ -177,6 +174,14 @@ bool validate_spi_set_prescaler(volatile DSX_data_t *dsx_data){
 	}
 	return check_data;
 }
+
+// Validate Write SPI Command
+bool validate_spi_write(volatile DSX_data_t *dsx_data){
+	bool check_data = true;
+	if(dsx_data->val < 0 || dsx_data->val > 255) check_data = false;
+	return check_data;
+}
+
 
 // *** Main Validate Command ***
 bool is_valid(volatile DSX_data_t *dsx_data)

@@ -159,9 +159,12 @@ void cmd_spi_set_prescaler(volatile DSX_data_t *dsx_data){
 	Serial_Transmit(dsx_data);
 }
 
-
 // Write SPI Command
-void cmd_spi_write(volatile DSX_data_t *dsx_data){};
+void cmd_spi_write(volatile DSX_data_t *dsx_data){
+	SPI_Write(dsx_data->val);
+	Serial_Transmit(dsx_data);
+};
+
 
 // *** Main Execute Command ***
 void execute_command(volatile DSX_data_t *dsx_data)
@@ -220,9 +223,6 @@ void execute_command(volatile DSX_data_t *dsx_data)
 	else if(dsx_data->ID == CMD_LIMIT_SWITCH){
 		cmd_limit_switch(dsx_data);
 	}
-	else if(dsx_data->ID == CMD_SPI_WRITE){
-		cmd_spi_write(dsx_data);
-	}
 	else if(dsx_data->ID == CMD_I2C_WRITE){
 		cmd_i2c_write(dsx_data);
 	}
@@ -237,6 +237,9 @@ void execute_command(volatile DSX_data_t *dsx_data)
 	}
 	else if(dsx_data->ID == CMD_SPI_SET_PRESCALER){
 		cmd_spi_set_prescaler(dsx_data);
+	}
+	else if(dsx_data->ID == CMD_SPI_WRITE){
+		cmd_spi_write(dsx_data);
 	}
 
 	// reset dsx data

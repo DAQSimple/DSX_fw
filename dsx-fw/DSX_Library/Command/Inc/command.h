@@ -38,10 +38,10 @@
 #define CMD_GET_SYS_STATUS			19
 #define CMD_DAC_WRITE				20
 #define CMD_LIMIT_SWITCH			21
-#define	CMD_SPI_WRITE				22
 #define CMD_I2C_WRITE				23
 #define CMD_SPI_SET_MODE			24
 #define CMD_SPI_SET_PRESCALER		25
+#define CMD_SPI_WRITE				26
 
 #define CMD_ENCODER_SET_CPR			28
 #define CMD_ENCODER_READ_COUNT		29
@@ -102,9 +102,6 @@ void cmd_dac_write(volatile DSX_data_t *dsx_data);
 // Set PWM Level Command
 void cmd_limit_switch(volatile DSX_data_t *dsx_data);
 
-// Write SPI Command
-void cmd_spi_write(volatile DSX_data_t *dsx_data);
-
 // Write I2C Command
 void cmd_i2c_write(volatile DSX_data_t *dsx_data);
 
@@ -119,6 +116,9 @@ void cmd_spi_set_mode(volatile DSX_data_t *dsx_data);
 
 // Set SPI Prescaler Command
 void cmd_spi_set_prescaler(volatile DSX_data_t *dsx_data);
+
+// Write SPI Command
+void cmd_spi_write(volatile DSX_data_t *dsx_data);
 
 // *** Main Execute Command ***
 void execute_command(volatile DSX_data_t *dsx_data);
