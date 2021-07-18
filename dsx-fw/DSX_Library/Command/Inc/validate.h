@@ -70,6 +70,9 @@ bool validate_generate_waveform_(volatile DSX_data_t *dsx_data);
 // Validate SPI Set Mode Command
 bool validate_spi_set_mode(volatile DSX_data_t *dsx_data);
 
+// Validate SPI Set Prescaler Command
+bool validate_spi_set_prescaler(volatile DSX_data_t *dsx_data);
+
 // *** Main Validate Command ***
 bool is_valid(volatile DSX_data_t *dsx_data);
 

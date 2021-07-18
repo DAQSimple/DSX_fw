@@ -41,6 +41,7 @@
 #define	CMD_SPI_WRITE				22
 #define CMD_I2C_WRITE				23
 #define CMD_SPI_SET_MODE			24
+#define CMD_SPI_SET_PRESCALER		25
 
 #define CMD_ENCODER_SET_CPR			28
 #define CMD_ENCODER_READ_COUNT		29
@@ -113,8 +114,11 @@ void cmd_i2c_read(volatile DSX_data_t *dsx_data);
 // Generate Waveform Command
 void cmd_generate_waveform(volatile DSX_data_t *dsx_data);
 
-// Set SPI mode
+// Set SPI Mode Command
 void cmd_spi_set_mode(volatile DSX_data_t *dsx_data);
+
+// Set SPI Prescaler Command
+void cmd_spi_set_prescaler(volatile DSX_data_t *dsx_data);
 
 // *** Main Execute Command ***
 void execute_command(volatile DSX_data_t *dsx_data);

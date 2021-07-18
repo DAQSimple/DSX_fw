@@ -153,6 +153,31 @@ bool validate_spi_set_mode(volatile DSX_data_t *dsx_data){
 	return check_data;
 }
 
+// Validate SPI Set Prescaler Command
+bool validate_spi_set_prescaler(volatile DSX_data_t *dsx_data){
+	bool check_data = true;
+	switch(dsx_data->val){
+		case 4:
+			break;
+		case 8:
+			break;
+		case 16:
+			break;
+		case 32:
+			break;
+		case 64:
+			break;
+		case 128:
+			break;
+		case 256:
+			break;
+		default:
+			check_data = false;
+			break;
+	}
+	return check_data;
+}
+
 // *** Main Validate Command ***
 bool is_valid(volatile DSX_data_t *dsx_data)
 {
