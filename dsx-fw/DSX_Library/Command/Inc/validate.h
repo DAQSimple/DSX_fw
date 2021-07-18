@@ -75,6 +75,9 @@ bool validate_spi_set_prescaler(volatile DSX_data_t *dsx_data);
 // Validate Write SPI Command
 bool validate_spi_write(volatile DSX_data_t *dsx_data);
 
+// Validate Read SPI Command
+bool validate_spi_read(volatile DSX_data_t *dsx_data);
+
 // *** Main Validate Command ***
 bool is_valid(volatile DSX_data_t *dsx_data);
 

@@ -165,6 +165,11 @@ void cmd_spi_write(volatile DSX_data_t *dsx_data){
 	Serial_Transmit(dsx_data);
 };
 
+// Read SPI Command
+void cmd_spi_read(volatile DSX_data_t *dsx_data){
+	dsx_data->val = SPI_Read();
+	Serial_Transmit(dsx_data);
+}
 
 // *** Main Execute Command ***
 void execute_command(volatile DSX_data_t *dsx_data)
@@ -240,6 +245,9 @@ void execute_command(volatile DSX_data_t *dsx_data)
 	}
 	else if(dsx_data->ID == CMD_SPI_WRITE){
 		cmd_spi_write(dsx_data);
+	}
+	else if(dsx_data->ID == CMD_SPI_READ){
+		cmd_spi_read(dsx_data);
 	}
 
 	// reset dsx data

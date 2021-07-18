@@ -42,7 +42,7 @@
 #define CMD_SPI_SET_MODE			24
 #define CMD_SPI_SET_PRESCALER		25
 #define CMD_SPI_WRITE				26
-
+#define CMD_SPI_READ				27
 #define CMD_ENCODER_SET_CPR			28
 #define CMD_ENCODER_READ_COUNT		29
 #define CMD_I2C_READ				30
@@ -119,6 +119,9 @@ void cmd_spi_set_prescaler(volatile DSX_data_t *dsx_data);
 
 // Write SPI Command
 void cmd_spi_write(volatile DSX_data_t *dsx_data);
+
+// Read SPI Command
+void cmd_spi_read(volatile DSX_data_t *dsx_data);
 
 // *** Main Execute Command ***
 void execute_command(volatile DSX_data_t *dsx_data);

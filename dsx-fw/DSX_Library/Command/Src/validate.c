@@ -182,6 +182,12 @@ bool validate_spi_write(volatile DSX_data_t *dsx_data){
 	return check_data;
 }
 
+// Validate Read SPI Command
+bool validate_spi_read(volatile DSX_data_t *dsx_data){
+	bool check_data = true;
+	return check_data;
+}
+
 
 // *** Main Validate Command ***
 bool is_valid(volatile DSX_data_t *dsx_data)
@@ -245,5 +251,9 @@ bool is_valid(volatile DSX_data_t *dsx_data)
 	else if(dsx_data->ID == CMD_SPI_SET_MODE){
 		dsx_data_valid = validate_spi_set_mode(dsx_data);
 	}
+	else if(dsx_data->ID == CMD_SPI_READ){
+		dsx_data_valid = validate_spi_read(dsx_data);
+	}
+
 	return dsx_data_valid;
 }
