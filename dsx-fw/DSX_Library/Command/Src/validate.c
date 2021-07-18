@@ -145,6 +145,14 @@ bool validate_i2c_read(volatile DSX_data_t *dsx_data)
 // Validate Generate Waveform Command
 bool validate_generate_waveform_(volatile DSX_data_t *dsx_data){};
 
+
+// Validate SPI Set Mode Command
+bool validate_spi_set_mode(volatile DSX_data_t *dsx_data){
+	bool check_data = true;
+	if(dsx_data->val < 0 && dsx_data->val > 3) check_data = false;
+	return check_data;
+}
+
 // *** Main Validate Command ***
 bool is_valid(volatile DSX_data_t *dsx_data)
 {
@@ -204,6 +212,8 @@ bool is_valid(volatile DSX_data_t *dsx_data)
 	else if(dsx_data->ID == CMD_ENCODER_READ_COUNT){
 		dsx_data_valid = validate_read_encoder_count(dsx_data);
 	}
-
+	else if(dsx_data->ID == CMD_SPI_SET_MODE){
+		dsx_data_valid = validate_spi_set_mode(dsx_data);
+	}
 	return dsx_data_valid;
 }

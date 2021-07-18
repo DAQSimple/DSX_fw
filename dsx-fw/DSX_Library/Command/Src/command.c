@@ -130,9 +130,6 @@ void cmd_limit_switch(volatile DSX_data_t *dsx_data)
 	Serial_Transmit(dsx_data);
 }
 
-// Write SPI Command
-void cmd_spi_write(volatile DSX_data_t *dsx_data){};
-
 // Write I2C Command
 void cmd_i2c_write(volatile DSX_data_t *dsx_data)
 {
@@ -149,6 +146,15 @@ void cmd_i2c_read(volatile DSX_data_t *dsx_data)
 
 // Generate Waveform Command
 void cmd_generate_waveform(volatile DSX_data_t *dsx_data){};
+
+// Set SPI mode
+void cmd_spi_set_mode(volatile DSX_data_t *dsx_data){
+	SPI_Set_Mode(dsx_data->val);
+	Serial_Transmit(dsx_data);
+}
+
+// Write SPI Command
+void cmd_spi_write(volatile DSX_data_t *dsx_data){};
 
 // *** Main Execute Command ***
 void execute_command(volatile DSX_data_t *dsx_data)
@@ -218,6 +224,9 @@ void execute_command(volatile DSX_data_t *dsx_data)
 	}
 	else if(dsx_data->ID == CMD_WAVEFORM_WRITE){
 		cmd_generate_waveform(dsx_data);
+	}
+	else if(dsx_data->ID == CMD_SPI_SET_MODE){
+		cmd_spi_set_mode(dsx_data);
 	}
 
 	// reset dsx data

@@ -71,8 +71,8 @@ void SPI_Init(void){
 	HAL_SPI_Init(&hspi3);
 }
 
-void SPI_Write(uint8_t address){
-	SPI_Tx_Buffer = address;		//Set SPI_Tx_Buffer to data to be transmitting
+void SPI_Write(uint8_t data){
+	SPI_Tx_Buffer = data;			//Set SPI_Tx_Buffer to data to be transmitting
 	SPI_TransmitReceive();			//Start transmission
 }
 

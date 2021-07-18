@@ -19,7 +19,7 @@
 #include "board_defines.h"
 #include "Encoder.h"
 #include "Servo.h"
-
+#include "SPI.h"
 
 // Do we need these?
 #define CMD_READY_TO_EXECUTE 		1
@@ -40,11 +40,13 @@
 #define CMD_LIMIT_SWITCH			21
 #define	CMD_SPI_WRITE				22
 #define CMD_I2C_WRITE				23
-#define CMD_WAVEFORM_WRITE			24
+#define CMD_SPI_SET_MODE			24
+
 #define CMD_ENCODER_SET_CPR			28
 #define CMD_ENCODER_READ_COUNT		29
-
 #define CMD_I2C_READ				30
+
+#define CMD_WAVEFORM_WRITE			99
 
 // Return commands to SIMULINK
 #define RETURN_DIGITAL_READ			1
@@ -110,6 +112,9 @@ void cmd_i2c_read(volatile DSX_data_t *dsx_data);
 
 // Generate Waveform Command
 void cmd_generate_waveform(volatile DSX_data_t *dsx_data);
+
+// Set SPI mode
+void cmd_spi_set_mode(volatile DSX_data_t *dsx_data);
 
 // *** Main Execute Command ***
 void execute_command(volatile DSX_data_t *dsx_data);

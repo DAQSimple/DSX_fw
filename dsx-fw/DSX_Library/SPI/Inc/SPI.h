@@ -39,7 +39,7 @@ void SPI_Set_Prescaler(uint16_t prescaler);
 void SPI_Init(void);
 
 //Function to change SPI_Tx_Buffer value
-void SPI_Write(uint8_t address);
+void SPI_Write(uint8_t data);
 
 //Function return SPI_Rx_Buffer value
 uint8_t SPI_Read(void);
