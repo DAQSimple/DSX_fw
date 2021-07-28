@@ -87,7 +87,7 @@ bool validate_read_encoder_rpm(volatile DSX_data_t *dsx_data){
 // Validate Read Encoder Count Command
 bool validate_set_encoder_cpr(volatile DSX_data_t *dsx_data){
 	bool check_data = true;
-	if(dsx_data->val < 0 && dsx_data->val > 9999) check_data = false;
+	if(dsx_data->val < 0 || dsx_data->val > 9999) check_data = false;
 	return check_data;
 }
 
@@ -122,9 +122,6 @@ bool validate_limit_switch(volatile DSX_data_t *dsx_data)
 	return check_data;
 }
 
-// Validate Write SPI Command
-bool validate_spi_write(volatile DSX_data_t *dsx_data){};
-
 // Validate Write I2C Command
 bool validate_i2c_write(volatile DSX_data_t *dsx_data)
 {
@@ -144,6 +141,53 @@ bool validate_i2c_read(volatile DSX_data_t *dsx_data)
 
 // Validate Generate Waveform Command
 bool validate_generate_waveform_(volatile DSX_data_t *dsx_data){};
+
+
+// Validate SPI Set Mode Command
+bool validate_spi_set_mode(volatile DSX_data_t *dsx_data){
+	bool check_data = true;
+	if(dsx_data->val < 0 || dsx_data->val > 3) check_data = false;
+	return check_data;
+}
+
+// Validate SPI Set Prescaler Command
+bool validate_spi_set_prescaler(volatile DSX_data_t *dsx_data){
+	bool check_data = true;
+	switch(dsx_data->val){
+		case 4:
+			break;
+		case 8:
+			break;
+		case 16:
+			break;
+		case 32:
+			break;
+		case 64:
+			break;
+		case 128:
+			break;
+		case 256:
+			break;
+		default:
+			check_data = false;
+			break;
+	}
+	return check_data;
+}
+
+// Validate Write SPI Command
+bool validate_spi_write(volatile DSX_data_t *dsx_data){
+	bool check_data = true;
+	if(dsx_data->val < 0 || dsx_data->val > 255) check_data = false;
+	return check_data;
+}
+
+// Validate Read SPI Command
+bool validate_spi_read(volatile DSX_data_t *dsx_data){
+	bool check_data = true;
+	return check_data;
+}
+
 
 // *** Main Validate Command ***
 bool is_valid(volatile DSX_data_t *dsx_data)
@@ -203,6 +247,12 @@ bool is_valid(volatile DSX_data_t *dsx_data)
 	}
 	else if(dsx_data->ID == CMD_ENCODER_READ_COUNT){
 		dsx_data_valid = validate_read_encoder_count(dsx_data);
+	}
+	else if(dsx_data->ID == CMD_SPI_SET_MODE){
+		dsx_data_valid = validate_spi_set_mode(dsx_data);
+	}
+	else if(dsx_data->ID == CMD_SPI_READ){
+		dsx_data_valid = validate_spi_read(dsx_data);
 	}
 
 	return dsx_data_valid;

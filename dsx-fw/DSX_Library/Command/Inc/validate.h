@@ -15,7 +15,6 @@
 #include "board_defines.h"
 #include "i2c.h"
 
-
 // Validate Digital Write Command
 bool validate_digital_write(volatile DSX_data_t *dsx_data);
 
@@ -66,6 +65,18 @@ bool validate_i2c_read(volatile DSX_data_t *dsx_data);
 
 // Validate Generate Waveform Command
 bool validate_generate_waveform_(volatile DSX_data_t *dsx_data);
+
+// Validate SPI Set Mode Command
+bool validate_spi_set_mode(volatile DSX_data_t *dsx_data);
+
+// Validate SPI Set Prescaler Command
+bool validate_spi_set_prescaler(volatile DSX_data_t *dsx_data);
+
+// Validate Write SPI Command
+bool validate_spi_write(volatile DSX_data_t *dsx_data);
+
+// Validate Read SPI Command
+bool validate_spi_read(volatile DSX_data_t *dsx_data);
 
 // *** Main Validate Command ***
 bool is_valid(volatile DSX_data_t *dsx_data);

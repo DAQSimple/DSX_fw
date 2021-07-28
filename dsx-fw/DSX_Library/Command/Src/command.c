@@ -130,9 +130,6 @@ void cmd_limit_switch(volatile DSX_data_t *dsx_data)
 	//Serial_Transmit(dsx_data);
 }
 
-// Write SPI Command
-void cmd_spi_write(volatile DSX_data_t *dsx_data){};
-
 // Write I2C Command
 void cmd_i2c_write(volatile DSX_data_t *dsx_data)
 {
@@ -149,6 +146,30 @@ void cmd_i2c_read(volatile DSX_data_t *dsx_data)
 
 // Generate Waveform Command
 void cmd_generate_waveform(volatile DSX_data_t *dsx_data){};
+
+// Set SPI Mode Command
+void cmd_spi_set_mode(volatile DSX_data_t *dsx_data){
+	SPI_Set_Mode(dsx_data->val);
+	Serial_Transmit(dsx_data);
+}
+
+// Set SPI Prescaler Command
+void cmd_spi_set_prescaler(volatile DSX_data_t *dsx_data){
+	SPI_Set_Prescaler(dsx_data->val);
+	Serial_Transmit(dsx_data);
+}
+
+// Write SPI Command
+void cmd_spi_write(volatile DSX_data_t *dsx_data){
+	SPI_Write(dsx_data->val);
+	Serial_Transmit(dsx_data);
+};
+
+// Read SPI Command
+void cmd_spi_read(volatile DSX_data_t *dsx_data){
+	dsx_data->val = SPI_Read();
+	Serial_Transmit(dsx_data);
+}
 
 // *** Main Execute Command ***
 void execute_command(volatile DSX_data_t *dsx_data)
@@ -207,9 +228,6 @@ void execute_command(volatile DSX_data_t *dsx_data)
 	else if(dsx_data->ID == CMD_LIMIT_SWITCH){
 		cmd_limit_switch(dsx_data);
 	}
-	else if(dsx_data->ID == CMD_SPI_WRITE){
-		cmd_spi_write(dsx_data);
-	}
 	else if(dsx_data->ID == CMD_I2C_WRITE){
 		cmd_i2c_write(dsx_data);
 	}
@@ -218,6 +236,18 @@ void execute_command(volatile DSX_data_t *dsx_data)
 	}
 	else if(dsx_data->ID == CMD_WAVEFORM_WRITE){
 		cmd_generate_waveform(dsx_data);
+	}
+	else if(dsx_data->ID == CMD_SPI_SET_MODE){
+		cmd_spi_set_mode(dsx_data);
+	}
+	else if(dsx_data->ID == CMD_SPI_SET_PRESCALER){
+		cmd_spi_set_prescaler(dsx_data);
+	}
+	else if(dsx_data->ID == CMD_SPI_WRITE){
+		cmd_spi_write(dsx_data);
+	}
+	else if(dsx_data->ID == CMD_SPI_READ){
+		cmd_spi_read(dsx_data);
 	}
 
 	// reset dsx data
