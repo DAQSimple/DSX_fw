@@ -65,6 +65,7 @@ void SPI_Set_Prescaler(uint16_t prescaler){
 }
 
 void SPI_Init(void){
+	HAL_GPIO_WritePin(CS_Pin_GPIO_Port, CS_Pin_Pin, 1);
 	//Default setting for SPI are in mode 0 and prescaler set to 128
 	SPI_Set_Mode(SPI_MODE_0);
 	SPI_Set_Prescaler(128);
