@@ -18,7 +18,7 @@ void cmd_digital_write(volatile DSX_data_t *dsx_data){
 	channel_t channel = convert_loc_to_channel(dsx_data->loc);
 	HAL_GPIO_WritePin(channel.port, channel.pin, dsx_data->val);
 //	dsx_data->val = CMD_EXECUTED;
-	Serial_Transmit(dsx_data);
+	//Serial_Transmit(dsx_data);
 }
 
 // Digital Read Command
@@ -53,7 +53,7 @@ void cmd_pwm_write(volatile DSX_data_t *dsx_data){
 	else if (dsx_data->loc==PWM2)
 		updateDutyCycle(htim17,dsx_data->val);
 //	dsx_data->val = CMD_EXECUTED;
-	Serial_Transmit(dsx_data);
+	//Serial_Transmit(dsx_data);
 }
 
 // Set PWM Frequency Command
@@ -68,7 +68,7 @@ void cmd_set_pwm_freq(volatile DSX_data_t *dsx_data){
 	}
 //	dsx_data->val = CMD_EXECUTED;
 //	dsx_data->ret = CMD_COMPLETE_PING;
-	Serial_Transmit(dsx_data);
+	//Serial_Transmit(dsx_data);
 }
 
 // Servo Write Command
@@ -78,13 +78,13 @@ void cmd_servo_write(volatile DSX_data_t *dsx_data){
 	else if (dsx_data->loc==PWM2)
 		writeServo(htim17,dsx_data->val);
 //	dsx_data->val = CMD_EXECUTED;
-	Serial_Transmit(dsx_data);
+	//Serial_Transmit(dsx_data);
 }
 
 // Set Encoder CPR
 void cmd_encoder_set_cpr(volatile DSX_data_t *dsx_data){
 	Encoder_Set_CPR(dsx_data->val);
-	Serial_Transmit(dsx_data);
+	//Serial_Transmit(dsx_data);
 }
 
 // Read Encoder Speed and Direction Command
@@ -116,7 +116,7 @@ void cmd_dac_write(volatile DSX_data_t *dsx_data){
 	else if(dsx_data->loc==AO2)
 		DAC_write(dsx_data->val, DAC1_CHANNEL_2);
 //	dsx_data->val = CMD_EXECUTED;
-	Serial_Transmit(dsx_data);
+	//Serial_Transmit(dsx_data);
 }
 
 // Enable or Disable Limit Switch Interrupts on LS1 and LS2 Command
@@ -127,14 +127,14 @@ void cmd_limit_switch(volatile DSX_data_t *dsx_data)
 	}else if(dsx_data->sign == 0){
 		enable_limit_sw_interrupt_pin(dsx_data->loc);
 	}
-	Serial_Transmit(dsx_data);
+	//Serial_Transmit(dsx_data);
 }
 
 // Write I2C Command
 void cmd_i2c_write(volatile DSX_data_t *dsx_data)
 {
 	I2C_Write(dsx_data->loc, dsx_data->val);
-	Serial_Transmit(dsx_data);
+	//Serial_Transmit(dsx_data);
 }
 
 // Read I2C Command
