@@ -99,7 +99,8 @@ void cmd_encoder_read_rpm(volatile DSX_data_t *dsx_data){
 // Read Encoder Count
 void cmd_encoder_read_count(volatile DSX_data_t *dsx_data){
 	Disable_Encoder_INT();
-	dsx_data->val = Encoder_Read_Count();
+	dsx_data->val = abs(Encoder_Read_Count());
+	dsx_data->sign = Encoder_Get_Sign();
 	Serial_Transmit(dsx_data);
 }
 
