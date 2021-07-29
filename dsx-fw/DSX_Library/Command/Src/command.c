@@ -151,19 +151,19 @@ void cmd_generate_waveform(volatile DSX_data_t *dsx_data){};
 // Set SPI Mode Command
 void cmd_spi_set_mode(volatile DSX_data_t *dsx_data){
 	SPI_Set_Mode(dsx_data->val);
-	Serial_Transmit(dsx_data);
+//	Serial_Transmit(dsx_data);
 }
 
 // Set SPI Prescaler Command
 void cmd_spi_set_prescaler(volatile DSX_data_t *dsx_data){
 	SPI_Set_Prescaler(dsx_data->val);
-	Serial_Transmit(dsx_data);
+//	Serial_Transmit(dsx_data);
 }
 
 // Write SPI Command
 void cmd_spi_write(volatile DSX_data_t *dsx_data){
 	SPI_Write(dsx_data->val);
-	Serial_Transmit(dsx_data);
+//	Serial_Transmit(dsx_data);
 };
 
 // Read SPI Command
