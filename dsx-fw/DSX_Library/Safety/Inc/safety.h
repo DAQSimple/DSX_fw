@@ -48,7 +48,7 @@ extern uint32_t volatile adc_buf[];
 #define STATE_FAULT_LIMIT_SW    (6U)
 
 // Thresholds - NOT SURE ABOUT THESE YET, NEED TO TEST VALUES BEFORE IMPLEMENTING
-#define MAX_TEMP_ALLOWED         (1900U)
+#define MAX_TEMP_ALLOWED         (2100U) //approximately 41 degrees celsius
 #define MAX_POSITIVE_CURRENT     (7000U)
 #define MAX_NEGATIVE_CURRENT     (650U)
 #define MAX_OUTPUT_CURRENT		 (100U) //100 mA
