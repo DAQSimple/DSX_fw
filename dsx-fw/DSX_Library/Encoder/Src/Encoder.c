@@ -48,10 +48,6 @@ uint8_t Encoder_Get_DIR(void){
 	return (TIM4->CR1 & TIM_CR1_DIR_Msk) >> TIM_CR1_DIR_Pos;
 }
 
-uint8_t Encoder_Get_Sign(void){
-	return (Encoder_Read_Count() < 0) ? 0 : 1;
-}
-
 int16_t Encoder_Read_Count(){
 	Encoder_Count = __HAL_TIM_GET_COUNTER(&htim4);
 	return Encoder_Count / 2;

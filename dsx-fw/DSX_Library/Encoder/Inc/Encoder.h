@@ -49,11 +49,6 @@ uint16_t Encoder_Get_CPR(void);
 // 1 is counting down
 uint8_t Encoder_Get_DIR(void);
 
-// Returns the encoder sign
-// 0 = negative encoder count
-// 1 = positive encoder count
-uint8_t Encoder_Get_Sign(void);
-
 //Function returns the current encoder count
 int16_t Encoder_Read_Count(void);
 
