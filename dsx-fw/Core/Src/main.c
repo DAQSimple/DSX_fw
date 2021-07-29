@@ -37,6 +37,7 @@
 #include "Encoder.h"
 #include "i2c.h"
 #include "Servo.h"
+#include "SPI.h"
 
 /* USER CODE END Includes */
 
@@ -171,7 +172,10 @@ int main(void)
 	// Start encoder driver
 	Encoder_Start();
 
-	// Start I2C Driver
+	// Start SPI
+	SPI_Init();
+
+  // Start I2C Driver
 	I2C_Init();
 
   /* USER CODE END 2 */
@@ -536,11 +540,11 @@ static void MX_SPI3_Init(void)
   hspi3.Instance = SPI3;
   hspi3.Init.Mode = SPI_MODE_MASTER;
   hspi3.Init.Direction = SPI_DIRECTION_2LINES;
-  hspi3.Init.DataSize = SPI_DATASIZE_4BIT;
+  hspi3.Init.DataSize = SPI_DATASIZE_8BIT;
   hspi3.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi3.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi3.Init.NSS = SPI_NSS_SOFT;
-  hspi3.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
+  hspi3.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_128;
   hspi3.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi3.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi3.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -899,8 +903,8 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, USER_LD1_Pin|FAULT_LED_Pin|MUXA_S3_Pin|DO2_Pin
-                          |MUXB_S0_Pin|MUXC_S0_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, CS_Pin_Pin|USER_LD1_Pin|FAULT_LED_Pin|MUXA_S3_Pin
+                          |DO2_Pin|MUXB_S0_Pin|MUXC_S0_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, MUXA_S0_Pin|MUXA_S1_Pin|MUXA_S2_Pin|DEBUG_LD1_Pin
@@ -909,10 +913,10 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(MUX_En_GPIO_Port, MUX_En_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : USER_LD1_Pin FAULT_LED_Pin MUXA_S3_Pin DO2_Pin
-                           MUXB_S0_Pin MUXC_S0_Pin */
-  GPIO_InitStruct.Pin = USER_LD1_Pin|FAULT_LED_Pin|MUXA_S3_Pin|DO2_Pin
-                          |MUXB_S0_Pin|MUXC_S0_Pin;
+  /*Configure GPIO pins : CS_Pin_Pin USER_LD1_Pin FAULT_LED_Pin MUXA_S3_Pin
+                           DO2_Pin MUXB_S0_Pin MUXC_S0_Pin */
+  GPIO_InitStruct.Pin = CS_Pin_Pin|USER_LD1_Pin|FAULT_LED_Pin|MUXA_S3_Pin
+                          |DO2_Pin|MUXB_S0_Pin|MUXC_S0_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
