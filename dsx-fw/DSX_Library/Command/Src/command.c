@@ -99,7 +99,9 @@ void cmd_encoder_read_rpm(volatile DSX_data_t *dsx_data){
 // Read Encoder Count
 void cmd_encoder_read_count(volatile DSX_data_t *dsx_data){
 	Disable_Encoder_INT();
-	dsx_data->val = Encoder_Read_Count();
+	dsx_data->val = abs(Encoder_Read_Count());
+	if(dsx_data->val>9999)dsx_data->val=9999; //saturate val to 9999
+	dsx_data->sign = dsx_data->val < 0; //sign equals 1 if encoder count is negative, otherwise 0
 	Serial_Transmit(dsx_data);
 }
 
@@ -150,19 +152,19 @@ void cmd_generate_waveform(volatile DSX_data_t *dsx_data){};
 // Set SPI Mode Command
 void cmd_spi_set_mode(volatile DSX_data_t *dsx_data){
 	SPI_Set_Mode(dsx_data->val);
-	Serial_Transmit(dsx_data);
+//	Serial_Transmit(dsx_data);
 }
 
 // Set SPI Prescaler Command
 void cmd_spi_set_prescaler(volatile DSX_data_t *dsx_data){
 	SPI_Set_Prescaler(dsx_data->val);
-	Serial_Transmit(dsx_data);
+//	Serial_Transmit(dsx_data);
 }
 
 // Write SPI Command
 void cmd_spi_write(volatile DSX_data_t *dsx_data){
 	SPI_Write(dsx_data->val);
-	Serial_Transmit(dsx_data);
+//	Serial_Transmit(dsx_data);
 };
 
 // Read SPI Command

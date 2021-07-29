@@ -19,6 +19,8 @@
 #include "board_defines.h"
 #include "Encoder.h"
 #include "Servo.h"
+#include "safety.h"
+#include "i2c.h"
 #include "SPI.h"
 
 // Do we need these?
