@@ -18,7 +18,7 @@ void cmd_digital_write(volatile DSX_data_t *dsx_data){
 	channel_t channel = convert_loc_to_channel(dsx_data->loc);
 	HAL_GPIO_WritePin(channel.port, channel.pin, dsx_data->val);
 //	dsx_data->val = CMD_EXECUTED;
-	Serial_Transmit(dsx_data);
+	//Serial_Transmit(dsx_data);
 }
 
 // Digital Read Command
@@ -53,7 +53,7 @@ void cmd_pwm_write(volatile DSX_data_t *dsx_data){
 	else if (dsx_data->loc==PWM2)
 		updateDutyCycle(htim17,dsx_data->val);
 //	dsx_data->val = CMD_EXECUTED;
-	Serial_Transmit(dsx_data);
+	//Serial_Transmit(dsx_data);
 }
 
 // Set PWM Frequency Command
@@ -68,7 +68,7 @@ void cmd_set_pwm_freq(volatile DSX_data_t *dsx_data){
 	}
 //	dsx_data->val = CMD_EXECUTED;
 //	dsx_data->ret = CMD_COMPLETE_PING;
-	Serial_Transmit(dsx_data);
+	//Serial_Transmit(dsx_data);
 }
 
 // Servo Write Command
@@ -78,14 +78,30 @@ void cmd_servo_write(volatile DSX_data_t *dsx_data){
 	else if (dsx_data->loc==PWM2)
 		writeServo(htim17,dsx_data->val);
 //	dsx_data->val = CMD_EXECUTED;
-	Serial_Transmit(dsx_data);
-};
+	//Serial_Transmit(dsx_data);
+}
+
+// Set Encoder CPR
+void cmd_encoder_set_cpr(volatile DSX_data_t *dsx_data){
+	Encoder_Set_CPR(dsx_data->val);
+	//Serial_Transmit(dsx_data);
+}
 
 // Read Encoder Speed and Direction Command
-void cmd_encoder_read(volatile DSX_data_t *dsx_data){
+void cmd_encoder_read_rpm(volatile DSX_data_t *dsx_data){
+	Enable_Encoder_INT();
 	dsx_data->sign = Encoder_Get_DIR();
 	dsx_data->val = Encoder_Read_RPM();
 	dsx_data->ret = RETURN_ENCODER_VELO;
+	Serial_Transmit(dsx_data);
+}
+
+// Read Encoder Count
+void cmd_encoder_read_count(volatile DSX_data_t *dsx_data){
+	Disable_Encoder_INT();
+	dsx_data->val = abs(Encoder_Read_Count());
+	if(dsx_data->val>9999)dsx_data->val=9999; //saturate val to 9999
+	dsx_data->sign = dsx_data->val < 0; //sign equals 1 if encoder count is negative, otherwise 0
 	Serial_Transmit(dsx_data);
 }
 
@@ -102,20 +118,60 @@ void cmd_dac_write(volatile DSX_data_t *dsx_data){
 	else if(dsx_data->loc==AO2)
 		DAC_write(dsx_data->val, DAC1_CHANNEL_2);
 //	dsx_data->val = CMD_EXECUTED;
+	//Serial_Transmit(dsx_data);
+}
+
+// Enable or Disable Limit Switch Interrupts on LS1 and LS2 Command
+void cmd_limit_switch(volatile DSX_data_t *dsx_data)
+{
+	if(dsx_data->sign == 1){
+		disable_limit_sw_interrupt_pin(dsx_data->loc);
+	}else if(dsx_data->sign == 0){
+		enable_limit_sw_interrupt_pin(dsx_data->loc);
+	}
+	//Serial_Transmit(dsx_data);
+}
+
+// Write I2C Command
+void cmd_i2c_write(volatile DSX_data_t *dsx_data)
+{
+	I2C_Write(dsx_data->loc, dsx_data->val);
+	//Serial_Transmit(dsx_data);
+}
+
+// Read I2C Command
+void cmd_i2c_read(volatile DSX_data_t *dsx_data)
+{
+	dsx_data->val = I2C_Read(dsx_data->loc);
 	Serial_Transmit(dsx_data);
 }
 
-// Set PWM Level Command
-void cmd_limit_switch(volatile DSX_data_t *dsx_data){};
-
-// Write SPI Command
-void cmd_spi_write(volatile DSX_data_t *dsx_data){};
-
-// Write I2C Command
-void cmd_i2c_write(volatile DSX_data_t *dsx_data){};
-
 // Generate Waveform Command
 void cmd_generate_waveform(volatile DSX_data_t *dsx_data){};
+
+// Set SPI Mode Command
+void cmd_spi_set_mode(volatile DSX_data_t *dsx_data){
+	SPI_Set_Mode(dsx_data->val);
+//	Serial_Transmit(dsx_data);
+}
+
+// Set SPI Prescaler Command
+void cmd_spi_set_prescaler(volatile DSX_data_t *dsx_data){
+	SPI_Set_Prescaler(dsx_data->val);
+//	Serial_Transmit(dsx_data);
+}
+
+// Write SPI Command
+void cmd_spi_write(volatile DSX_data_t *dsx_data){
+	SPI_Write(dsx_data->val);
+//	Serial_Transmit(dsx_data);
+};
+
+// Read SPI Command
+void cmd_spi_read(volatile DSX_data_t *dsx_data){
+	dsx_data->val = SPI_Read();
+	Serial_Transmit(dsx_data);
+}
 
 // *** Main Execute Command ***
 void execute_command(volatile DSX_data_t *dsx_data)
@@ -153,8 +209,14 @@ void execute_command(volatile DSX_data_t *dsx_data)
 	else if(dsx_data->ID == CMD_SERVO_WRITE){
 		cmd_servo_write(dsx_data);
 	}
-	else if(dsx_data->ID == CMD_ENCODER_READ){
-		cmd_encoder_read(dsx_data);
+	else if(dsx_data->ID == CMD_ENCODER_SET_CPR){
+		cmd_encoder_set_cpr(dsx_data);
+	}
+	else if(dsx_data->ID == CMD_ENCODER_READ_COUNT){
+		cmd_encoder_read_count(dsx_data);
+	}
+	else if(dsx_data->ID == CMD_ENCODER_READ_RPM){
+		cmd_encoder_read_rpm(dsx_data);
 	}
 	else if(dsx_data->ID == CMD_GET_SERIAL_INFO){
 		cmd_get_serial_info(dsx_data);
@@ -168,14 +230,26 @@ void execute_command(volatile DSX_data_t *dsx_data)
 	else if(dsx_data->ID == CMD_LIMIT_SWITCH){
 		cmd_limit_switch(dsx_data);
 	}
-	else if(dsx_data->ID == CMD_SPI_WRITE){
-		cmd_spi_write(dsx_data);
-	}
 	else if(dsx_data->ID == CMD_I2C_WRITE){
 		cmd_i2c_write(dsx_data);
 	}
+	else if(dsx_data->ID == CMD_I2C_READ){
+		cmd_i2c_read(dsx_data);
+	}
 	else if(dsx_data->ID == CMD_WAVEFORM_WRITE){
 		cmd_generate_waveform(dsx_data);
+	}
+	else if(dsx_data->ID == CMD_SPI_SET_MODE){
+		cmd_spi_set_mode(dsx_data);
+	}
+	else if(dsx_data->ID == CMD_SPI_SET_PRESCALER){
+		cmd_spi_set_prescaler(dsx_data);
+	}
+	else if(dsx_data->ID == CMD_SPI_WRITE){
+		cmd_spi_write(dsx_data);
+	}
+	else if(dsx_data->ID == CMD_SPI_READ){
+		cmd_spi_read(dsx_data);
 	}
 
 	// reset dsx data
