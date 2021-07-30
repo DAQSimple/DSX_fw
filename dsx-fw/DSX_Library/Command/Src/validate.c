@@ -126,7 +126,7 @@ bool validate_limit_switch(volatile DSX_data_t *dsx_data)
 bool validate_i2c_write(volatile DSX_data_t *dsx_data)
 {
 	bool check_data = true;
-	if(dsx_data->loc < I2C_SLAVE_ADDRESS_0 && dsx_data->loc > I2C_SLAVE_ADDRESS_9) check_data = false;
+	if(dsx_data->loc < I2C_SLAVE_ADDRESS_0 || dsx_data->loc > I2C_SLAVE_ADDRESS_9) check_data = false;
 	if(dsx_data->val < 0 && dsx_data->val > 255) check_data = false;
 	return check_data;
 }
@@ -135,7 +135,7 @@ bool validate_i2c_write(volatile DSX_data_t *dsx_data)
 bool validate_i2c_read(volatile DSX_data_t *dsx_data)
 {
 	bool check_data = true;
-	if(dsx_data->loc < I2C_SLAVE_ADDRESS_0 && dsx_data->loc > I2C_SLAVE_ADDRESS_9) check_data = false;
+	if(dsx_data->loc < I2C_SLAVE_ADDRESS_0 || dsx_data->loc > I2C_SLAVE_ADDRESS_9) check_data = false;
 	return check_data;
 }
 
