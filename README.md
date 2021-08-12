@@ -11,7 +11,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/case.JPG" alt="Logo" width="160" height="80">
+    <img src="images/case2.JPG" alt="Logo" width="1000" height="495">
   </a>
 
   <h3 align="center">DSX Safe Data Acquisition System</h3>
@@ -23,6 +23,18 @@
 </p>
 
 
+
+https://user-images.githubusercontent.com/79112363/129261250-4fbf0ee0-760b-42f9-86ab-35f4499d3b84.mp4
+
+
+
+<object width="425" height="350">
+  <param name="movie" value="https://youtu.be/iJyCrCniYdE" />
+  <param name="wmode" value="transparent" />
+  <embed src="https://youtu.be/iJyCrCniYdE"
+         type="application/x-shockwave-flash"
+         wmode="transparent" width="425" height="350" />
+</object>
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
