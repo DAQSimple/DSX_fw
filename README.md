@@ -11,7 +11,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/case2.JPG" alt="Logo" width="400" height="200">
+    <img src="images/case2.JPG" alt="Logo" width="1000" height="500">
   </a>
 
   <h3 align="center">DSX Safe Data Acquisition System</h3>
